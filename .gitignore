@@ -1,0 +1,10 @@
+.env
+accounts.json
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+relatorio_*.xlsx
+relatorio_*.csv
+*.zip
+deploy.zip
