@@ -235,13 +235,13 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <div class="sb-top">
     <div class="sb-brand">
       <div class="sb-icon">P</div>
-      <div><div class="sb-name">Pontus Finance</div><div class="sb-camp">NBP · ABO Lead Captação<br>01 – 11 Abr 2026</div></div>
+      <div><div class="sb-name">Pontus Finance</div><div class="sb-camp">NBP · ABO Lead Captação<br><span id="sb-period">—</span></div></div>
     </div>
     <div class="sb-kpis">
-      <div class="sb-kpi"><div class="sb-kpi-l">Investimento</div><div class="sb-kpi-v" style="color:var(--p2)">R$640,50</div></div>
-      <div class="sb-kpi"><div class="sb-kpi-l">Leads</div><div class="sb-kpi-v" style="color:var(--g2)">82</div></div>
-      <div class="sb-kpi"><div class="sb-kpi-l">CPL Médio</div><div class="sb-kpi-v" style="color:var(--y2)">R$7,81</div></div>
-      <div class="sb-kpi"><div class="sb-kpi-l">Seguidores</div><div class="sb-kpi-v" style="color:var(--t2)">130</div></div>
+      <div class="sb-kpi"><div class="sb-kpi-l">Investimento</div><div class="sb-kpi-v" style="color:var(--p2)" id="sb-invest">—</div></div>
+      <div class="sb-kpi"><div class="sb-kpi-l">Leads</div><div class="sb-kpi-v" style="color:var(--g2)" id="sb-leads">—</div></div>
+      <div class="sb-kpi"><div class="sb-kpi-l">CPL Médio</div><div class="sb-kpi-v" style="color:var(--y2)" id="sb-cpl">—</div></div>
+      <div class="sb-kpi"><div class="sb-kpi-l">Seguidores</div><div class="sb-kpi-v" style="color:var(--t2)" id="sb-fol">—</div></div>
     </div>
   </div>
   <div class="sb-divider"></div>
@@ -259,7 +259,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <div class="sb-section">Criativos</div>
   <div class="sb-creative-list" id="sb-list"></div>
   <div class="sb-footer">
-    <div class="sb-footer-text">Meta Marketing API v19<br>act_1664503901571256<br>Exportado · 11 Abr 2026</div>
+    <div class="sb-footer-text">Meta Marketing API v19<br>act_1664503901571256<br>Atualizado · <span id="footer-updated">—</span></div>
   </div>
 </aside>
 
@@ -269,7 +269,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <div class="topbar">
     <div class="topbar-l"><h1>Campaign Intelligence</h1><p>ABO · Lead Pontus · Add to Cart BT01 · NBP – GUI GOMES</p></div>
     <div class="topbar-r">
-      <div class="pill pill-date">01 Abr – 11 Abr 2026</div>
+      <div class="pill pill-date" id="date-pill">—</div>
       <div class="pill pill-live"><span class="dot"></span>LIVE</div>
     </div>
   </div>
@@ -279,35 +279,35 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
     <div class="kc hi">
       <div class="kc-glow" style="background:var(--p2)"></div>
       <div class="kc-l">Investimento</div>
-      <div class="kc-v">R$ 640,50</div>
-      <div class="kc-s">5 criativos · 11 dias</div>
+      <div class="kc-v" id="kv-invest">—</div>
+      <div class="kc-s" id="ks-invest">—</div>
     </div>
     <div class="kc hi3">
       <div class="kc-glow" style="background:var(--g2)"></div>
       <div class="kc-l">Total Leads</div>
-      <div class="kc-v" style="color:var(--g2)">82</div>
-      <div class="kc-t" style="color:var(--g2)">↓ CPL R$5,49 melhor</div>
+      <div class="kc-v" style="color:var(--g2)" id="kv-leads">—</div>
+      <div class="kc-t" style="color:var(--g2)" id="ks-leads">—</div>
     </div>
     <div class="kc">
       <div class="kc-l">CPL Médio</div>
-      <div class="kc-v" style="color:var(--y2)">R$ 7,81</div>
-      <div class="kc-s">Post 01/04 v1 lidera</div>
+      <div class="kc-v" style="color:var(--y2)" id="kv-cpl">—</div>
+      <div class="kc-s" id="ks-cpl">—</div>
     </div>
     <div class="kc hi2">
       <div class="kc-glow" style="background:var(--t2)"></div>
       <div class="kc-l">Seguidores IG</div>
-      <div class="kc-v" style="color:var(--t2)">130</div>
-      <div class="kc-s">CPF médio: R$4,93</div>
+      <div class="kc-v" style="color:var(--t2)" id="kv-fol">—</div>
+      <div class="kc-s" id="ks-fol">—</div>
     </div>
     <div class="kc">
       <div class="kc-l">Visitas Perfil IG</div>
-      <div class="kc-v">1.005</div>
+      <div class="kc-v" id="kv-vis">—</div>
       <div class="kc-s">Todos criativos</div>
     </div>
     <div class="kc">
       <div class="kc-l">Impressões</div>
-      <div class="kc-v">36.767</div>
-      <div class="kc-s">LPV total: 832</div>
+      <div class="kc-v" id="kv-imp">—</div>
+      <div class="kc-s" id="ks-imp">—</div>
     </div>
   </div>
 
@@ -344,15 +344,17 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <div id="cc-container"></div>
 
   <div class="footer">
-    Pontus Finance · NBP · act_1664503901571256 · Meta Graph API v19 · 01–11 Abr 2026<br>
-    Métricas de vídeo (1s Ret., Hook Ret., Drop Rate) requerem dados de video_play_actions via API — não disponíveis no export CSV<br>
-    Dados exportados diretamente do Gerenciador de Anúncios Meta
+    Pontus Finance · NBP · act_1664503901571256 · Meta Graph API v19 · <span id="footer-period">—</span><br>
+    Atualizado automaticamente a cada 10h via GitHub Actions<br>
+    Dados via Meta Marketing API — últimos 10 dias
   </div>
 </main>
 </div>
 
 <script>
 // ═══ DATA ══════════════════════════════════════════════════════════════════
+// __DATA_START__
+const META_PERIOD = {since:'2026-04-02',until:'2026-04-12',days:10};
 const AGES = ['18–24','25–34','35–44','45–54','55–64','65+'];
 const ADS = [
   {
@@ -432,6 +434,8 @@ const ADS = [
   }
 ];
 
+// __DATA_END__
+
 // ═══ HELPERS ══════════════════════════════════════════════════════════════
 const R=v=>v==null||!isFinite(v)?null:v;
 const brl=v=>v==null?'—':`R$ ${v.toFixed(2).replace('.',',')}`;
@@ -449,6 +453,61 @@ const cCPL    =v=>chip(v,8,14,brl,true);
 const cCPF    =v=>chip(v,5,10,brl,true);
 const cLPV    =v=>`<b>${v||'—'}</b>`;
 const cLeads  =v=>v?`<b style="color:var(--g2)">${v}</b>`:`<span class="cn">—</span>`;
+
+// ═══ DYNAMIC GLOBALS ══════════════════════════════════════════════════════
+(function(){
+  const MONTHS_PT=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  function fmtD(s){const[y,m,d]=s.split('-');return`${parseInt(d)} ${MONTHS_PT[parseInt(m)-1]}`}
+  const periodStr=`${fmtD(META_PERIOD.since)} – ${fmtD(META_PERIOD.until)} ${META_PERIOD.until.slice(0,4)}`;
+
+  const totS=ADS.reduce((s,a)=>s+a.total.spend,0);
+  const totL=ADS.reduce((s,a)=>s+a.total.leads,0);
+  const totF=ADS.reduce((s,a)=>s+a.total.ig_fol,0);
+  const totV=ADS.reduce((s,a)=>s+a.total.ig_vis,0);
+  const totI=ADS.reduce((s,a)=>s+a.total.imp,0);
+  const totLPV=ADS.reduce((s,a)=>s+a.total.lpv,0);
+
+  const withLeads=ADS.filter(a=>a.total.leads>0);
+  const bestAd=withLeads.length?withLeads.reduce((b,a)=>a.total.spend/a.total.leads<b.total.spend/b.total.leads?a:b):ADS[0];
+  const bestCPL=bestAd.total.leads>0?bestAd.total.spend/bestAd.total.leads:null;
+  const avgCPL=totL>0?totS/totL:null;
+  const avgCPF=totF>0?totS/totF:null;
+
+  const fmt=(v,d=2)=>v.toFixed(d).replace('.',',');
+  const fmtBRL=v=>v==null?'—':`R$ ${fmt(v)}`;
+  const fmtN=v=>Math.round(v).toLocaleString('pt-BR');
+  function set(id,val){const e=document.getElementById(id);if(e)e.innerHTML=val}
+
+  const now=new Date();
+  const nowStr=`${now.getDate()} ${MONTHS_PT[now.getMonth()]} ${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  // Sidebar
+  set('sb-period',periodStr);
+  set('sb-invest',`R$${fmt(totS)}`);
+  set('sb-leads',fmtN(totL));
+  set('sb-cpl',`R$${fmt(avgCPL||0)}`);
+  set('sb-fol',fmtN(totF));
+  set('footer-updated',nowStr);
+
+  // Topbar date pill
+  set('date-pill',periodStr);
+
+  // KPI cards
+  set('kv-invest',fmtBRL(totS));
+  set('ks-invest',`${ADS.length} criativos · ${META_PERIOD.days} dias`);
+  set('kv-leads',fmtN(totL));
+  set('ks-leads',bestCPL?`↓ CPL R$${fmt(bestCPL)} melhor`:'');
+  set('kv-cpl',fmtBRL(avgCPL));
+  set('ks-cpl',bestAd.shortName+' lidera');
+  set('kv-fol',fmtN(totF));
+  set('ks-fol',avgCPF?`CPF médio: R$${fmt(avgCPF)}`:'—');
+  set('kv-vis',fmtN(totV));
+  set('kv-imp',fmtN(totI));
+  set('ks-imp',`LPV total: ${fmtN(totLPV)}`);
+
+  // Footer period
+  set('footer-period',periodStr);
+})();
 
 // ═══ SIDEBAR BUILD ════════════════════════════════════════════════════════
 const sbList=document.getElementById('sb-list');
