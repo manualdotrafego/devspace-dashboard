@@ -1,0 +1,60 @@
+name: 🔄 Update NBP Dashboard
+
+on:
+  schedule:
+    - cron: '0 */10 * * *'   # a cada 10 horas (00:00, 10:00, 20:00 UTC)
+  workflow_dispatch:           # disparo manual pelo GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout main (scripts + template)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests --quiet
+
+      - name: Fetch Meta API data & build dashboard
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+        run: python scripts/update_dashboard.py
+
+      - name: Deploy index.html → gh-pages
+        run: |
+          # Salvar o arquivo gerado
+          cp index.html /tmp/index.html
+
+          # Configurar git
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Ir para gh-pages
+          git fetch origin gh-pages
+          git checkout gh-pages
+
+          # Atualizar
+          cp /tmp/index.html index.html
+
+          # Commit apenas se houver mudanças
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "Sem mudanças nos dados."
+          else
+            git commit -m "Auto-update: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push origin gh-pages
+            echo "✅ Dashboard publicado!"
+          fi
