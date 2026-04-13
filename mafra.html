@@ -338,189 +338,758 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 <script>
 // ═══ DATA ══════════════════════════════════════════════════════════════════
 // __DATA_START__
-const META_PERIOD = {since:'2026-04-07', until:'2026-04-13', days:7};
-const CURRENCY = '€';
-const ACCOUNT_NAME = 'CA - João Mafra Lançamento';
-const CAMPAIGN_FILTER = 'WEBNAR';
+const META_PERIOD = {"since":"2026-04-07","until":"2026-04-13","days":7};
+const CURRENCY = "€";
 const AGES = ['18–24','25–34','35–44','45–54','55–64','65+'];
-
 const ADS = [
   {
-    id:'120248912637990002', key:'nbp02vd', badge:'TOP', badgeClass:'bg',
-    name:'[NBP02VD]', shortName:'NBP02VD',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQKfX5brZLGjVfE_eLDb7S79UN64ZdMxJjwvkK9AaVCNk6O6rYNL6Jnb0EJardN9oUBzQ_Jb_9T1JO3B4wpibr5TYm3dROUbFQ80S2mD6Dpw-jq-eM5T5igHTJ7SQIsWXEPx6XdQKJbX_xkIybc9TRKLMLkQTlu6Ioi9_HE6XtdSsbX00UEnEbUeoE-CLPjg1geE90KXYCXXSEnZquUmn0bYmhXVaIp_pp24blvQIepzL9faAH8dv5RJ7VEmKJNiWIhSQjJxalcmoTziuA2RAT86EXMaQeJmmHvy2VzXEVaC6lA1VwL-II9ROZbpuFWqS_iQ7yFkY8atpxd5uOQzBgNPPUDfQOLqHly8rmJreshHMv5S_HEHpZ2OtIoDayfnljFcfbUNEbCyYjArmVxzgW9KIousNrI-jLeZg9YCiipy8MRInbIyjjUVDzufIjQYc20&t=AQJKREVKJq1LWMRbyDk',
-    previewType:'fb',
-    thumb:'https://scontent.fnvt1-1.fna.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwFHLtWu&_nc_oc=AdqWn87Icuh4Gx52bp3m2nxKZTkaTh1PWmZFmIWrw2LqvmGDuOux7nkeGr6vIeTk1Lb-D3lkE9hSZESLD4xkMEm4&_nc_zt=23&_nc_ht=scontent.fnvt1-1.fna&edm=AAwGEdEEAAAA&_nc_gid=iXewXLDt96Q2klQ-HS7HeQ&_nc_tpa=Q5bMBQFYVuWN2LMKIa9VGJej3LJfoLZdwPZT7N6xOV04YsNhOYMyTyDeuhN4wEPXSEXT1smMmQNoiLShaQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af180WSj4UIVdaXwBsMJb_6P9bq2HDnYAYkueEMokp2MXw&oe=69E2D073',
-    total:{spend:64.21, leads:25, imp:7895, cliques:0, lpv:86},
-    by_age:[
-      {age:'18–24', spend:17.23, leads:8,  imp:2567, lpv:26},
-      {age:'25–34', spend:26.48, leads:10, imp:2891, lpv:35},
-      {age:'35–44', spend:12.67, leads:5,  imp:1543, lpv:16},
-      {age:'45–54', spend:5.42,  leads:2,  imp:621,  lpv:7},
-      {age:'55–64', spend:1.95,  leads:0,  imp:199,  lpv:2},
-      {age:'65+',   spend:0.46,  leads:0,  imp:74,   lpv:0},
+    "id": "120248912637990002",
+    "key": "ad0",
+    "badge": "TOP",
+    "badgeClass": "bg",
+    "name": "[NBP02VD]",
+    "shortName": "[NBP02VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIYtqIzVyllXyIQ51CI42KigxZDzX6v9SoITXu44e0iLK5Kl_tU058jQwhGLVF6hEt6Zl1LRUQvZoZHXMBJC-MTs08pNJjitp1OTiFIvkGw4JKpOfLJmFZjdZcOSSyX4SRKq1o4DknPe5FYOC8z4AprsIrD0JAlAJQ2Z7tNU4oDM9LmU43J9vTeyN1A_p5d15Vq3sttyzwI6ZRWbt12HjbBNfxAbqWObI-_bCERLVuvP45XebDLj_NsZ6s6h-3kIF2SJ9_O-DIHgKYHdyXloeOwwngNEJRtI6ggomeu3A3DrhR10oskhyOtoB4paKwx4OcmNSe0h3dKYsY_M7JU-sklefNNPwAF-mW7rBi8NoD4XCGbjRALKB2HApYVaT82RpiHBrK5SRNKfWNIlR5oAXp9CagMLEzZ6Pn-gBui1jDpzDoSUUXfo4mv4-XkHg-Hvak&t=AQLF1PC2YYn8fZv8jRQ",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwFoE5F3&_nc_oc=Adqxja6MRWU9bhK_vQ5JDnrnZv0xuMcQvvwz7xNBAIAyOT0N9mEP4YFq1nt4o7-2OGc&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQG1j8NTdoQjkqMiO2SAgoFiGQ71Qol3BVoGWw9znbvC5lc4hKt6mDUgIHMw6PzokyqpzuT_k37OHg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0Jnmes9JmI2TbLvCXSn7ff4wZButGQabI8Ip1_1Uvu9A&oe=69E2D073",
+    "total": {
+      "spend": 64.44,
+      "leads": 25,
+      "imp": 7933,
+      "cliques": 93,
+      "lpv": 86
+    },
+    "by_age": [
+      {
+        "spend": 4.28,
+        "leads": 1,
+        "imp": 1018,
+        "cliques": 5,
+        "lpv": 5,
+        "age": "18–24"
+      },
+      {
+        "spend": 16.45,
+        "leads": 7,
+        "imp": 2975,
+        "cliques": 23,
+        "lpv": 22,
+        "age": "25–34"
+      },
+      {
+        "spend": 19.88,
+        "leads": 9,
+        "imp": 2318,
+        "cliques": 32,
+        "lpv": 29,
+        "age": "35–44"
+      },
+      {
+        "spend": 18.11,
+        "leads": 6,
+        "imp": 1176,
+        "cliques": 22,
+        "lpv": 20,
+        "age": "45–54"
+      },
+      {
+        "spend": 4.76,
+        "leads": 2,
+        "imp": 326,
+        "cliques": 9,
+        "lpv": 8,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.96,
+        "leads": 0,
+        "imp": 120,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120248546729190002', key:'ad05', badge:'BOM', badgeClass:'by',
-    name:'[AD05]', shortName:'AD05',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQJ4BT_euOqp86QPXLk-LMWG3BeDbJZtR-cfyxsd2LhGJIwNUZmsMjO7NxdN6x9NAhf1qm2gND4keHUtzdYamexC1SzqhFxh6SfFIL8_0MtgYJnEdvlPQpBZAbNQLPRk_TUVLM01167m8nA_H3A7iIsN40b9li3U0bQpsiFTs3YF0MtFVpFciJDNpYiYkgS6vi5g_uPpZgc_wOnuu48Tvt7SvguEbxtFC_HhnfDSphCCMyyPB8CtQu1nQhqEln8nwNNMUK7Mhtec9xhkJ64xlbP2m-pC9vcmGT8QVshivJb0_hS43FV1xJSEMsElnV4h8eTbeZvHB3-rkNzURJCTSJckwKXGahM4ivNQfFmn3VYJOjH7cwDs065xqi_6KumWf_BdQM_h8P5mXwtqujzvhnrjEIjxvKCQgiD3nWKFU9S2VC5x86F0guA8DtSapKVOQl0&t=AQLm4tuYHQ_5LWiVhPo',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=dOU4nkh5BUix1pxM_7bk5w&_nc_oc=AdpwBMzK6OeM9BbojhTveLd0BYuHnnapk1kNcxkwVmFBWxf_I5fkOzV2xko9ewf60Alc7hKxDmvqHg6MUXjHE5uU&ccb=13-1&oh=06_Q3--AcT6TR7FLo9qS_nuhOSFVJhkhDNDWMBRIGGA8xckAE27&oe=69DEC848&_nc_sid=58080a',
-    total:{spend:49.62, leads:9, imp:5165, cliques:0, lpv:51},
-    by_age:[
-      {age:'18–24', spend:15.31, leads:3, imp:1876, lpv:17},
-      {age:'25–34', spend:19.87, leads:4, imp:1923, lpv:20},
-      {age:'35–44', spend:9.44,  leads:2, imp:894,  lpv:10},
-      {age:'45–54', spend:3.67,  leads:0, imp:342,  lpv:3},
-      {age:'55–64', spend:1.02,  leads:0, imp:98,   lpv:1},
-      {age:'65+',   spend:0.31,  leads:0, imp:32,   lpv:0},
+    "id": "120248546729190002",
+    "key": "ad1",
+    "badge": "BOM",
+    "badgeClass": "by",
+    "name": "[AD05]",
+    "shortName": "[AD05]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIb0LvZNTCPDNs2bBbbf64BU9eSspPGxATXXuMlCj2yBix15x2XoXJm2p2C6xK_e57C3Gg5RgtnQDGf93E8UcE204-chXQs4QYccEaSfxAGsknSHXo4-SvF8I8jsiL5jZkBGsUNWuSzW9d8LzK07qhHOJNRjhrFPYwODHz1h9WBrv2iNCvWlydx5ippo9IfPJvGJgDyerSa2nifmK7BfyadhHNoH7fSkFv05ckUgcPC9m6y2LgCKDFyuUyx9T44xvqrAasGssotYhM05r7Csvzw9eZmKhTznh-IaFbpHuExl5Q6ZNO7F-7E26T12qV9xCrJWVrBVCvTutTzTlO7gVqEM6rn6VHN2RB0RoPIi64rc-NLVgBvj120Wpa8__sik3VQ7tpVFE_HOW3ObcZCYBA2Is-Y0uhuk6J0kUVdDzFzA-z11kzeupCZ4webYetuTDs&t=AQKwiKJCxUMXxORwzKM",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdoHwckuDmD0JMVaKIQzdub9CO4sku1_YGd1sDO6gx1yYCUqrVYIJy9XUh-t8aMz05k&ccb=13-1&oh=06_Q3--AZqFncoY-iMuFUHsXydha8QO6PJEZ1f20dc4Ov5npIId&oe=69DEC848&_nc_sid=58080a",
+    "total": {
+      "spend": 49.73,
+      "leads": 9,
+      "imp": 5175,
+      "cliques": 65,
+      "lpv": 51
+    },
+    "by_age": [
+      {
+        "spend": 9.3,
+        "leads": 1,
+        "imp": 1114,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "18–24"
+      },
+      {
+        "spend": 14.33,
+        "leads": 4,
+        "imp": 1962,
+        "cliques": 18,
+        "lpv": 12,
+        "age": "25–34"
+      },
+      {
+        "spend": 11.25,
+        "leads": 1,
+        "imp": 1076,
+        "cliques": 9,
+        "lpv": 8,
+        "age": "35–44"
+      },
+      {
+        "spend": 8.39,
+        "leads": 2,
+        "imp": 547,
+        "cliques": 15,
+        "lpv": 11,
+        "age": "45–54"
+      },
+      {
+        "spend": 3.7,
+        "leads": 1,
+        "imp": 276,
+        "cliques": 12,
+        "lpv": 10,
+        "age": "55–64"
+      },
+      {
+        "spend": 2.76,
+        "leads": 0,
+        "imp": 200,
+        "cliques": 9,
+        "lpv": 8,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249404804990002', key:'mdl2', badge:'REVISAR', badgeClass:'br',
-    name:'[MDL2]', shortName:'MDL2',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQIiENigDXNTsq9hVHyQSnqzWUJ9tg5y9vOJGQDe4eWPYKxN-i9_MLxG7Dqt0RnuZwXdjOwAkHbbq57H9K6eWs-TJiW55Fy09r_T9w0-VhGghADiLPFzHB2YPyWvZYnhWXZrG1qFXbJC1BktuiaasF6neQ-qIQcrTHewGwrrWVZ4bFWWa6WrlHEhe5bVND2DSpdPMhxVw8IXT79ks1DmRZYKZH22Sf-5GBQikwcqLoXSkrW9MKquxXOV2vxhc7de8HB1Kw6865zzDq-0uBeSYMEZWRplxmtgUPhOHqkK21VKIcv1KHDH4jeAOCsdI1rgayygTxBuCQ7hqKugVOqEP56Ye98LQzIPveDuiBYk8wnp74wBxWcM4fa7-wlfLvkYl-PrgoY6fK22hZhx4pMkYlwtas4PExhRXELGfhqMlnieVodShvYS-Tr8Zsc0OWSBLiI&t=AQJtpZXKEV0r4it7XXA',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=aC2Irb3UAvRR4qoQBCy3jQ&_nc_oc=AdpIlOHH9JstkBh_ufAkpjhm6nWiIdpPzAVYGZeaWba7pqly_qJmKBgEUI4ra-8nfE3cu8RxVLQ8rkXZm_TNR1NI&ccb=13-1&oh=06_Q3--AS72wdgqVI0TLQ3ouTKVz7QSoAvlHlwXyKX0htn7SI5p&oe=69DECC65&_nc_sid=58080a',
-    total:{spend:25.90, leads:3, imp:3182, cliques:0, lpv:30},
-    by_age:[
-      {age:'18–24', spend:8.12,  leads:1, imp:1102, lpv:10},
-      {age:'25–34', spend:10.34, leads:2, imp:1198, lpv:14},
-      {age:'35–44', spend:4.87,  leads:0, imp:578,  lpv:4},
-      {age:'45–54', spend:1.85,  leads:0, imp:218,  lpv:2},
-      {age:'55–64', spend:0.52,  leads:0, imp:64,   lpv:0},
-      {age:'65+',   spend:0.20,  leads:0, imp:22,   lpv:0},
+    "id": "120249404804990002",
+    "key": "ad2",
+    "badge": "REVISAR",
+    "badgeClass": "br",
+    "name": "[MDL2]",
+    "shortName": "[MDL2]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQI-gGmG1bPMAM6LCD7yFu6q16UffH_vnm5G1Gl-AzMD5zEvXZfCVdGyu1CyrRYqe0Ka1WzqdE9Rgcv_aVLeSIBobuWCVtDtqKgPdy4sOk0EpXom19kSQlz0gpA5HceD151ytDKEckhyKgcQ3q6Qup2ZngwfigbTIVSBs_keCmFvH_jfMB8UrQGKxL6VvLRs20Mx_leMXP15g2jA0nlf-WSnXu0F8F2Mww7XWflyssBE-LUmF_XnXayNMA91JFbf2oMx9-U62oo8jl9S4iLabh-XnWiB9S3J6t-VUEaOF0acAPSRKH3a5wcwk6vkVfOmsiYmblsR9PkHxigszgMo7pw1qVz6-9--YZOAR0KtjcMdUkU6oY4Q1mAkmshX7Of84PB8OVesHxwKR5GAPffJ-BdVPUFeOv01U_CKsPRf6JatElfKH8C7pzT6VKIxttrM_m0&t=AQJsDjFw_gjtd0indyI",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdpOH_97omBL95Qh5Y2P9788vg7jXt9Icekwk-8T-4Qv3hgvDuwvNbSO5mIyr99voQw&ccb=13-1&oh=06_Q3--AQtkRuew2ufimCV_CJrMHXSxlBOx8yQwg2B5zU3dBnLc&oe=69DECC65&_nc_sid=58080a",
+    "total": {
+      "spend": 25.94,
+      "leads": 3,
+      "imp": 3184,
+      "cliques": 41,
+      "lpv": 30
+    },
+    "by_age": [
+      {
+        "spend": 1.66,
+        "leads": 0,
+        "imp": 359,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 10.36,
+        "leads": 2,
+        "imp": 1604,
+        "cliques": 25,
+        "lpv": 18,
+        "age": "25–34"
+      },
+      {
+        "spend": 8.8,
+        "leads": 1,
+        "imp": 953,
+        "cliques": 14,
+        "lpv": 11,
+        "age": "35–44"
+      },
+      {
+        "spend": 4.44,
+        "leads": 0,
+        "imp": 233,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.59,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.09,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249134090730002', key:'nbp01vd', badge:'NOVO', badgeClass:'bn',
-    name:'[NBP01VD]', shortName:'NBP01VD',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQInBsU9iQDzIdwiE2-JUkq1-imcDZsY9Kdm5-LweczCDc4pX3jZY8QkDi0CpWqOqDNOrxGq3vJnaljTlviC4Vr3DR1wpiOtw0KLi7bLuZGGRYPKqcsbOCuW0f61Ix7ij70PlyB7KT_N5Dwr3gayOYcvwGf8frOuP4F0WxSl8Xmn0dycAZCkrtGTKZ7dAZ_joERUiMyFP6rDHVjQLgaTkq9G-4RAE_IK9iN4pW1ryz7n1nG2Dc7WNV6sFv8kUq53XBlRVfO2ykuxsgIxEOJg70rCx-DHrJprS1fPtPYo1GjjC-vLlITwBWho3dC4LvDij6cAfTckC_mVvNXv-W1_CRIzVPWE8WgA-RmwvzUtsoFJmHz0X66X3TFqgXlxzXMxNa1LLnD4VLzDX2iwxtalFDXtYbHe1PNhVgw-lxh4sGQT6mYVo7N2y0Kf_2v_HNBCQy8&t=AQLevl-rvkaYaevSVC8',
-    previewType:'fb',
-    thumb:'https://scontent.fnvt1-1.fna.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwFI2wbm&_nc_oc=AdpX_wqdb-b-4oifKSJvEDgFqF7SU4GubygrJV_dvsQ1XWB4arQhgO18qP9CX_eDsBfH7Ej2i0iBMS_f6p3e98G0&_nc_zt=23&_nc_ht=scontent.fnvt1-1.fna&edm=AAwGEdEEAAAA&_nc_gid=vh4dcc3_qvJBX7OQYMbvpQ&_nc_tpa=Q5bMBQGG-61NaEVX3muQdDjG6fAk3OBWHAFsW3uoHR0PXnWrLFyhKuvKrYaDMCFB6kEfLg354ZHxWkHELA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1wDbSX9uGKShkXMmC_Yu6cI2BkSDNYgFJS5467nO0FVw&oe=69E2C431',
-    total:{spend:9.54, leads:0, imp:876, cliques:0, lpv:3},
-    by_age:[
-      {age:'18–24', spend:3.12, leads:0, imp:312, lpv:1},
-      {age:'25–34', spend:3.87, leads:0, imp:341, lpv:2},
-      {age:'35–44', spend:1.54, leads:0, imp:143, lpv:0},
-      {age:'45–54', spend:0.71, leads:0, imp:62,  lpv:0},
-      {age:'55–64', spend:0.21, leads:0, imp:14,  lpv:0},
-      {age:'65+',   spend:0.09, leads:0, imp:4,   lpv:0},
+    "id": "120249134090730002",
+    "key": "ad3",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[NBP01VD]",
+    "shortName": "[NBP01VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLHF-2pmwsakVKSDTV3oVbrAEYHVoTht7fqblGZwkUWjJxRPJV9bEa8diJUr9XeeS5ke9CbxpGvVfX_hgY4-unPbJ8BOveg6jVYv-mpqmkTlfbDpjINll9IBP7Vw-kR_Ox2AYutx0WjCfvgxCYFwOJeUFRttz3D1K8hl6yETA2R9WXlxTjBlJK6amE778uQpb6nTgCg5gW2wpiLOefM9WUPa2gma9NJ2fAi1qgHwlqAFg0bFVAmnZz0Jp3mc1znoz4x-FVD-gSUEiDLSsxPHrMOBxER4VN2_SUyaDO67fXSk0vMRS_s9A0vUpQ3jGxOfErvQ_uTY8IfS8lO04T8t8JZc2FZKhtF1-xvlNQ4vplr6S6cK2M_sbaH0vymmKw-tgqBz7ndtRoapphbWabnKBD4eKmjxUZcs6b7zPedoUp8lhIVb3BBxtZK401-ZjVJf18&t=AQKsBi8m2aEYmb25k-Y",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg4-1.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwGdlkK_&_nc_oc=Adrm_9DOL2km04IQCDVuwffm7ogCal1RwR4fCtdDZ1IqCz50PU-CAqdM1Cwj-AacX8s&_nc_zt=23&_nc_ht=scontent-hkg4-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQEk8BGxpF-KBPLgya5o-zbaq2I7AqBCB2DyO-hmewYzUYjf0l3dKf_nfLixGAPVhjtPHqaXE7XW8w&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1xQyRloCNkm4699Uf5fd20zn9jhVdqfjjXievTh0ZulQ&oe=69E2C431",
+    "total": {
+      "spend": 9.54,
+      "leads": 0,
+      "imp": 876,
+      "cliques": 7,
+      "lpv": 3
+    },
+    "by_age": [
+      {
+        "spend": 0.61,
+        "leads": 0,
+        "imp": 155,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 1.71,
+        "leads": 0,
+        "imp": 268,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.14,
+        "leads": 0,
+        "imp": 209,
+        "cliques": 3,
+        "lpv": 1,
+        "age": "35–44"
+      },
+      {
+        "spend": 2.55,
+        "leads": 0,
+        "imp": 129,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.66,
+        "leads": 0,
+        "imp": 73,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.87,
+        "leads": 0,
+        "imp": 42,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249134075240002', key:'nbp03vd', badge:'NOVO', badgeClass:'bn',
-    name:'[NBP03VD]', shortName:'NBP03VD',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQKAloFKDqJGFqZmkXFQLnP3DyHs-hDPhG4V6TTcRrcB8Y__vreepI9bmJO_itPmXbE1GCMwNzwSkr9vY6Iypnja2nfahDDCc5dGdtttxjhwRomhYuF0Kp7IGGdxH_PGlD9CPlXNwiBVa-u-hpR5biSOfpahVcnXFV6ewI9IhUL56jK9Bc6_ZeepPRpa-U6uKT2luv5vG3v-a9QOTPi6e6NlFNKupDJ54ZJpafQdui34nyX6tTimzRhu6xMDgHO1HaO7zOR6zBWYweZBfHdpKgKRWl2LKSG_X5nSx7YfnFT41d3TWVqJQ7hhhr013C4QQOhBgLfVis4tQ0voKTqjLSZ0sk036kpyesc-0_-ru9EHIfmUdv5Hu7b-WQv0qY_tkGF9nNz2EB17yYU_6VjURRL_JIxHjf4YQO1w4Zz8HqbxMHEvTq2YbuUN5AhPtkD2lak&t=AQJg7HmzUykJT7mugXY',
-    previewType:'fb',
-    thumb:'https://scontent.fnvt1-1.fna.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFILQps&_nc_oc=AdrxcbYgLA8h0_95--JpYpJrpzm-xOiXvS-kl9vmziedLR6hUImbeUDVYjzmGqZmYgOOsSD1YrGOJCMLIBJ9G03U&_nc_zt=23&_nc_ht=scontent.fnvt1-1.fna&edm=AAwGEdEEAAAA&_nc_gid=To2gcRFJ66V_bE6AcgNfCA&_nc_tpa=Q5bMBQFxvmIRCf64-V5h6KZASC8WERj-t3fet1bVfe58fV2Ipklt4Memh3-s0LuZJjA9sjAlHv-KL4o7Zg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0-HLXxqJz1jwqyx38XjDEvYvVE0-dquByYfjn5yV2UmA&oe=69E2ADFD',
-    total:{spend:9.08, leads:0, imp:1646, cliques:0, lpv:13},
-    by_age:[
-      {age:'18–24', spend:3.02, leads:0, imp:598, lpv:5},
-      {age:'25–34', spend:3.64, leads:0, imp:621, lpv:6},
-      {age:'35–44', spend:1.44, leads:0, imp:289, lpv:2},
-      {age:'45–54', spend:0.65, leads:0, imp:103, lpv:0},
-      {age:'55–64', spend:0.24, leads:0, imp:28,  lpv:0},
-      {age:'65+',   spend:0.09, leads:0, imp:7,   lpv:0},
+    "id": "120249134075240002",
+    "key": "ad4",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[NBP03VD]",
+    "shortName": "[NBP03VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKtcunuee7HoVG6-G0BDyBkaz6o2bb79_Fif2epLO70n0rk2FCMyclwNZ7jZiBnpItcbMNgD_cNeUiQI2PNU1xzU5h1II22QA2cdOst473fdKhvrEeZ0JNzveRaJOT60rxRkSIKsaWIhDWWmEbNbUJwMxUVJdEQ3whxToi4Q0k_CzBPLW4lIg7Zy3P3OAA25Vi743ck0Fl8t9DLvJHbgM3mNfHP_tkm-KHQ0MRVtXkZgH5t-aOT1p--JkNQkW2daTfBRTZ6f95PogMBu2eb8AbfFg_hOQ91Ek-96LjeK0Y-_6djtU4vVysuUY9nhd-thQZ9QAM6Tv7RUBH1gHgbJUE5aCR65qA9-uVdiWGhVXKeGXJ0eefDCfgSnPioDruFpnURnh6LW8KzJt_FmeSPbs8qaoKHWgjuGOxk27EyccVEtcqir_fLS04p4xXOcl_SCfI&t=AQJ8WP9BuwymSIWs0xs",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFtHF3P&_nc_oc=AdoUdWxX6T3DuS2J5rTbbUniK5jo_WscRm0duaLLoUT7x6-PPfY_Pp-ksc6A3qt9maw&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQEjRqE2v6ISSn-BvTK-rxgKMs1apGGX67CKeeWeN9pPg9lKaIrYPrsp9_hQ1OnO_3bpvDjsg8DNXA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3ZFWIEmNYjZmTYm-sBe7zvESix7uw77OfXDHqFgWh3Og&oe=69E2ADFD",
+    "total": {
+      "spend": 9.08,
+      "leads": 0,
+      "imp": 1646,
+      "cliques": 21,
+      "lpv": 13
+    },
+    "by_age": [
+      {
+        "spend": 0.63,
+        "leads": 0,
+        "imp": 211,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 1.8,
+        "leads": 0,
+        "imp": 516,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.38,
+        "leads": 0,
+        "imp": 351,
+        "cliques": 6,
+        "lpv": 2,
+        "age": "35–44"
+      },
+      {
+        "spend": 1.91,
+        "leads": 0,
+        "imp": 235,
+        "cliques": 3,
+        "lpv": 3,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.06,
+        "leads": 0,
+        "imp": 164,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 1.3,
+        "leads": 0,
+        "imp": 169,
+        "cliques": 8,
+        "lpv": 6,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249404788430002', key:'mdl3a', badge:'NOVO', badgeClass:'bn',
-    name:'[MDL3] A', shortName:'MDL3-A',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQKXIFtWx1HhOdQlGP8mjWLnVbREg8_TjRhGI0-OoGqMPs5v5dp0z4mxtdgXuXA6ND3OEyDNuvcXhST-ghgqrSk6AvuANE-tTqEvdrNLUkAOdDwEWYbVu0yum7SGWfRC5HJqSx_FuhYHcVS7QZlbPCBx_2SD-UwATVNNu87zZtOcnD19ZC90beOZk-7Pxzj5-ADv6a2x1Z3HTMiPDjDBpSIk7pjVagI_unVRSO8JnJQyUR26JdaHBG3AT490NWv2CQvmUIby_5jz4K5AtMoj1xA6IuPfkC8Jl7ykUmSSYccgwQVjHB8uF7CpmhMc_LGL7UAzrA7kOHRUbCkrL98zO9aoyEUkfTh2END6AuAawYQFbvbQahHY6oMlLAdByMkZ6HSeIkSE-pWekCQdhFUTtlXpIGEQtqIQsuPlLxh8Uvc32IAvfyJZ10PBRtvt5T13UeE&t=AQIZBLxAUCaCtECvtLk',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=uDZBQu_hFbpNI_YajkoyLg&_nc_oc=AdoYGWSF-rRdVtof--OX0FzH7dxKTnVgTJM4nrZSBWDSwwhALAHzs--Q-YuLXJZB679l3iiaEBiv8sqVUlgzEOaJ&ccb=13-1&oh=06_Q3--AVissh26ZWXHOMgpepHASQGuzKCp12D8kEtCarEjqJav&oe=69DEB2D0&_nc_sid=58080a',
-    total:{spend:8.32, leads:1, imp:1172, cliques:0, lpv:4},
-    by_age:[
-      {age:'18–24', spend:2.87, leads:0, imp:423, lpv:2},
-      {age:'25–34', spend:3.21, leads:1, imp:445, lpv:2},
-      {age:'35–44', spend:1.43, leads:0, imp:214, lpv:0},
-      {age:'45–54', spend:0.54, leads:0, imp:68,  lpv:0},
-      {age:'55–64', spend:0.19, leads:0, imp:17,  lpv:0},
-      {age:'65+',   spend:0.08, leads:0, imp:5,   lpv:0},
+    "id": "120249404788430002",
+    "key": "ad5",
+    "badge": "REVISAR",
+    "badgeClass": "br",
+    "name": "[MDL3]",
+    "shortName": "[MDL3]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQL-KerSCuG4UzRRzb86qNNf0mLkAXMxIj5Rba6mgZ_mOnbqUQvjbFScN1GSXA7hserikAaMucg272aStBSiyH9reB4p3z281IKfJ8qO-4XLIQImyE23CsTYzyc4u5lKC29zwmnhodRjiFvPclkXB-nHww6G-4Y-B4suEPJNEpCfTz4ykWAZXI3UQ3ofuOiJ56vpziTsCQxZR3ECSpTYrTm4Hg2MCPKXGWOlOniJ7wA8drgD-cOXki_ODiXNUNyM67_ep7KkeNrfoKSe1WcAA1E21ABR6HBkbRLXe-8T_0ahE36UTHa2f7YJpuFZ5xtdxWVHSz7YqpLn1sYriuuvi3pLM1FpJdPgoFTf8_PDbg2UcM7WyGX0x-JqMc3DlHW0qp90Rmw_kCowUReC19U6cN9HZnlqLk2XfSROHtwxeAIFBR0IVDTBlEtDk-Rw0EjafpI&t=AQIHekmxz3obDl3wbXo",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdrOs6mYY8B5yS1U-_ktuMW-mmYE3B14r0yYOPsYYOx2lABQ09FBg4kuIKhKZ6khAnc&ccb=13-1&oh=06_Q3--AdGJ6aGMY8UFsynZsRGInQLjotoy7KN5kLL2PpQ2b8MU&oe=69DEB2D0&_nc_sid=58080a",
+    "total": {
+      "spend": 8.32,
+      "leads": 1,
+      "imp": 1172,
+      "cliques": 7,
+      "lpv": 4
+    },
+    "by_age": [
+      {
+        "spend": 0.71,
+        "leads": 0,
+        "imp": 156,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 4.1,
+        "leads": 1,
+        "imp": 635,
+        "cliques": 4,
+        "lpv": 2,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.07,
+        "leads": 0,
+        "imp": 297,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "35–44"
+      },
+      {
+        "spend": 1.22,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249404792810002', key:'ad03', badge:'NOVO', badgeClass:'bn',
-    name:'[AD03]', shortName:'AD03',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQIhpktJ3uEKVlJDKSnjd5TzH0ANurahUSrf0Dlm3KCXk2M4XfHo08lvBbmHocq2z1NRCcsOdoS41TStI_Ol2MLeqM4Ccvt4aYlfbb9JirUsfDqUqkjX1m9K7M7BTW_gtg8yWO2RA6a5_Ofl7WuryJy3_3LB2VHbpFNkx-flcoNLE9iLeDJJ_jrCkAeP6tUHoioa10nOaObhu2bf95c861i6W6SCoWhFj0pZUM17WlklCDNgQfRfLay_vpNtvdBKCJNjY5X3n8NmWeRwHh3x4AVc9MFXci0OhmtL4sq6Rc7NMSoBh3UcDBCsO2a-oQI9zMXHmUmC_TRO9DlLI3-rF_VR4BQ7QAA-oUFKoNtG4kG9EkpBK-kRRAlasw0q1s6foXB0GpGzBaXLMQ3oYvK6ej5OwiJYLJFvrpATGfdXUenxZ20FTeGhTqn4_Cpz5R1QEuo&t=AQLb7Q6UFrhVF7QRWIM',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=bTUC6a7VsTCDaRfBF78GFw&_nc_oc=AdoOk9zoyB2ihzwBedUmztui2Q8BSQPkj4YdmoFmGxb1sBfjjyeAOhBV_Ph0LHciOAUSVZ6Bx7XReao1J_ZzI9Zr&ccb=13-1&oh=06_Q3--AVQtZuoc2wHsV9S8wwoY9XCKQHhfWM-H27LjP8Thzx4Q&oe=69DEBF58&_nc_sid=58080a',
-    total:{spend:6.92, leads:1, imp:1047, cliques:0, lpv:9},
-    by_age:[
-      {age:'18–24', spend:2.34, leads:0, imp:389, lpv:3},
-      {age:'25–34', spend:2.71, leads:1, imp:392, lpv:4},
-      {age:'35–44', spend:1.14, leads:0, imp:178, lpv:2},
-      {age:'45–54', spend:0.49, leads:0, imp:64,  lpv:0},
-      {age:'55–64', spend:0.18, leads:0, imp:19,  lpv:0},
-      {age:'65+',   spend:0.06, leads:0, imp:5,   lpv:0},
+    "id": "120249404792810002",
+    "key": "ad6",
+    "badge": "REVISAR",
+    "badgeClass": "br",
+    "name": "[AD03]",
+    "shortName": "[AD03]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJseRl5LHWb5U8zXTRdtF77QJPSVrx8F8yqx9OyoNg0WfuJZHBrsbl-E0Kcv5ESbIBlQ9TmvYf8RDR2EXtAkYcHfL4F7qBeqeKe3MOe5dqXytyEit4En7SrNE-nBXksTrwbMk2wl7JX0X9mDSq-_0elC8xGXX88FGEtcQhLuZe_yna9I-00gR7ZgvuRCeHErgrJdSTrPGGxWPLzCCjPV-GaQdv-LIeZ1veMJjxhsS-Xv4Cf3tA3JUQGj_LvqV7x4R32jiTE7agwYESQZQoWPqzjgUjOv_gf30NaibSTem18TMU58dZvE3MFSJQ5nPt9q_I1gM5QLBXQoIT3gFJSkdFuZpsdBjXn_GXD_jil15oJqJHRsNiQQ6GXm8cxp7kghev_r1cjDbzRIEdSMExJmz7UWGd1HS8VUuQGqSLEwaqSJLXvtd7RnkV3rKsPJeyHFJ0&t=AQJPR-x2no_Q255RvLo",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdqyVmqTyLmXB1C0Qvij2wFF_qDNAzWZo9GUgrBOx51iVAzWtMGKk2gJ-v0-yS0wK-0&ccb=13-1&oh=06_Q3--AT-njedjcNCua52bpke818xcJ-PQMxEZ5FOiKAEC21l2&oe=69DEBF58&_nc_sid=58080a",
+    "total": {
+      "spend": 6.92,
+      "leads": 1,
+      "imp": 1047,
+      "cliques": 9,
+      "lpv": 9
+    },
+    "by_age": [
+      {
+        "spend": 0.62,
+        "leads": 0,
+        "imp": 123,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "18–24"
+      },
+      {
+        "spend": 2.67,
+        "leads": 1,
+        "imp": 507,
+        "cliques": 5,
+        "lpv": 5,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.3,
+        "leads": 0,
+        "imp": 310,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 1.13,
+        "leads": 0,
+        "imp": 90,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120248547611830002', key:'ad02a', badge:'NOVO', badgeClass:'bn',
-    name:'[AD02] A', shortName:'AD02-A',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQLyXjFjawIYyC8XnMGAuoZirjOzsUsOgykZSYL0DPb58KgupjLehM7jooe2v6G9RMHUnNPn7YdMMe74TLigSnolwgdo1Jt0KAjjomiF2ZL8Pz7BQZBg8zZmVpmhaE0qlO0Wts5aRMdTMyd9o935mRo9XUo_CGj3071u7zgAvuhmHUa0pzqnLwqBEQnRC2_MjhLksuNmqvtfDpW63Ihc99v5mcIdQfavDPQSr3mvrz_jQqB4jYeTCxpHqaCDboF88RHlSDt6BWX5mh4l61e8_Z0LaG6Ru_O_z4r_DCmpaJ3NfwHMjXnfsLc37wEnVUgURqduE5X1H5QV59swZX2-5jjojJzRfFaMLPW8ObvMrkWen_yUulKegsFkK6MnOuRSyPTWxBhV4EjgWTNqnzRWcl6VBij2WSN23SRLx24sd908Zx9IekCQHqo4VVBtJH6Kbzg&t=AQKb9RUJvVheZ3L3gCI',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=U2w7Tb2WaL688dsYouupoA&_nc_oc=AdrqNvoyl5gO4Px5YJzMlXhm9NgIhKJHdjbp7hAvLWl_zhFoUSR8iuvXWgcZQEVvF3glQiMiadihRBb3ARjIwZSI&ccb=13-1&oh=06_Q3--Ad7GRZTxlUHTZ-fBWT4ElEx-gM1iMD09jP7CkxTFr_Ta&oe=69DEC155&_nc_sid=58080a',
-    total:{spend:5.57, leads:0, imp:956, cliques:0, lpv:3},
-    by_age:[
-      {age:'18–24', spend:1.92, leads:0, imp:352, lpv:1},
-      {age:'25–34', spend:2.21, leads:0, imp:359, lpv:2},
-      {age:'35–44', spend:0.89, leads:0, imp:162, lpv:0},
-      {age:'45–54', spend:0.38, leads:0, imp:63,  lpv:0},
-      {age:'55–64', spend:0.13, leads:0, imp:15,  lpv:0},
-      {age:'65+',   spend:0.04, leads:0, imp:5,   lpv:0},
+    "id": "120248547611830002",
+    "key": "ad7",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[AD02]",
+    "shortName": "[AD02]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLCNoSuECSRuLmT0v3-M6SwLFVVU6MOZtLJUCtJ1k9hMtz5MPbglzO8HqnzoF9yk6JbpdbCAUZyYDh8nixyVpi09zlukOVZb47MvPIyPDDDekfccM3Gq7f9uJrfnHMIkmOgKVbnwcClQrw1hiCx2gStMMse5nMVpNA9XMMPsLrYvQK72Nw0mYutNYkYCdl0Re0o0UYRmKPQZ9MvEZb8MAnc4TFeKNI5mpK1BT5Wifd6wL0uAgs6Hk25zvf1q0S3Sm1_mr2fp_qb94WkTJRSN6PxLuG5diY2MJKV4TBkLGQ7tNkkHAOgzH7B6TbdHV8JJAFIe4h57kXFjAojK4op-c9YwAbJ1hOpJNs4pQmk9ETCft_W8imiG4bma-zVnatiAEuqcP1v3XOmI8yQOyKtz3EYyf4XA9Akr0NYu83S6T4YfIA04hGnxTJlTpiBH0EFWhQ&t=AQK4aC7ew5rI0U8eU8o",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdrlPwlOn_aJQQ7m1OcSdHlbzQDTSTcJMRNzld7tdT3DKLbrFY3Z6sUs3LX9zM-B_tw&ccb=13-1&oh=06_Q3--AWZj6-6r46JMpa5B39eXMVrk1Eh_JQDRos9KYbHFmtR_&oe=69DEC155&_nc_sid=58080a",
+    "total": {
+      "spend": 5.57,
+      "leads": 0,
+      "imp": 956,
+      "cliques": 4,
+      "lpv": 3
+    },
+    "by_age": [
+      {
+        "spend": 0.34,
+        "leads": 0,
+        "imp": 127,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 1.72,
+        "leads": 0,
+        "imp": 366,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "25–34"
+      },
+      {
+        "spend": 1.85,
+        "leads": 0,
+        "imp": 184,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.83,
+        "leads": 0,
+        "imp": 113,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.44,
+        "leads": 0,
+        "imp": 82,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.39,
+        "leads": 0,
+        "imp": 84,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120248802155360002', key:'mdl3b', badge:'NOVO', badgeClass:'bn',
-    name:'[MDL3] B', shortName:'MDL3-B',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQLQ6bTenrnV4_pNfKTbOKf3LQrX1fy_URB1DC8VKCA73xYsWu7vE9_JYOFj-izLZ9IX_6_wc-yWRDjzTQKUGKtusHdd-_atzqeEFWtIPfAt_a0uLB2bGMdsFMhz6F-J0v5Qr7XpRDdl0mAKlAIn6QPip_P2bjX6yH1AQ_BQqM-4IXHDuELp517oXQFDn-D8dJrhPhWh08j-SZk4nbvJZCaZ4nvnstqS-efYhs9AA4VblZRiS5lKyQLo8d9GGvo5sm1x6_XcalA2HI9YaqJx8Yglwsl1Kg4s4geapoVDxEgN_NDrkjgHoLS4QRRqgBUjqu27jAPmmTMDizqkcGlduUfJO5ge3WgN6qzBDq3ZwCnIInLRWJas5awiz3vlIutfaJhy6IanVj-ACo5jb6u7Gnxq73H-INO1aIfSXJg0HxgNjTF3fRjO_r2xc0VZ9Xw5GT4&t=AQJ31nYwDGN258zOpv8',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=RChCnMdYMkzLnkydj3_fDw&_nc_oc=AdrdD4S-n2NIEeYVg751ZQ_E3IlvLSMhA1PyP4ZjrkGBf-xfkRVL87VqXEuxAX78GK6s66d1Mn8w35Pkl3yaQaQB&ccb=13-1&oh=06_Q3--Ac1VdO5lCk3WdyKmFQ8xNuPSwCUUnTnMz7Y1qdI1W39v&oe=69DEB3E7&_nc_sid=58080a',
-    total:{spend:5.48, leads:0, imp:766, cliques:0, lpv:6},
-    by_age:[
-      {age:'18–24', spend:1.87, leads:0, imp:278, lpv:2},
-      {age:'25–34', spend:2.18, leads:0, imp:291, lpv:3},
-      {age:'35–44', spend:0.87, leads:0, imp:133, lpv:1},
-      {age:'45–54', spend:0.37, leads:0, imp:48,  lpv:0},
-      {age:'55–64', spend:0.13, leads:0, imp:12,  lpv:0},
-      {age:'65+',   spend:0.06, leads:0, imp:4,   lpv:0},
+    "id": "120248802155360002",
+    "key": "ad8",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[MDL3]",
+    "shortName": "[MDL3]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJNJ_CHVgQVcD7045Ex5zTRkUzaFXwmjQnnGwyUKjfOWys6VNZsMzPg_23mM6Idl9w8ziVplCgdBlJyi8J25SxIMPvEoecW5Tl0cuLvEXxctgyT1AjKgSwQ9x9gV2rL_I6xaaTdhigF5nji2uMqpqi5hs4ooYb4OQwkEOO_eD-0dPDXq9yR-nKrHEqNCexDU3WMkhvX_0tnaueSi9bqq7sd_LG64Z55L_Xp61xtubj8LRLRFC0echU4RsILE3bjDJ8c4OTW3boyU-HJWg-0RWyK6ZzFkanD47q8WkNyauqo8a27y0aXSDbvXVWwFsmA5oa1JA9M7RY8duHbcCgbCvPNcaTIESpCtzaBIRyLFbNGSvvYWWgSI8lTvCXMP6HOuotrLJHdyRZSGIu7bwUykt2bLmbQIQVQtstAoRuHygmXB3MzxDHgmzJqbxTeB2YUN10&t=AQK5xWeUO8uBXrz-YTI",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdolDa4snD1PK7af2jELx_7MQJwi_rs8fCvTn5QYyeXMgWIMkbkjOICfROc4Pmmqmo0&ccb=13-1&oh=06_Q3--AWAc9Jr8mtU3YOOAGP7awj4P-gOBXfbPpM7fcnfft_yr&oe=69DEB3E7&_nc_sid=58080a",
+    "total": {
+      "spend": 5.48,
+      "leads": 0,
+      "imp": 766,
+      "cliques": 7,
+      "lpv": 6
+    },
+    "by_age": [
+      {
+        "spend": 0.88,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 1.58,
+        "leads": 0,
+        "imp": 281,
+        "cliques": 2,
+        "lpv": 3,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.95,
+        "leads": 0,
+        "imp": 163,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "35–44"
+      },
+      {
+        "spend": 1.54,
+        "leads": 0,
+        "imp": 89,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 62,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 50,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249470568490002', key:'nbp03vd_copy', badge:'NOVO', badgeClass:'bn',
-    name:'[NBP03VD] Cópia', shortName:'NBP03VD-C',
-    preview:'https://business.facebook.com/ads/api/https://business.facebook.com/ads/api/preview_iframe.php?d=AQKKngHNOYlL1NnpZUpr2R3w0KpPHHBTBoGq5uNJ190HdcfQ8BcWxBficEwjcFBKYGxMamzKgXejLtmKw4qXilDudEopMvJJVX118G0X0_XVcav7fPAYve92YXJ2vt_3H5PEpaUZfrKfuuEIj4NuH49uLNu2IO0mr_KYxClT91rFWYCoQZCVqVQur04GM_Qz5bz1lwFBSRhXthXsS3ir1LhlIfpk6eSqRU1aLZStJIhPQWEmaY6MjqIpaJji3wo50YgrOEojpWjS1UxUerUVvKEBR46cLGkIDgfciNa6rT2prLkBl5FT1v8387G-IeIcqRBSuHrH9q45urtPMWd1MF38hvBzzQFb6U90xlVQi-MVPHB6bLFDfV0vRGn9RwAnoMiNRhrB_MftVJkJYdupiNmwQ0VueC-UpQ_F7hqIfALbMp14zvHU7ESjdteogq5Gm_spreview_iframe.php?d=NBP03VDC_previewt=AQLxhom44xrp_NK6jLU',
-    previewType:'fb',
-    thumb:'https://scontent.fnvt1-1.fna.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFILQps&_nc_oc=AdrxcbYgLA8h0_95--JpYpJrpzm-xOiXvS-kl9vmziedLR6hUImbeUDVYjzmGqZmYgOOsSD1YrGOJCMLIBJ9G03U&_nc_zt=23&_nc_ht=scontent.fnvt1-1.fna&edm=AAwGEdEEAAAA&_nc_gid=I-0CQ31jZCF5tputdqz3Rw&_nc_tpa=Q5bMBQHAbAHJV0yOzZLljP_Rkekdauu2TGMTD19WKEAyomHF0vi3p1Ej7BxSgdgsQiARVu5KT8GUnRi5fg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1ipJ6wRDWoSrQvDDkMdgLqh8V51FFoBdDYyC9l5VMdGA&oe=69E2ADFD',
-    total:{spend:2.12, leads:0, imp:216, cliques:0, lpv:4},
-    by_age:[
-      {age:'18–24', spend:0.72, leads:0, imp:79, lpv:2},
-      {age:'25–34', spend:0.87, leads:0, imp:83, lpv:2},
-      {age:'35–44', spend:0.34, leads:0, imp:37, lpv:0},
-      {age:'45–54', spend:0.14, leads:0, imp:13, lpv:0},
-      {age:'55–64', spend:0.04, leads:0, imp:3,  lpv:0},
-      {age:'65+',   spend:0.01, leads:0, imp:1,  lpv:0},
+    "id": "120249470568490002",
+    "key": "ad9",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[NBP03VD] — Cópia",
+    "shortName": "[NBP03VD] — Cópia",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJPYan8jZNlNBz9XSJSNZxvMzfNGUrBN8JSljfWYKBCzAznuCz2FNust6oNnRGj9Vh9ZOWqBCd6lEpDjVnPXyuxLYuChTVxS_U2Fg2bHHZUNXMJxCHWL15lpbniPG-SHVWCFiWY9JM6ijd73HWOSqpk7tm-6aNlfX43XvS9UzaEDKc1BZO_2_cMztwE7-jyHK6Q-7edTRT6RbiuFW1Ec4DlNg3_rmUNUXdWpgHkMEipVuRppcA7XRUvaeWL9k09w2rgO_RnUfLkCCZUcmTQzP0F8Qjv1baV2jUz61pCFKiTWbe3zsu108s8jwbabloTDWmy9Zbn4FdZr-H6CMRawa0nXf3uHn71LqbHLGQXH-9oZ_JlANEbx36znmP8To2tVTbcyxUgK8F2_d8xqRBJrQQr-mk3xjwL4RGMDvAxq2VADpFz-PQsIdxJfmpH7vfIFGI&t=AQJLfS5QEANxu0e5tws",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFtHF3P&_nc_oc=AdoUdWxX6T3DuS2J5rTbbUniK5jo_WscRm0duaLLoUT7x6-PPfY_Pp-ksc6A3qt9maw&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_tpa=Q5bMBQF_6ZmyBuuQYChhd_vPtlcDVhH6ftTLomT7yYuiNj02N5TZNWIaJBQbhdS5EtFMLSO_kx0upmjL9A&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3ZtKZBxbPX8l6Iss_CR_UNW7jR5qcCicuXiu8ZrdRUGw&oe=69E2ADFD",
+    "total": {
+      "spend": 2.12,
+      "leads": 0,
+      "imp": 216,
+      "cliques": 4,
+      "lpv": 4
+    },
+    "by_age": [
+      {
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.43,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 1,
+        "lpv": 2,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.7,
+        "leads": 0,
+        "imp": 75,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.59,
+        "leads": 0,
+        "imp": 54,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
   },
   {
-    id:'120249404790490002', key:'ad02b', badge:'NOVO', badgeClass:'bn',
-    name:'[AD02] B', shortName:'AD02-B',
-    preview:'https://business.facebook.com/ads/api/preview_iframe.php?d=AQJBz-lS-KHn6Utqo6fPkzFq8q5cCckLCoo0K10gUuaOdsKZfQgfCNWkES09eGROIoN2nntrDaN5xACemqOSRK1HmKUazUA6AKQhlf7CxPurim_VWQc0RRqxd6FNDs1OPVBgvJUbhBN1aCImlZVBZ_C_xlcvP6m87eNVzYo7T9_PbXwKYRo6Sez6P0HOUgvlxAkKn3-Y-v11Cu3mZFfBmCn4MdDXfYx8vlJA61Fiev_X_U_E-abixanrtzIEg6Y-F4mchfxMiWN91EK7X55i8F4BCwZoQ9519erdAOkUV34mHMK9O_TnBtOJ2-70my0AUOi189irYoM1eh0HjAyCuBFYZLUiF-Q1d0-KCSNaNbE6vxMvxeodyMReryAdetR4hxpDkxnWqWtTYagOX5LvGeSYVSAUe2tjFR4ztVzRgCnhhWzvPfen-c3UwLGSU1u0Ev8&t=AQLtm2-spbNHDq450CA',
-    previewType:'fb',
-    thumb:'https://external.fnvt1-1.fna.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AAwGEdEEAAAA&_nc_gid=1ryYbbkf5_04eXmEfTIyYw&_nc_oc=AdrqNvoyl5gO4Px5YJzMlXhm9NgIhKJHdjbp7hAvLWl_zhFoUSR8iuvXWgcZQEVvF3glQiMiadihRBb3ARjIwZSI&ccb=13-1&oh=06_Q3--AefAsVOxk1i2MYC0SYzKYSddJjnrGzD_6cgoU0X6Jna2&oe=69DEC155&_nc_sid=58080a',
-    total:{spend:1.45, leads:0, imp:170, cliques:0, lpv:1},
-    by_age:[
-      {age:'18–24', spend:0.51, leads:0, imp:63, lpv:1},
-      {age:'25–34', spend:0.57, leads:0, imp:64, lpv:0},
-      {age:'35–44', spend:0.23, leads:0, imp:29, lpv:0},
-      {age:'45–54', spend:0.10, leads:0, imp:10, lpv:0},
-      {age:'55–64', spend:0.03, leads:0, imp:3,  lpv:0},
-      {age:'65+',   spend:0.01, leads:0, imp:1,  lpv:0},
+    "id": "120249404790490002",
+    "key": "ad10",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[AD02]",
+    "shortName": "[AD02]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJlL_3eBGD5gwqETj3PBt-sLqXRLUZPqsSS-QAGftKGFTQiwg4MrAwJlQBJf9S03jjP6iCMqXLwRgE-ZF7e9slVUNqkYIBQOnbgUmY2cxv3sW3_bei6qjdMvHlfHZ641eXTYU7HNqGIdknCS8Qj8C6Q6zqJUiTNMBT7Tuyhvcr2-zr9f-fYfbA0mAnKAhajKnJNde37memA7aWY15yJczh2tk6GtNatkkQgtKmftInj1tiLm18aPwqg_KVqtiuN2Tnm4QlD7lehOLRkFRCsmNxtnRSf0mmhAveYu-DjdtSskC6GbYnr_ZJ4WXhbU5N2x3GkXSboNH2hOaMVdPVnt00me_3gb7JlZLK99UUlyMwOAxZyrcZnO3ClSvitt-_j7Zv0XkkPeerBM-EtcUeTMuQYHEHjKlTS-LSaCbk2-7vbZejq8jzDsPItEQSNElWyUCc&t=AQIZXgnpARSY56bL3UQ",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdrlPwlOn_aJQQ7m1OcSdHlbzQDTSTcJMRNzld7tdT3DKLbrFY3Z6sUs3LX9zM-B_tw&ccb=13-1&oh=06_Q3--AeaNBPzSb354Sgl5xs7z4YvFAGLxFO0_RuhP8Sh5IL0l&oe=69DEC155&_nc_sid=58080a",
+    "total": {
+      "spend": 1.45,
+      "leads": 0,
+      "imp": 170,
+      "cliques": 2,
+      "lpv": 1
+    },
+    "by_age": [
+      {
+        "spend": 0.21,
+        "leads": 0,
+        "imp": 29,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.68,
+        "leads": 0,
+        "imp": 78,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.35,
+        "leads": 0,
+        "imp": 52,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.18,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
     ]
-  },
+  }
 ];
 // __DATA_END__
 
