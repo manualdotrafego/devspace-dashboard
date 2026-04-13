@@ -80,6 +80,14 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 .pill-date{background:var(--card);border:1px solid var(--b1);color:var(--muted2)}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--p2);animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* DATE FILTER */
+.date-filter{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--b1);border-radius:10px;padding:6px 12px}
+.date-filter label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.date-filter input[type=date]{background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;outline:none;color-scheme:dark}
+.date-filter input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.6) sepia(1) saturate(2) hue-rotate(130deg);cursor:pointer;opacity:.7}
+.df-sep{font-size:10px;color:var(--muted)}
+.df-btn{background:var(--p3);border:1px solid rgba(0,196,168,0.3);color:var(--p2);font-size:10px;font-weight:700;padding:5px 12px;border-radius:7px;cursor:pointer;font-family:'Inter',sans-serif;transition:.15s}
+.df-btn:hover{background:rgba(0,196,168,0.2)}
 
 /* ─── KPI STRIP ─── */
 .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
@@ -263,7 +271,14 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
       <p>CA - João Mafra Lançamento · Meta Ads · 7 dias</p>
     </div>
     <div class="topbar-r">
-      <div class="pill pill-date" id="date-pill">—</div>
+      <div class="date-filter">
+        <label>De</label>
+        <input type="date" id="dt-from">
+        <span class="df-sep">→</span>
+        <label>Até</label>
+        <input type="date" id="dt-to">
+        <button class="df-btn" onclick="applyFilter()">Aplicar</button>
+      </div>
       <div class="pill pill-live"><span class="dot"></span>LIVE</div>
     </div>
   </div>
@@ -345,145 +360,1454 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 <script>
 // ═══ DATA ══════════════════════════════════════════════════════════════════
 // __DATA_START__
-const META_PERIOD = {"since":"2026-04-07","until":"2026-04-13","days":7};
+const META_PERIOD = {"since":"2026-03-15","until":"2026-04-13","days":30};
 const CURRENCY = "€";
 const AGES = ['18–24','25–34','35–44','45–54','55–64','65+'];
 const ADS = [
   {
-    "id": "120248912637990002",
-    "key": "ad0",
-    "badge": "TOP",
-    "badgeClass": "bg",
-    "status": "ON",
-    "name": "[NBP02VD]",
-    "shortName": "[NBP02VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKtlKUZwrsgCd-RCHhy46XW1zOJIKx3njv4g6ko3b3oh3gYXgGb0Zv19nB2TLU88f1cTKylPGRr_0b7I1nOa7RpaXKtHO0FbUHsNHFaJb9f5bKUvEji8mBSaNMKnVjgHNZJxp1QJMBIcWwSyeMdFJl932t68RFX_20Tz9thTAxnBl8mHe2GlR-S07sbv52hatlzm8HYf1zj5R4NVKoK3UJeXS3_4uPBMdBP7RaVXzdXG6fnKtD6tmmic0ihN03NoDQ6DQ9Kp78fw5E5HN7iUdkyg7IpKRTxxmUuYCikpR4XXa-wR4POr49nJZwVovJ9ihDBHstKgKIdiYdpD2qxj2Yx2MGIQ2R-Shw1puuDKlPDJK4U-_rSCUcBawhY1WCg_gSYC2zX-7_ihoKr--cpetyeGUyDpjsnHveaQdIugMr2umUMmFSVi8UjjyeYh6KRdpQ&t=AQJEWouGL1RxW1XjjL4",
-    "previewType": "fb",
-    "thumb": "https://scontent-iad3-2.xx.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwH5_i2Q&_nc_oc=Adq8vuDOyTQDuZIbbWIXeQY7fIkAN5Dnp89Ln5nx1fS-aAPb_QxSVSMrhXk1dL4Mjjg&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_tpa=Q5bMBQGk2DgSCj7y-kdN0OjBMmE8TNPtslUNqJiY6nCSZ2pNWZTdnv7aBZFJ2UpZ-GlX4ryNpgP29gaECw&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3sDychhIHCeQuzmTxA8GxbqANFoX2Nb_oZulQZi0RvVg&oe=69E2D073",
-    "total": {
-      "spend": 64.73,
-      "leads": 25,
-      "imp": 7963,
-      "cliques": 93,
-      "lpv": 86
-    },
-    "by_age": [
-      {
-        "spend": 4.33,
-        "leads": 1,
-        "imp": 1025,
-        "cliques": 5,
-        "lpv": 5,
-        "age": "18–24"
-      },
-      {
-        "spend": 16.48,
-        "leads": 7,
-        "imp": 2982,
-        "cliques": 23,
-        "lpv": 22,
-        "age": "25–34"
-      },
-      {
-        "spend": 19.98,
-        "leads": 9,
-        "imp": 2331,
-        "cliques": 32,
-        "lpv": 29,
-        "age": "35–44"
-      },
-      {
-        "spend": 18.22,
-        "leads": 6,
-        "imp": 1179,
-        "cliques": 22,
-        "lpv": 20,
-        "age": "45–54"
-      },
-      {
-        "spend": 4.76,
-        "leads": 2,
-        "imp": 326,
-        "cliques": 9,
-        "lpv": 8,
-        "age": "55–64"
-      },
-      {
-        "spend": 0.96,
-        "leads": 0,
-        "imp": 120,
-        "cliques": 2,
-        "lpv": 2,
-        "age": "65+"
-      }
-    ]
-  },
-  {
     "id": "120248546729190002",
-    "key": "ad1",
+    "key": "ad0",
     "badge": "BOM",
     "badgeClass": "by",
     "status": "ON",
     "name": "[AD05]",
     "shortName": "[AD05]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJHzuusto3g5wvsCK2LfgqVKFS3KadB3tn4rQQ0Woqc5IOZ5JdyOj2g-UZ9_L5IWA7ytWlGoShIrYfPjpadV1yYW138N7MRyNgnsZqM5hfv_rHM-YBJm_UHDL691xOEWPqUyH24wKXKLAXIikxspV2rTBaDuX32xvox9ehUxZRvTDd9riYJTEJo7i8cZNTkQUaYLEttZqZKBP8_od1mrnHWKANfPY1E0NgPbo3z65FsJs8T396WamIO2R7rvESDqbj9BWyDx4OvJXduXwpwVdk_PNcOSZGapPAc11KqPhmmNhk-e6Y3qGAjO5JxpDMwzyHbjhmMSEYOdpMKwDNjRnvjmuUYSyaLkdCqq7XUbNvt7FWHIjcyR4ZVHsos3vziwfrf_MQNZDwpYVSm-e0s3rDb3jmBBmXFGO6M_4L9SdtmHZ4DUR3dzxwHmkVy_7J2YZQ&t=AQLS3s9ydciWNBQUzdY",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIdi5tL6nIvQVvIHQms0ZB--Qw7NtMTSf72dGQEvoBS4ZReL-ukZxv6e8yIXhG1W8IVq0IDzwZWD28il9S9eenVdvVjVV9IpKupDHJY1IhI0FOUlrmqQ1CTMuLzU23OqZQHwzQmgMdwn55-Q53LZ9rVI5Br6APfKOJgBGyhuI1qHACmzBaZZPbfWePz4ME397tjxXQQdFLPN_k0ii3a0nIOpO6us2kGcF4JyB-GcF60XDsXr-6Oxfu5U9luCD77c8aeJ_tSH_g0MpILP32GnP6wDGQ4BQ3sRN4dtLFvNuA278BKRK8w_gduK0vsB6_sPetHrk-Ih_J6j2Y73I79ADWKE26CxXtoAzPVRrLfZfvPRvrwQG3WZCtjs6ogRK6UUSFs4hvCw0fNpfc0p6dBmbMJt2bYVYbvx3x_NTnoR-AcCAPqq2zst-cOyqWtqSUkD1k&t=AQKygFaOT6zJSiTatyw",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_oc=Ado6usU-Gw7TYx_J3JwgHbmQZ6os1ilpRjwOmMRGn6JqzPEeUEri6262_OAxQvxx-AE&ccb=13-1&oh=06_Q3--AW-mTD-HW1apJ5JB52iLsiM_6lFPQBtTEs0GPhvbdQR4&oe=69DEC848&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=AdqlnfWaEdFAd_3kbV7lg3_C791MlEXen1hnwo7vod1QLgWCAysflVrO0yqxNY2hffo&ccb=13-1&oh=06_Q3--ASCMezMzgn7WFY-XDmOZngYu77isYBKpD_B9bBpkOrQN&oe=69DEC848&_nc_sid=58080a",
     "total": {
-      "spend": 50.01,
-      "leads": 9,
-      "imp": 5185,
-      "cliques": 65,
-      "lpv": 51
+      "spend": 110.37,
+      "leads": 29,
+      "imp": 10320,
+      "cliques": 147,
+      "lpv": 115
     },
     "by_age": [
       {
-        "spend": 9.31,
-        "leads": 1,
-        "imp": 1115,
-        "cliques": 2,
-        "lpv": 2,
+        "spend": 19.91,
+        "leads": 3,
+        "imp": 2149,
+        "cliques": 9,
+        "lpv": 8,
         "age": "18–24"
       },
       {
-        "spend": 14.57,
-        "leads": 4,
-        "imp": 1967,
-        "cliques": 18,
-        "lpv": 12,
+        "spend": 33.48,
+        "leads": 17,
+        "imp": 4044,
+        "cliques": 46,
+        "lpv": 34,
         "age": "25–34"
       },
       {
-        "spend": 11.26,
-        "leads": 1,
-        "imp": 1078,
-        "cliques": 9,
-        "lpv": 8,
+        "spend": 26.74,
+        "leads": 4,
+        "imp": 2220,
+        "cliques": 29,
+        "lpv": 23,
         "age": "35–44"
       },
       {
-        "spend": 8.4,
-        "leads": 2,
-        "imp": 548,
-        "cliques": 15,
-        "lpv": 11,
+        "spend": 17.57,
+        "leads": 3,
+        "imp": 1047,
+        "cliques": 31,
+        "lpv": 22,
         "age": "45–54"
       },
       {
-        "spend": 3.71,
-        "leads": 1,
-        "imp": 277,
-        "cliques": 12,
-        "lpv": 10,
+        "spend": 7.67,
+        "leads": 2,
+        "imp": 522,
+        "cliques": 18,
+        "lpv": 16,
         "age": "55–64"
       },
       {
-        "spend": 2.76,
+        "spend": 4.99,
         "leads": 0,
-        "imp": 200,
-        "cliques": 9,
-        "lpv": 8,
+        "imp": 338,
+        "cliques": 14,
+        "lpv": 12,
         "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.98,
+        "leads": 0,
+        "imp": 108,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 1.19,
+        "leads": 0,
+        "imp": 156,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 0.89,
+        "leads": 1,
+        "imp": 91,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.8,
+        "leads": 0,
+        "imp": 41,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.22,
+        "leads": 0,
+        "imp": 20,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "65+",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "18-24",
+        "spend": 0.48,
+        "leads": 1,
+        "imp": 76,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "25-34",
+        "spend": 1.17,
+        "leads": 1,
+        "imp": 182,
+        "cliques": 4,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "35-44",
+        "spend": 0.96,
+        "leads": 2,
+        "imp": 84,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "45-54",
+        "spend": 0.6,
+        "leads": 0,
+        "imp": 38,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "55-64",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "65+",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "18-24",
+        "spend": 1.25,
+        "leads": 0,
+        "imp": 135,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "25-34",
+        "spend": 1.92,
+        "leads": 0,
+        "imp": 264,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "35-44",
+        "spend": 1.45,
+        "leads": 0,
+        "imp": 127,
+        "cliques": 5,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-28",
+        "age": "45-54",
+        "spend": 0.74,
+        "leads": 1,
+        "imp": 50,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-28",
+        "age": "55-64",
+        "spend": 0.66,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-28",
+        "age": "65+",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "18-24",
+        "spend": 0.9,
+        "leads": 0,
+        "imp": 108,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "25-34",
+        "spend": 1.92,
+        "leads": 3,
+        "imp": 229,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-29",
+        "age": "35-44",
+        "spend": 1.94,
+        "leads": 0,
+        "imp": 126,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-29",
+        "age": "45-54",
+        "spend": 0.94,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 6,
+        "lpv": 4
+      },
+      {
+        "date": "2026-03-29",
+        "age": "55-64",
+        "spend": 0.88,
+        "leads": 0,
+        "imp": 47,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-29",
+        "age": "65+",
+        "spend": 0.35,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 1.26,
+        "leads": 0,
+        "imp": 133,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 2.65,
+        "leads": 1,
+        "imp": 267,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-30",
+        "age": "35-44",
+        "spend": 1.66,
+        "leads": 0,
+        "imp": 138,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-30",
+        "age": "45-54",
+        "spend": 1.03,
+        "leads": 0,
+        "imp": 69,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "55-64",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "65+",
+        "spend": 0.34,
+        "leads": 0,
+        "imp": 14,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 2.87,
+        "leads": 1,
+        "imp": 183,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 4.44,
+        "leads": 4,
+        "imp": 366,
+        "cliques": 5,
+        "lpv": 5
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 2.17,
+        "leads": 0,
+        "imp": 195,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 1.99,
+        "leads": 0,
+        "imp": 94,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.62,
+        "leads": 0,
+        "imp": 46,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 35,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "18-24",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "25-34",
+        "spend": 0.42,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "35-44",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 14,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-01",
+        "age": "45-54",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "55-64",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "65+",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "18-24",
+        "spend": 1.6,
+        "leads": 0,
+        "imp": 152,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "25-34",
+        "spend": 1.96,
+        "leads": 2,
+        "imp": 236,
+        "cliques": 5,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-02",
+        "age": "35-44",
+        "spend": 2.11,
+        "leads": 0,
+        "imp": 140,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "45-54",
+        "spend": 1.17,
+        "leads": 0,
+        "imp": 55,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-02",
+        "age": "55-64",
+        "spend": 0.59,
+        "leads": 0,
+        "imp": 34,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "65+",
+        "spend": 0.64,
+        "leads": 0,
+        "imp": 34,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 1.15,
+        "leads": 0,
+        "imp": 117,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 3.2,
+        "leads": 2,
+        "imp": 345,
+        "cliques": 4,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 4.18,
+        "leads": 0,
+        "imp": 226,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 1.84,
+        "leads": 0,
+        "imp": 78,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.67,
+        "leads": 1,
+        "imp": 34,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "65+",
+        "spend": 0.32,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "18-24",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "45-54",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "55-64",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 2.03,
+        "leads": 0,
+        "imp": 427,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 3.95,
+        "leads": 1,
+        "imp": 681,
+        "cliques": 7,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 3.84,
+        "leads": 1,
+        "imp": 367,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 1.82,
+        "leads": 1,
+        "imp": 212,
+        "cliques": 8,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 1.11,
+        "leads": 0,
+        "imp": 148,
+        "cliques": 5,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 0.73,
+        "leads": 0,
+        "imp": 127,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 3.86,
+        "leads": 1,
+        "imp": 360,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 4.64,
+        "leads": 2,
+        "imp": 606,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 3.31,
+        "leads": 0,
+        "imp": 327,
+        "cliques": 3,
+        "lpv": 4
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 2.94,
+        "leads": 0,
+        "imp": 149,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 1.25,
+        "leads": 0,
+        "imp": 62,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 1.12,
+        "leads": 0,
+        "imp": 26,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.73,
+        "leads": 0,
+        "imp": 70,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 1.47,
+        "leads": 0,
+        "imp": 176,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 1.17,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 1.25,
+        "leads": 0,
+        "imp": 47,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.52,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "65+",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 1.79,
+        "leads": 0,
+        "imp": 137,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 2.03,
+        "leads": 0,
+        "imp": 237,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 1.67,
+        "leads": 0,
+        "imp": 141,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 1.53,
+        "leads": 1,
+        "imp": 74,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-12",
+        "age": "55-64",
+        "spend": 0.39,
+        "leads": 1,
+        "imp": 22,
+        "cliques": 4,
+        "lpv": 4
+      },
+      {
+        "date": "2026-04-12",
+        "age": "65+",
+        "spend": 0.27,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 0.9,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 2.44,
+        "leads": 1,
+        "imp": 256,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 1.17,
+        "leads": 0,
+        "imp": 116,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 0.89,
+        "leads": 0,
+        "imp": 67,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "55-64",
+        "spend": 0.44,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "65+",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 1,
+        "lpv": 1
+      }
+    ]
+  },
+  {
+    "id": "120248912637990002",
+    "key": "ad1",
+    "badge": "TOP",
+    "badgeClass": "bg",
+    "status": "ON",
+    "name": "[NBP02VD]",
+    "shortName": "[NBP02VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIiapuafV4uhxPx6fBFAehO8ErrRNuip8BqIrOMWMRWcg2zdh9dD5a7yYNRpRWR2vgf84MScA1A4WlRl1oXnZ9nvBbL-Sm6B3LgDsOcOuvHDZvxdpCev7LuFWDYqLGq82NWZebDk1vlPnGDI74f5AI3W2tBcfoNWD65ySSXwAx9rTrP7-DD98s7unNw2RZUzKkq8ihKwnr6XWfKTnC-2Or0gMorbSeMQjpoBWLtf7nVH5hwPw8YgrkBcXpUX03dFbq_QGmv9TzK5m1UROjMfnmMS6we9EUdsyATYPchT5HX6DoElMktW4QWPZIWjzdsSBvjDoIGVR_0XzG7_qdccuMhkHXK8a82-rjmteNOSzCoU9W3MfA4Zquh6kF1d2NrKQv738x5rbExkb46zJfTRH_0Y3glzaTJUTXFe23jFLHQSxsUJM2ALr4FCvXRTwKLzSM&t=AQJh9LAQngLqGi2lX3w",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwFFFw88&_nc_oc=AdoAWqFvCqoC9QogLgWnJyAoC_oXTAbWZKhLSdZM2iMyN80yC2hhrmcGgFOzvxk37QI&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_tpa=Q5bMBQE_lBy5bU0K2Y2xX-hSEYWeIsqS-oIUZd5PPhNZsVUjTaMxhtpK2Emr5PpmuaYFJiikFNsMWxOzJQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af2xOGfIagq86008dgibsMOzGNU6-1Mi7PtoBCX_sPVqfA&oe=69E2D073",
+    "total": {
+      "spend": 80.72,
+      "leads": 29,
+      "imp": 9985,
+      "cliques": 116,
+      "lpv": 106
+    },
+    "by_age": [
+      {
+        "spend": 6.22,
+        "leads": 1,
+        "imp": 1408,
+        "cliques": 6,
+        "lpv": 6,
+        "age": "18–24"
+      },
+      {
+        "spend": 22.42,
+        "leads": 9,
+        "imp": 3998,
+        "cliques": 35,
+        "lpv": 33,
+        "age": "25–34"
+      },
+      {
+        "spend": 23.71,
+        "leads": 11,
+        "imp": 2736,
+        "cliques": 40,
+        "lpv": 36,
+        "age": "35–44"
+      },
+      {
+        "spend": 21.12,
+        "leads": 6,
+        "imp": 1334,
+        "cliques": 23,
+        "lpv": 20,
+        "age": "45–54"
+      },
+      {
+        "spend": 5.68,
+        "leads": 2,
+        "imp": 370,
+        "cliques": 10,
+        "lpv": 9,
+        "age": "55–64"
+      },
+      {
+        "spend": 1.56,
+        "leads": 0,
+        "imp": 139,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 0.78,
+        "leads": 0,
+        "imp": 152,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 1.82,
+        "leads": 1,
+        "imp": 315,
+        "cliques": 8,
+        "lpv": 8
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 1.26,
+        "leads": 0,
+        "imp": 108,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 0.59,
+        "leads": 0,
+        "imp": 46,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.35,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "18-24",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "25-34",
+        "spend": 0.38,
+        "leads": 0,
+        "imp": 48,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "35-44",
+        "spend": 0.14,
+        "leads": 1,
+        "imp": 17,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-01",
+        "age": "45-54",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "18-24",
+        "spend": 0.34,
+        "leads": 0,
+        "imp": 99,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-02",
+        "age": "25-34",
+        "spend": 1.18,
+        "leads": 0,
+        "imp": 211,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-02",
+        "age": "35-44",
+        "spend": 0.54,
+        "leads": 0,
+        "imp": 92,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-02",
+        "age": "45-54",
+        "spend": 1.06,
+        "leads": 0,
+        "imp": 41,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "55-64",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "65+",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 0.69,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 2.36,
+        "leads": 1,
+        "imp": 431,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 1.5,
+        "leads": 1,
+        "imp": 168,
+        "cliques": 5,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 0.89,
+        "leads": 0,
+        "imp": 60,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "45-54",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 0.71,
+        "leads": 0,
+        "imp": 245,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 1.72,
+        "leads": 0,
+        "imp": 476,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 2.23,
+        "leads": 1,
+        "imp": 296,
+        "cliques": 5,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 1.68,
+        "leads": 1,
+        "imp": 162,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 0.6,
+        "leads": 0,
+        "imp": 71,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 55,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 1.09,
+        "leads": 0,
+        "imp": 233,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 3.97,
+        "leads": 5,
+        "imp": 602,
+        "cliques": 9,
+        "lpv": 9
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 3.69,
+        "leads": 2,
+        "imp": 364,
+        "cliques": 5,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 4.44,
+        "leads": 2,
+        "imp": 220,
+        "cliques": 7,
+        "lpv": 6
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.87,
+        "leads": 1,
+        "imp": 51,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.55,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 2.46,
+        "leads": 0,
+        "imp": 392,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 2.92,
+        "leads": 1,
+        "imp": 331,
+        "cliques": 6,
+        "lpv": 6
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 2.81,
+        "leads": 0,
+        "imp": 151,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.8,
+        "leads": 0,
+        "imp": 44,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-11",
+        "age": "65+",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 0.87,
+        "leads": 0,
+        "imp": 212,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 3.86,
+        "leads": 0,
+        "imp": 760,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 5.33,
+        "leads": 3,
+        "imp": 700,
+        "cliques": 5,
+        "lpv": 6
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 4.19,
+        "leads": 2,
+        "imp": 332,
+        "cliques": 5,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-12",
+        "age": "55-64",
+        "spend": 1.36,
+        "leads": 0,
+        "imp": 93,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-12",
+        "age": "65+",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 20,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 1.15,
+        "leads": 1,
+        "imp": 217,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 4.65,
+        "leads": 2,
+        "imp": 757,
+        "cliques": 5,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 6.09,
+        "leads": 2,
+        "imp": 658,
+        "cliques": 11,
+        "lpv": 11
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 5.39,
+        "leads": 1,
+        "imp": 317,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-13",
+        "age": "55-64",
+        "spend": 1.17,
+        "leads": 1,
+        "imp": 69,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-13",
+        "age": "65+",
+        "spend": 0.38,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 0,
+        "lpv": 0
       }
     ]
   },
@@ -495,13 +1819,13 @@ const ADS = [
     "status": "OFF",
     "name": "[MDL2]",
     "shortName": "[MDL2]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJHbU5oa_aMfhKNQCFvXOniBqXAFb5vx21c4ZhRKKwkQshIYtxuhFqWq5T_muUC2gJtR8qgA-eSoW6I1K-Qr9jNwGonfqqlQFJvvTcgoI1o0mr7LOmaSAAPbpwblKCbE_d6jeF4yMIGj_MyxHzHdeJ6FEDbZEQGqULtWp3Hhn5_tXqvArbppP0fUVGOfqHh5wGu9HdvymCyZacX6EcaPrRQxVYJfkN-3uCxnVcggu__37W3gRyR5G6vSYZTZ_CA5MwpYmY7FIaZgjSDQPXjpISBOYwosikeu04VrbJDpzzGe8kMEh0g43oGgSaeYGQltu9AudRMi-YSgL65GSnyUSyGqzVSfKsBHbOKQH5LGD3FZMbasdr9i-QfSh-F4LGHd0FTQTvNMxCrXh_DYqLNN0r0NvXQgItVQVHadd9ojxPXTTf8KWAB7i3BYX2YNGDsQ9Q&t=AQIBt586TMBlH-rX4X0",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIZTxzZzRR3C5FkBw6dvHqoJ24S8XeLp54ou_Hk6VLpA2iB7GMxyjxhS4DuYq0-pkoUd66Xn-EX0Riuuz7GY_H8NTTsdRhlwpPBEpPz2Mi69deOvOk5lTcWdmjRHRchtMNnuYTPUMOd83T2nYo8n1lsQ3reKyv6LfqgLt8HifJkPPjNuW9lt3sbnnvXe-lo94DXLoD4dsK4ZEg6bEd80Fg6iOr0Q6NLKXMJTqyE7sm6jHYc7R0Huqh1jCpMKQAKNW9fO3J9k-TubZIl-8ORLndlITtiX1xDdlJ5XH-treZHbH1KxFFWGpjhkCLr1VoYfdYmwi24VoahU6IWIOE8vFZ6EuVE_VF-NrIY1CYj2K3FiVF-0i2FIXUtQ-eGDvx3PwbkRXGWIg-Km-wlic9IIHnRl9yEuycZcKmzx40LKZ3FXx80f3FHWY3DMmEYc96LX2E&t=AQKIe8su7Ngrb2pF0rc",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=RdwVGTw1NMBvtkLngc79Gg&_nc_oc=Adqws6sxn4fZCiWuaqw07HeKk4CwFJVRURsA1duyF7H8aJO4zVwOl6iuoqWJhj2OJM4&ccb=13-1&oh=06_Q3--AZ8W5tYancVTfDUYE-WxmS0jFWVhMbt41sGQKSYfLR8d&oe=69DECC65&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=zCQ2Vz4tO8YmZJSVlS0mkA&_nc_oc=AdpQlGD0bY2ZRAcJeKaXcPyndq9hKzjleuvx3SSOlfdiHKECpRqQow0NgLqXzMObHGU&ccb=13-1&oh=06_Q3--AcpHLQ-u0S0bwWTSSxzTf5qFhC8Mtmo2fPvEuxUrKws5&oe=69DECC65&_nc_sid=58080a",
     "total": {
-      "spend": 25.94,
+      "spend": 25.95,
       "leads": 3,
-      "imp": 3184,
+      "imp": 3186,
       "cliques": 41,
       "lpv": 30
     },
@@ -517,7 +1841,7 @@ const ADS = [
       {
         "spend": 10.36,
         "leads": 2,
-        "imp": 1604,
+        "imp": 1605,
         "cliques": 25,
         "lpv": 18,
         "age": "25–34"
@@ -525,7 +1849,7 @@ const ADS = [
       {
         "spend": 8.8,
         "leads": 1,
-        "imp": 953,
+        "imp": 954,
         "cliques": 14,
         "lpv": 11,
         "age": "35–44"
@@ -554,63 +1878,1879 @@ const ADS = [
         "lpv": 0,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.36,
+        "leads": 0,
+        "imp": 57,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 2.21,
+        "leads": 1,
+        "imp": 274,
+        "cliques": 5,
+        "lpv": 4
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 1.29,
+        "leads": 0,
+        "imp": 149,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.72,
+        "leads": 0,
+        "imp": 40,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 46,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 1.35,
+        "leads": 0,
+        "imp": 235,
+        "cliques": 5,
+        "lpv": 4
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 1.0,
+        "leads": 0,
+        "imp": 135,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 0.65,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 0.61,
+        "leads": 0,
+        "imp": 131,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 3.45,
+        "leads": 1,
+        "imp": 573,
+        "cliques": 10,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 3.65,
+        "leads": 1,
+        "imp": 349,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 1.71,
+        "leads": 0,
+        "imp": 92,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "55-64",
+        "spend": 0.17,
+        "leads": 0,
+        "imp": 14,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "65+",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 0.56,
+        "leads": 0,
+        "imp": 125,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 3.35,
+        "leads": 0,
+        "imp": 523,
+        "cliques": 5,
+        "lpv": 5
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 2.86,
+        "leads": 0,
+        "imp": 321,
+        "cliques": 6,
+        "lpv": 4
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 1.36,
+        "leads": 0,
+        "imp": 73,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-13",
+        "age": "55-64",
+        "spend": 0.28,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      }
     ]
   },
   {
-    "id": "120249134090730002",
+    "id": "120248547611830002",
     "key": "ad3",
-    "badge": "NOVO",
-    "badgeClass": "bn",
+    "badge": "TESTE",
+    "badgeClass": "by",
     "status": "OFF",
-    "name": "[NBP01VD]",
-    "shortName": "[NBP01VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJ04GbWBUfXWADdZ_DxIZ7ZN3QOFLIRfUSYoUfuOaFzEEXBqcFRmL-W1pjdiD65BDoXAxDGknpk6XPCmocrGo71Tpd1_uqfYW2YJuqqFFeWnucsX8et_lmCDeGWy9-ypp9l0FfogOHKxWcF1RanL7KMftz22rcG9TlVTRFQkINEpHCDXL-OfYBE4CLrH0i_fqrtXvgIxYrsTvYFc9auh2r4WkmClbSmd6A9s1uyZoK3q5kSfKvAmpRiY27tlL_fXGxrN5OGyNSy7oeSSMr2FRw8Wd2SpCEeRHL2EzFmzrx9OnO4EW30N2hWyYha4HSt_gcqWA6kzAx_nuGhn5bVa7nE-6Vq__hBSUsq2ddGHk65J0fVQVF598bo_fJbz3ltM1SweT95tMWgz9vY7hzHnb2riUDbpQYzu1Ghjo6YG9YtApTOyKWAk2egMo52vF6fx1w&t=AQJomn4BJLAunxpJWac",
+    "name": "[AD02]",
+    "shortName": "[AD02]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJ3BsSb6UiOXOH6iZyyim-893omiFB6Xet1wfqp7LMRUNzq7VoUmn40FyWkDba2_5Ncqm-iLhlLHBECku9yG87LCh5l102khk0Kf2e8qMBhDZKRVsPMtgqoCJJah_aM4hjlvbdn8hGoAPIRSxCmTSLSbsoKQqZGIKecf_Aj0af92UG_a4vi24VE0aVksn0v9vZLxHzRPh_JrIC1yamiIbyj7QtLPSPk3JX-fcULew-GCq6xFdntHiGU-ZwtnmylO75X-tZvMFhhdi8kgNgicCafnyif5vv-0TvavNhX_PbKOENkWs0Sl6CY_RL95UiXnFVBLSi8mBQ04_60g5xUtP4Q8Q-YYRFAPgBEFMXZUg-4MAGBDHpQ80n4NOh663aC0TiecFxmdpe-qHxjyjY_cwI97Rc_FSY3ApHZJnZZvdOqxOwhj-LucQhlAvXeE5fz-ms&t=AQJzXyDxM1Ov6m6DE_c",
     "previewType": "fb",
-    "thumb": "https://scontent-iad3-1.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwH8Vm3Y&_nc_oc=Adpv-KUuSIYFt0r6XuTf599jywhxbVXgnsYroHzzd4tUllLSWWFfOLIIvlKqb_V1N6g&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_tpa=Q5bMBQFa6BCgWzRNMxkgoLWkOvXjbssKk0TD914N9Cr5I6hyMK2oJDKD94_Ma8BI8UW3EtD9tPPTTsbJnA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3JTzrfy2sYxrgJoEoH4UXf9bNE-90ad1nsJwLU3LZr8w&oe=69E2C431",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=Ado4pshUQvZRP8pv01BR-ry0ZltGwtJmmjtzkIW1R8PtmAUxlw61goK_xbVxq9-B04I&ccb=13-1&oh=06_Q3--AbCYLPCUCdQaNS6kZrHlSo3FpdQNU51i71AqLwsBJlKy&oe=69DEC155&_nc_sid=58080a",
     "total": {
-      "spend": 9.54,
-      "leads": 0,
-      "imp": 876,
-      "cliques": 7,
-      "lpv": 3
+      "spend": 19.52,
+      "leads": 4,
+      "imp": 2753,
+      "cliques": 22,
+      "lpv": 19
     },
     "by_age": [
       {
-        "spend": 0.61,
+        "spend": 1.51,
         "leads": 0,
-        "imp": 155,
+        "imp": 371,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 6.63,
+        "leads": 3,
+        "imp": 1180,
+        "cliques": 11,
+        "lpv": 11,
+        "age": "25–34"
+      },
+      {
+        "spend": 5.51,
+        "leads": 1,
+        "imp": 608,
+        "cliques": 3,
+        "lpv": 3,
+        "age": "35–44"
+      },
+      {
+        "spend": 3.33,
+        "leads": 0,
+        "imp": 286,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.47,
+        "leads": 0,
+        "imp": 148,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "55–64"
+      },
+      {
+        "spend": 1.07,
+        "leads": 0,
+        "imp": 160,
+        "cliques": 4,
+        "lpv": 2,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 50,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 0.8,
+        "leads": 1,
+        "imp": 133,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 0.78,
+        "leads": 1,
+        "imp": 88,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.55,
+        "leads": 0,
+        "imp": 34,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 22,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "65+",
+        "spend": 0.2,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "18-24",
+        "spend": 0.15,
+        "leads": 0,
+        "imp": 27,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "25-34",
+        "spend": 0.6,
+        "leads": 0,
+        "imp": 92,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "35-44",
+        "spend": 0.54,
+        "leads": 0,
+        "imp": 47,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "45-54",
+        "spend": 0.72,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "55-64",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "65+",
+        "spend": 0.15,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "18-24",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 35,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "25-34",
+        "spend": 1.02,
+        "leads": 0,
+        "imp": 172,
+        "cliques": 3,
+        "lpv": 5
+      },
+      {
+        "date": "2026-03-28",
+        "age": "35-44",
+        "spend": 0.52,
+        "leads": 0,
+        "imp": 71,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "45-54",
+        "spend": 0.46,
+        "leads": 0,
+        "imp": 32,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "55-64",
+        "spend": 0.2,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "65+",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "18-24",
+        "spend": 0.22,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "25-34",
+        "spend": 0.61,
+        "leads": 1,
+        "imp": 119,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-29",
+        "age": "35-44",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 57,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "45-54",
+        "spend": 0.18,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "55-64",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "65+",
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 0.31,
+        "leads": 0,
+        "imp": 52,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 1.11,
+        "leads": 1,
+        "imp": 148,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "35-44",
+        "spend": 0.56,
+        "leads": 0,
+        "imp": 73,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "45-54",
+        "spend": 0.3,
+        "leads": 0,
+        "imp": 30,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "55-64",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 26,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 33,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 0.64,
+        "leads": 0,
+        "imp": 128,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 0.65,
+        "leads": 0,
+        "imp": 73,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 0.26,
+        "leads": 0,
+        "imp": 32,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 22,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 0.2,
+        "leads": 0,
+        "imp": 95,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 1.11,
+        "leads": 0,
+        "imp": 262,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 1.44,
+        "leads": 0,
+        "imp": 133,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 0.67,
+        "leads": 0,
+        "imp": 74,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 0.18,
+        "leads": 0,
+        "imp": 57,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 58,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 32,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 0.59,
+        "leads": 0,
+        "imp": 103,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.41,
+        "leads": 0,
+        "imp": 50,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.26,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 26,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248802155360002",
+    "key": "ad4",
+    "badge": "REVISAR",
+    "badgeClass": "br",
+    "status": "OFF",
+    "name": "[MDL3]",
+    "shortName": "[MDL3]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIRPV2atHIbryMVQLKXIDuAt5balsNndNrZYya97TEHv7JBrvPIGUJjgxP0DM0erIHDGkSgmykjadas8uL-DLZ8lBflsxuMy3UnY5mq_vWAIYFeAFiXmIhAvGlqwfSCfPZHo7R34gnPqFfEbwNU6oQQE3PWILSnLDlZvmWFXKHJrUCh0inMBD6_4KUXXfHckLsl5RUwhuSaWsBGtWnnRq74W3Np8BPRQg7wxi-1zBHee7DVBl2giIBP_B6Xt3ttmI60Nt4igUmIUcQB02aLHrjLHgococH4VPgCs0giyVW9Xl1YUtTGeK7o22sDjM7whAPgb7cf42q25JPV2Z-YuZc6cgrKa8AlUhgk-adXaCtqg-mUA7wTFzeRdrRW1gWZQ3t7DoadbznhlMqxobc5Fg8MKL88D-gAxxOyLsCHsuf8thBRbyyhqlITCseECWM0OVg&t=AQKsDSPwDLIKUkYTasc",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=AdoxHDhtBlgVKZk1ormIqXzuvvRwEcjLvcOsSSDz0uX9UyDehMR9r79GM5G163hUuKs&ccb=13-1&oh=06_Q3--AbTAzybbCfQ678fo-7jTEZYTcdYHwZ6QnF0mj9Np1Fiq&oe=69DEB3E7&_nc_sid=58080a",
+    "total": {
+      "spend": 19.03,
+      "leads": 3,
+      "imp": 2476,
+      "cliques": 21,
+      "lpv": 16
+    },
+    "by_age": [
+      {
+        "spend": 2.33,
+        "leads": 0,
+        "imp": 354,
+        "cliques": 2,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 6.55,
+        "leads": 0,
+        "imp": 1098,
+        "cliques": 5,
+        "lpv": 6,
+        "age": "25–34"
+      },
+      {
+        "spend": 5.24,
+        "leads": 3,
+        "imp": 594,
+        "cliques": 9,
+        "lpv": 8,
+        "age": "35–44"
+      },
+      {
+        "spend": 3.68,
+        "leads": 0,
+        "imp": 223,
+        "cliques": 2,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.66,
+        "leads": 0,
+        "imp": 124,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.57,
+        "leads": 0,
+        "imp": 83,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 0.3,
+        "leads": 0,
+        "imp": 56,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 1.28,
+        "leads": 0,
+        "imp": 208,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "35-44",
+        "spend": 0.77,
+        "leads": 2,
+        "imp": 89,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-30",
+        "age": "45-54",
+        "spend": 0.48,
+        "leads": 0,
+        "imp": 18,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "55-64",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 0.43,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 1.44,
+        "leads": 0,
+        "imp": 246,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 1.06,
+        "leads": 0,
+        "imp": 110,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 35,
+        "cliques": 2,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.26,
+        "leads": 0,
+        "imp": 42,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "18-24",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "25-34",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "35-44",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "45-54",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "55-64",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-01",
+        "age": "65+",
+        "spend": 0.18,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "18-24",
+        "spend": 0.21,
+        "leads": 0,
+        "imp": 30,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "25-34",
+        "spend": 0.7,
+        "leads": 0,
+        "imp": 116,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "35-44",
+        "spend": 0.77,
+        "leads": 1,
+        "imp": 70,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-02",
+        "age": "45-54",
+        "spend": 0.7,
+        "leads": 0,
+        "imp": 31,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "55-64",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "65+",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 0.45,
+        "leads": 0,
+        "imp": 71,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 1.43,
+        "leads": 0,
+        "imp": 231,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 1.65,
+        "leads": 0,
+        "imp": 154,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 0.64,
+        "leads": 0,
+        "imp": 45,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "65+",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "18-24",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 0.77,
+        "leads": 0,
+        "imp": 109,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 1.28,
+        "leads": 0,
+        "imp": 238,
+        "cliques": 2,
+        "lpv": 3
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 0.83,
+        "leads": 0,
+        "imp": 146,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 1.49,
+        "leads": 0,
+        "imp": 82,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 0.22,
+        "leads": 0,
+        "imp": 60,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 50,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.09,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 40,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248547611840002",
+    "key": "ad5",
+    "badge": "BOM",
+    "badgeClass": "by",
+    "status": "OFF",
+    "name": "[AD03]",
+    "shortName": "[AD03]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJG8-hyeJOqjXldyOTcNeA1sG8h7cKdK32uV-yeiJ9mvqujU55gg1veEV66L_5GMPf0CXy--UnrKolVskXSymqgbaLSPUBe9ps90ncC0eVT2Mc02__YHemS2dwu6VmlLAcrGKv0Wy6Nq6sLKwPnS3GkYVohGWClgszQu19YkRQiX2NVc-tHtRWHNPTeXxBhAYZc3-9TzJSD3ajkE85rHYtmV5N7i-cHpdE8IfZGoSzHvDppNAmxWqzYmLnrirwWsrEZL8ngIXsj4waSVGpabcTlWer3nGR7DLB71UNWNtX1sCjACI4cho2HKWqZuje2a-XTrPEaiUh23yp7Chx2vA03O_nN6ZbdNLxb6AuMtSEvEDP0xCESgxSfXqDI-MjY1vsD4EYmx1p6siLNaGvlYvPeeZNnoVJrSek3A1F9n3J4zSh_TLXdq_gYG_G0LCidDw4&t=AQIbsBBcq0BTRNn7O48",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=AdoPT7kUolLlMM4uFAT6Dvg2yUEA8Sg-rvQP-GxI_ZVQgtDtn2CogCRQTrrzVjftpdU&ccb=13-1&oh=06_Q3--AWilteH75m2OEm0OPr50ZkgZxh098vng3PyPAjB77_Tv&oe=69DEBF58&_nc_sid=58080a",
+    "total": {
+      "spend": 18.14,
+      "leads": 6,
+      "imp": 2451,
+      "cliques": 35,
+      "lpv": 26
+    },
+    "by_age": [
+      {
+        "spend": 1.37,
+        "leads": 0,
+        "imp": 311,
         "cliques": 1,
         "lpv": 1,
         "age": "18–24"
       },
       {
-        "spend": 1.71,
+        "spend": 5.85,
+        "leads": 1,
+        "imp": 1092,
+        "cliques": 11,
+        "lpv": 10,
+        "age": "25–34"
+      },
+      {
+        "spend": 5.77,
+        "leads": 2,
+        "imp": 665,
+        "cliques": 11,
+        "lpv": 8,
+        "age": "35–44"
+      },
+      {
+        "spend": 3.17,
+        "leads": 1,
+        "imp": 277,
+        "cliques": 6,
+        "lpv": 4,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.78,
+        "leads": 2,
+        "imp": 91,
+        "cliques": 5,
+        "lpv": 3,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.21,
         "leads": 0,
-        "imp": 268,
+        "imp": 15,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 68,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 1.07,
+        "leads": 1,
+        "imp": 203,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 1.17,
+        "leads": 0,
+        "imp": 128,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.69,
+        "leads": 0,
+        "imp": 52,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.41,
+        "leads": 1,
+        "imp": 23,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "65+",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "18-24",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 37,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "25-34",
+        "spend": 1.12,
+        "leads": 0,
+        "imp": 190,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "35-44",
+        "spend": 1.09,
+        "leads": 0,
+        "imp": 105,
+        "cliques": 4,
+        "lpv": 4
+      },
+      {
+        "date": "2026-03-27",
+        "age": "45-54",
+        "spend": 0.74,
+        "leads": 1,
+        "imp": 41,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "55-64",
+        "spend": 0.17,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "18-24",
+        "spend": 0.34,
+        "leads": 0,
+        "imp": 87,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "25-34",
+        "spend": 1.66,
+        "leads": 0,
+        "imp": 330,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-28",
+        "age": "35-44",
+        "spend": 1.26,
+        "leads": 1,
+        "imp": 187,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-28",
+        "age": "45-54",
+        "spend": 0.69,
+        "leads": 0,
+        "imp": 85,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "55-64",
+        "spend": 0.29,
+        "leads": 1,
+        "imp": 21,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "65+",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "18-24",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 80,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "25-34",
+        "spend": 1.18,
+        "leads": 0,
+        "imp": 249,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-29",
+        "age": "35-44",
+        "spend": 1.29,
+        "leads": 0,
+        "imp": 152,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "45-54",
+        "spend": 0.43,
+        "leads": 0,
+        "imp": 56,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "55-64",
+        "spend": 0.58,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 2,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 0.18,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 0.82,
+        "leads": 0,
+        "imp": 120,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-30",
+        "age": "35-44",
+        "spend": 0.96,
+        "leads": 1,
+        "imp": 93,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "45-54",
+        "spend": 0.62,
+        "leads": 0,
+        "imp": 43,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "55-64",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "65+",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248563903410002",
+    "key": "ad6",
+    "badge": "TESTE",
+    "badgeClass": "by",
+    "status": "OFF",
+    "name": "[NBP01VD]",
+    "shortName": "[NBP01VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQK31ju01a3yY0lxvyrLyIk9Wbqg18_zOQde05BTbVoDZGc1hoJYO_0WrHtLxrAizY3kWGJXA0tguayEhmSOffu8y4-WmM4GbP02SNgY0oqMOtwGWdeM7lEVZQWSqOzW6WJ6-QRX4fXlm9YNmseeqYRbUkojFd39XyiNORpN0ZBFiXd0-3nvfLgm61c0-07WXG-TgEVU7VlMwYGtuVnPtuw8CQjC9FnUFo-ctYamt1dHw3uy5W8tCETSjkb_ZiZCY75wstwAEHzDhpl1hSTu3DmEUZglJFy_Qq-eGa6JKFzHGnJZ7irVRc0rKqUXyvxKto0gFDzdJDDWOyZQ50CbHlYecmAIj8_FV-G1OR4Z0e6AXsf3tnmfoUZY5ZQRZIbKmjomA6e05o1N1ujd1KDgLhdTEM97wVltUZnSfKNhn0o28-2cwAgNyKlB8CwEaT5L3Zo&t=AQIYCR_ukJfizDrXhw4",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-2.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwGQ12px&_nc_oc=AdpkG3O81KbQG9HIq9IcNJQsw6dLukci8PTrsQ05atukCwGVDekGKwP3Tk5suIcLvIQ&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_tpa=Q5bMBQH_KUciquxxFMSplgrw3U1fUH2e25fLRXBqhA3c2XbZoye_HZ7NNma6_eAtJiAoOgRKQmq-xpmdzQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1ngmDh_bPZlPId4moV-cDzj3tblvsMuPWRKXgx8rIHVQ&oe=69E2C431",
+    "total": {
+      "spend": 11.36,
+      "leads": 2,
+      "imp": 888,
+      "cliques": 16,
+      "lpv": 13
+    },
+    "by_age": [
+      {
+        "spend": 0.56,
+        "leads": 0,
+        "imp": 124,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 2.15,
+        "leads": 0,
+        "imp": 309,
+        "cliques": 2,
+        "lpv": 3,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.74,
+        "leads": 0,
+        "imp": 206,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "35–44"
+      },
+      {
+        "spend": 3.67,
+        "leads": 2,
+        "imp": 161,
+        "cliques": 5,
+        "lpv": 4,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.59,
+        "leads": 0,
+        "imp": 58,
+        "cliques": 4,
+        "lpv": 3,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.65,
+        "leads": 0,
+        "imp": 30,
+        "cliques": 3,
+        "lpv": 2,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.3,
+        "leads": 0,
+        "imp": 59,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 0.62,
+        "leads": 0,
+        "imp": 121,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 1.29,
+        "leads": 0,
+        "imp": 90,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.86,
+        "leads": 1,
+        "imp": 54,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.98,
+        "leads": 0,
+        "imp": 37,
+        "cliques": 4,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-26",
+        "age": "65+",
+        "spend": 0.5,
+        "leads": 0,
+        "imp": 23,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "18-24",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 37,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "25-34",
+        "spend": 0.79,
+        "leads": 0,
+        "imp": 98,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "35-44",
+        "spend": 1.07,
+        "leads": 0,
+        "imp": 72,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "45-54",
+        "spend": 1.5,
+        "leads": 1,
+        "imp": 57,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-27",
+        "age": "55-64",
+        "spend": 0.37,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "65+",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "18-24",
+        "spend": 0.15,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "25-34",
+        "spend": 0.74,
+        "leads": 0,
+        "imp": 90,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "35-44",
+        "spend": 0.38,
+        "leads": 0,
+        "imp": 44,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "45-54",
+        "spend": 1.31,
+        "leads": 0,
+        "imp": 50,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "55-64",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "65+",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 1,
+        "lpv": 1
+      }
+    ]
+  },
+  {
+    "id": "120249134090730002",
+    "key": "ad7",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "status": "OFF",
+    "name": "[NBP01VD]",
+    "shortName": "[NBP01VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIVSr-1VIVME1qYvEPUCgWqo6KLlYqWxUDGktZsFU2Oe1AqXBFwjbPsAH7NhaIHoTKMazAxKqWvLYFI2Gdr4BaSQoWVk1kFO61ssQyrcD5ZkPFXqHtruBr8mr81Nt_u32VPfbaZP8E9Bawp_pWeFrafngcmSzbeiacmhNOPKZL0qKi5WX8oSPD-lB0oBzKKkgKXkLQFP2CTByLbJuEBc4z2kve3L6kyr33wQJwN1pdJM3jrCBRVFrldh6ujsbKoRA_mOck_S1vpxJitZVYzFayxhCQBvlw-qfl2g80M8qwCqf2gRHbaJ1U51euzgko8oM9lFCZdNg8P-D38_Ppdq1lfp3uTPCM-l7vgN_VIh-bdr7RqNBdGQ7kx3E_wNtNzwkOQd_zpHwIFiIrXsdP33XOYhkhFt4ZCbiQlJxUhfdRx4A05Rq0buE8hcQntIsRa2s0&t=AQLXg12YpRFVs3_G8Es",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-2.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwGQ12px&_nc_oc=AdpkG3O81KbQG9HIq9IcNJQsw6dLukci8PTrsQ05atukCwGVDekGKwP3Tk5suIcLvIQ&_nc_zt=23&_nc_ht=scontent-hkg1-2.xx&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_tpa=Q5bMBQH_KUciquxxFMSplgrw3U1fUH2e25fLRXBqhA3c2XbZoye_HZ7NNma6_eAtJiAoOgRKQmq-xpmdzQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1ngmDh_bPZlPId4moV-cDzj3tblvsMuPWRKXgx8rIHVQ&oe=69E2C431",
+    "total": {
+      "spend": 10.03,
+      "leads": 0,
+      "imp": 938,
+      "cliques": 7,
+      "lpv": 3
+    },
+    "by_age": [
+      {
+        "spend": 0.65,
+        "leads": 0,
+        "imp": 161,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 1.87,
+        "leads": 0,
+        "imp": 296,
         "cliques": 0,
         "lpv": 0,
         "age": "25–34"
       },
       {
-        "spend": 2.14,
+        "spend": 2.26,
         "leads": 0,
-        "imp": 209,
+        "imp": 224,
         "cliques": 3,
         "lpv": 1,
         "age": "35–44"
       },
       {
-        "spend": 2.55,
+        "spend": 2.67,
         "leads": 0,
-        "imp": 129,
+        "imp": 136,
         "cliques": 1,
         "lpv": 0,
         "age": "45–54"
       },
       {
-        "spend": 1.66,
+        "spend": 1.71,
         "leads": 0,
-        "imp": 73,
+        "imp": 79,
         "cliques": 0,
         "lpv": 0,
         "age": "55–64"
@@ -623,63 +3763,254 @@ const ADS = [
         "lpv": 1,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "18-24",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "45-54",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 0.45,
+        "leads": 0,
+        "imp": 116,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 1.29,
+        "leads": 0,
+        "imp": 211,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 1.62,
+        "leads": 0,
+        "imp": 154,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 1.94,
+        "leads": 0,
+        "imp": 86,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 1.03,
+        "leads": 0,
+        "imp": 62,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 0.86,
+        "leads": 0,
+        "imp": 38,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 31,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 0.39,
+        "leads": 0,
+        "imp": 48,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.5,
+        "leads": 0,
+        "imp": 52,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.58,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.63,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      }
     ]
   },
   {
     "id": "120249134075240002",
-    "key": "ad4",
+    "key": "ad8",
     "badge": "NOVO",
     "badgeClass": "bn",
     "status": "OFF",
     "name": "[NBP03VD]",
     "shortName": "[NBP03VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKliVjxSNi4dOJ-KmxWm-17Kvq4h74c3Xtr_7xhXW6kket-1Tnokx_MqBLgIdviB5r-4BzBCpenBjR54equTJcFSdPZhUSqyEA3dVVZ-8XWZOhCC4KPQSIAGse71aXt32oDQI_hxuOqezRBaZc-9e_qD8NMGmBDVwUb4hqjrKSwQug7LxOcnm1IAbeAVMLjlUfT0TFtwvYVMFc7Nst-ZxAEI7xSOn4p8frg4qhRGlKKiiT-J2iCsXe4mUcOoSrBuzNJzCALkTqHfl4zd5T2cUdH-sjpsQwHIZ7Ro6VVX4lw6V4aUhRSbQdlspEMKJfOgctaUmb05OOTt93bDL5gjU4aP1CcrluGFGU5ba8n_J2s67_qOJcrtru1dn0clkCYWQauqmM0TKvtEIe5V_8T7RImlGQvPXS6wwij7xkqeaQQ3pso_gzu4obmyMwKvBMFuUU&t=AQIp1vp-zM3H_yjYzDc",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQL3rwDi-nin4TiwBKVBYjlAuna6R1ja4Jcb5vmkNMaQOfvC_Lvf5D9mkIADj0E8leBqdQV2kBOJcdpa26deGNxhuk9NLJWfqBcbW9WDd0djfG11ulCyJ3XWQAaFRpD5F6ygvqaP9Uouq92HiF9Q9ll7JF4tisTnXdTZcwlRxaKsarJ5uHYSOKMtrFO2x4b3SCpLufR5pBhO7_TT7AsUvNV6AARRDaqZMOh_u0EcKuS20_r5WVYb10qUqXxJnXxYOM5RaWeY_FjpP9ryfxLIqn8EHN6PkFIbHktKZFqZ3hLCcZHlTB_Z-gfBxWxhz9z-lJhsZOY-mFNfiYB9Zht8g6Tc-eo8fhu-Mf0GgaXgvlj-mkf-FLf5nSf6_YipjiLpx3VJb7860GVddn7EkQYuZTP8ifVMUrQGfn9LQf6ktPdGBL0GEuXACFIiG4rGOpMbQ5A&t=AQK8Brw2qGuoEroyVL0",
     "previewType": "fb",
-    "thumb": "https://scontent-iad3-2.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwEWomZ_&_nc_oc=Adp7LpPvjY0DE9Cu6YZ0C6q7BFZQxTYOyiGt5hab8PT0_5RHKW3ME0mx5hXm9DjYd2g&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_tpa=Q5bMBQGaWZfux9yK26vz_ICMqcFv1cF5s4NetHIv7HSqQ0EwvFwjZcMbfN-z7YwOK4lfWh1N0bZI5GhrLw&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0FVimL3d1cJ_sr6cD_KuvurzhO2iLss_9T3L1Ne_M9Cg&oe=69E2ADFD",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwHwodcV&_nc_oc=AdrOrQFSeWLF2c2PlKx0LWbln4CvOorB22BBxQZTwQ9sqkevotUssiEo6-hzWBj_jUM&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_tpa=Q5bMBQH4aHiKXv--8AwgmjCsejY0_7ult_3ZxFBlF7iR8fyKa2avbQSmOMlpDd0oIed08WmrBx9xaby6sQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3gog2cbqG9m3_-1_GOLlRJGqSYTzyKrMmoFfuCfXQrnA&oe=69E2ADFD",
     "total": {
-      "spend": 9.08,
+      "spend": 9.68,
       "leads": 0,
-      "imp": 1646,
+      "imp": 1720,
       "cliques": 21,
       "lpv": 13
     },
     "by_age": [
       {
-        "spend": 0.63,
+        "spend": 0.66,
         "leads": 0,
-        "imp": 211,
+        "imp": 223,
         "cliques": 1,
         "lpv": 0,
         "age": "18–24"
       },
       {
-        "spend": 1.8,
+        "spend": 2.08,
         "leads": 0,
-        "imp": 516,
+        "imp": 551,
         "cliques": 1,
         "lpv": 1,
         "age": "25–34"
       },
       {
-        "spend": 2.38,
+        "spend": 2.48,
         "leads": 0,
-        "imp": 351,
+        "imp": 369,
         "cliques": 6,
         "lpv": 2,
         "age": "35–44"
       },
       {
-        "spend": 1.91,
+        "spend": 2.08,
         "leads": 0,
-        "imp": 235,
+        "imp": 243,
         "cliques": 3,
         "lpv": 3,
         "age": "45–54"
       },
       {
-        "spend": 1.06,
+        "spend": 1.08,
         "leads": 0,
-        "imp": 164,
+        "imp": 165,
         "cliques": 2,
         "lpv": 1,
         "age": "55–64"
@@ -692,23 +4023,635 @@ const ADS = [
         "lpv": 6,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-03",
+        "age": "18-24",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 0.28,
+        "leads": 0,
+        "imp": 35,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 18,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "45-54",
+        "spend": 0.17,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "18-24",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "25-34",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "35-44",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "45-54",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-08",
+        "age": "55-64",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "18-24",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 191,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "25-34",
+        "spend": 1.46,
+        "leads": 0,
+        "imp": 442,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-09",
+        "age": "35-44",
+        "spend": 1.9,
+        "leads": 0,
+        "imp": 295,
+        "cliques": 5,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-09",
+        "age": "45-54",
+        "spend": 1.57,
+        "leads": 0,
+        "imp": 203,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "55-64",
+        "spend": 0.64,
+        "leads": 0,
+        "imp": 146,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-09",
+        "age": "65+",
+        "spend": 1.23,
+        "leads": 0,
+        "imp": 161,
+        "cliques": 8,
+        "lpv": 6
+      },
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 67,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.47,
+        "leads": 0,
+        "imp": 54,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 31,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.41,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248555595430002",
+    "key": "ad9",
+    "badge": "TESTE",
+    "badgeClass": "by",
+    "status": "OFF",
+    "name": "[MDL1]",
+    "shortName": "[MDL1]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKlMfv4WkqsJ7SpVHvjq-oBdwylM_f15Uh4QTAvbjCb0tXBuEf5VzID2YhfpXlUi63LrLfN3zOT3ZvU1VFjH0QetZWumY_IZl8caq_tR-M3gLWw1HOJpuLsRzC_ZW_LZb_da7PVouUHakJLZ3lkWFLTwqxil4g1QJOrl4vxUxKcyobSfHwBhzrUGJz8RgJ7W0QG7DqeORPhJCHmNrHYrheqCpB8xD9wgcS13TX3rUfbfM8doW1cNut9-J5eIYxmWTyjPTSyVtU8yNFvdfIjUb_gMf4MEx8RNBBISzHN6N3rhOaeMwUHhxbNGQKY8vNgzS2Nw_gqHppm2cuDbrEvNwD0kzepBaJQEPgaheK4rufGGOj404gu2m5crCrw5uwsnV2VRS70ApQg4RyXkqr59OMZAHOpZSrDcZAWAwZxudp2ryY8K5VoIkt4nUMkxo0QrAc&t=AQISOAeTAT5b1z5XZzw",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/12389385725524503256?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJVSxrmPrrOwG5zWNqQmyNcAcOXtBxbWBLJ_YCu2O5FL3z3XMI0aLYICdBcidPLR6Fv_GyIDCwmpXzIKu9_U-4cj8GahO3XE2eJL4gNR8pfuxMe0JhvhNlSNqIKftiCIM8tT7Nn_H4QYIvTVORn3kBA&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=AdrwZuyQYOTDzhpcqdROtYOp3Q825wzA2NhOd7tcRL58nZ5i501cEnAlSsPznIHqeb0&ccb=13-1&oh=06_Q3--AVswdAXAxSeF2O-sdiAPvpv7znLEWBylYal5pSYcXY4m&oe=69DEB466&_nc_sid=58080a",
+    "total": {
+      "spend": 9.64,
+      "leads": 2,
+      "imp": 1021,
+      "cliques": 16,
+      "lpv": 12
+    },
+    "by_age": [
+      {
+        "spend": 0.6,
+        "leads": 0,
+        "imp": 99,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "18–24"
+      },
+      {
+        "spend": 3.0,
+        "leads": 1,
+        "imp": 456,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "25–34"
+      },
+      {
+        "spend": 2.62,
+        "leads": 1,
+        "imp": 268,
+        "cliques": 8,
+        "lpv": 5,
+        "age": "35–44"
+      },
+      {
+        "spend": 2.09,
+        "leads": 0,
+        "imp": 136,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "45–54"
+      },
+      {
+        "spend": 1.1,
+        "leads": 0,
+        "imp": 44,
+        "cliques": 1,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 18,
+        "cliques": 2,
+        "lpv": 2,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 38,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 0.86,
+        "leads": 0,
+        "imp": 141,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 0.74,
+        "leads": 1,
+        "imp": 72,
+        "cliques": 4,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.47,
+        "leads": 0,
+        "imp": 42,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.51,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-26",
+        "age": "65+",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "18-24",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "25-34",
+        "spend": 0.73,
+        "leads": 1,
+        "imp": 104,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "35-44",
+        "spend": 0.56,
+        "leads": 0,
+        "imp": 67,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-27",
+        "age": "45-54",
+        "spend": 0.65,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "55-64",
+        "spend": 0.16,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-27",
+        "age": "65+",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "18-24",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "25-34",
+        "spend": 0.88,
+        "leads": 0,
+        "imp": 120,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "35-44",
+        "spend": 0.86,
+        "leads": 0,
+        "imp": 80,
+        "cliques": 2,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-28",
+        "age": "45-54",
+        "spend": 0.55,
+        "leads": 0,
+        "imp": 30,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-28",
+        "age": "55-64",
+        "spend": 0.14,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-28",
+        "age": "65+",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-29",
+        "age": "18-24",
+        "spend": 0.15,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-29",
+        "age": "25-34",
+        "spend": 0.53,
+        "leads": 0,
+        "imp": 91,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-29",
+        "age": "35-44",
+        "spend": 0.46,
+        "leads": 0,
+        "imp": 49,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "45-54",
+        "spend": 0.42,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "55-64",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248861507380002",
+    "key": "ad10",
+    "badge": "TESTE",
+    "badgeClass": "by",
+    "status": "OFF",
+    "name": "[03 NOVA LEVA]",
+    "shortName": "[03 NOVA LEVA]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIyrMgVGDsVG53-4y4W--i5QqNY-Lt1_-3XThk0RHNtFunSp0ND8Q1-UprpKLBy6254bvO_xi1UHGHCYDbZBjck7ol21H_QtI8rXRUFS35lNIav3WC7u7KfgqbFCVCFkbifH34lSgVnF2_UfPemZkgml1syPga7-ag0HdgWzOHGmxb2V0ohCUT3j_470TrVc3nhXgKkPx3UUBFbFuEoZ5b56weywB0F_M7X-zGbN3Vq7e1NNwVWkCrJz6A53cIOxqf0GUyNvDtyJnuMOl5w6dJMhaMH1Ok29R2pevKoGpkuP5pE31yP0yUuLs5GB65MGJ3y_BlSvXThyhup9U0VSJuq2yOGeK4b_MUDnow391_eXFx7veFUv3j8kwYzfB22N6BAB6wuiBMkLgxb87H2BzxhMnEt3G6d28RHK1beOhUIixzS6XSS8a3wA_C0fd6B0_E&t=AQKnLBiTfSkhBW7qWjk",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/16002558696814375636?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKFs7Ah8vXg5Iy9cht2gAcMvFcmGpebsZ03xYhy81T9Zi-BK42zc7eO6J3UEwoiPCiWE3A0nMRYG9bpZYxlS2h-pG07vSKP2i3f-BYz-iiD6yoW9VBfu61jISrnfrle-zX8hzRuBUOxRmcC_FleG1Ob&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=-WFurdNNo6tQJxnLCzUAtA&_nc_oc=AdqumBNiDrkfdxcgLIGavm6qUnTbo6q9I0JCs4hBedlb4zDco2fTSMYLluU8VXV5Eu8&ccb=13-1&oh=06_Q3--AZDazRFI88GdeQjXvSvU0_UgAgKyzsMhpmsNv_M2AERH&oe=69DEC647&_nc_sid=58080a",
+    "total": {
+      "spend": 8.6,
+      "leads": 2,
+      "imp": 677,
+      "cliques": 18,
+      "lpv": 11
+    },
+    "by_age": [
+      {
+        "spend": 1.19,
+        "leads": 0,
+        "imp": 94,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 3.09,
+        "leads": 1,
+        "imp": 290,
+        "cliques": 6,
+        "lpv": 3,
+        "age": "25–34"
+      },
+      {
+        "spend": 1.25,
+        "leads": 0,
+        "imp": 120,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 2.43,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 3,
+        "lpv": 2,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.35,
+        "leads": 1,
+        "imp": 50,
+        "cliques": 5,
+        "lpv": 4,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 58,
+        "cliques": 3,
+        "lpv": 2,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 1.19,
+        "leads": 0,
+        "imp": 94,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 3.09,
+        "leads": 1,
+        "imp": 290,
+        "cliques": 6,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 1.25,
+        "leads": 0,
+        "imp": 120,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 2.43,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.35,
+        "leads": 1,
+        "imp": 50,
+        "cliques": 5,
+        "lpv": 4
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 58,
+        "cliques": 3,
+        "lpv": 2
+      }
     ]
   },
   {
     "id": "120249404788430002",
-    "key": "ad5",
+    "key": "ad11",
     "badge": "REVISAR",
     "badgeClass": "br",
     "status": "OFF",
     "name": "[MDL3]",
     "shortName": "[MDL3]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQK2bL-K33Cgv4RDaa5oqPhqjga4zPSrllWR95-IkMmv7LmAnYbPSNZHvGrTLEQayvSO3Yczm4aqjWkiMctIKdO6YcqUH2W-HwDqEyzfgEW7BfSp3pPcVjkew0UgPwXeOJTUXulXHJWdjbtmTKWJ_954TsWi8aSLMq3xY7XRcVFhfIwfOZbne7ddGD4yOVMKTv95ncN9cA9_dGFnq24cCtdUVxABaBn95jSX9w0aCX2WaIDq5UfRDZF_ch0FgwufCPxf-s3XNKHk9XnuYK2EMTcjE9igqg5sAcOvNNm1oafoqhhUu4yc2VTL0tKb5AkhIhxkZtxNqnv9CvDgKzSfCqBL9NlcdNt9aeCtgcEkZ47zQY2Zp89Gd8PmKP9BjxdQwj1Q4WZgEbDzI-oFcipLQnpjGM0krIShASmApXIVdBwbrkTTybSxTSMDBjRLiV0n_m8&t=AQJ-YHXly1KF5LZF06g",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJg_MVf_27UxhbDUu1IfqUR8pzh4Q-vWfejZwxLtZCcgyHfSi153yz9gTJajugbgg-zpQO4gdyWTNi99FhTfFAfvUqFBNK0Yf6o0ahlfz6AUqeN9dLZF-AVGlYpBDjRqJFqOw624-wW7qWq_khGwnbVO7fWmUkkWFJwBVKaeQ6yfmMG2QoSEAWzBdmbfR5i5fBzXKaEde3e9PwAkSqB-a434cbvkf7h3yjPS6V34dTXoEplhdbLgyef24q3hHkdEi-3RQ5AikgR9mpqqpCYHtmey8IKrrmxHjL1Z5SWtfJPdxotdjkgaS0lH8jrCelBy-We4LtFH6eIkAiKDjwmVz5px9ZbOTgWlXqvVqhBgyimUzi_2ZBIp8AU4ShkP0S5c_FWsR6TqoHmD7m9ZRqFBi2oKNu5Vly9LRU76E2PsGDNlz6NpRonbzE_vU42v7LvOZ8&t=AQKNgG8jUwyaFfu956I",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=RdwVGTw1NMBvtkLngc79Gg&_nc_oc=AdqS3fFFhjCvU0E8PzR85ChblMbaBpukTvhAsoy07-LJSIbQCk_Sk50wiA2qwje1jFM&ccb=13-1&oh=06_Q3--ActpfNoRf-q3ChrKavKb-63S1SNP69IHKWo_NjuQi7Vs&oe=69DEB2D0&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=zCQ2Vz4tO8YmZJSVlS0mkA&_nc_oc=AdpA9BruCTkYfSJwzbbWg3AHHB6FeQ6WbaQqWQgUM7Nwei1-72nglrbIlIiPrSvcSYQ&ccb=13-1&oh=06_Q3--AcOC35vXLGwR8ALGI9HGTij-qP007bDnqTDmNzOjiDiA&oe=69DEEB10&_nc_sid=58080a",
     "total": {
       "spend": 8.32,
       "leads": 1,
-      "imp": 1172,
+      "imp": 1173,
       "cliques": 7,
       "lpv": 4
     },
@@ -724,7 +4667,7 @@ const ADS = [
       {
         "spend": 4.1,
         "leads": 1,
-        "imp": 635,
+        "imp": 636,
         "cliques": 4,
         "lpv": 2,
         "age": "25–34"
@@ -761,19 +4704,219 @@ const ADS = [
         "lpv": 0,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.2,
+        "leads": 0,
+        "imp": 49,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 1.53,
+        "leads": 1,
+        "imp": 267,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.83,
+        "leads": 0,
+        "imp": 109,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.46,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 45,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 1.17,
+        "leads": 0,
+        "imp": 147,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 79,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "65+",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 56,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 1.09,
+        "leads": 0,
+        "imp": 176,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 0.52,
+        "leads": 0,
+        "imp": 78,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 0.31,
+        "leads": 0,
+        "imp": 46,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 31,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 0.22,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0
+      }
     ]
   },
   {
     "id": "120249404792810002",
-    "key": "ad6",
+    "key": "ad12",
     "badge": "REVISAR",
     "badgeClass": "br",
     "status": "OFF",
     "name": "[AD03]",
     "shortName": "[AD03]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQK0TpLbDWk5iSPtp36bWQ24oYx4nZb1dflXzFtI50oyItyxbhtLO_3rRhxeqFze6W-EfwMzoPNCOTA_IQSnY_XKrIMYw6bXrV4OVV3Wi0r8SgBMMeO8Nl0q-K6pJymqB79TH1IciTkQegiJRPdwls0EYiqADlXHxdGeQlou_2bskFDobIfR85d2W1zLFG-eTwWDsvw6vUIDe0sxiJi1APSHTA5IqUO1-2ovNecPcZbHl4uY06YCs8ffE2L4NJ7UH1st4kpL_yYvsux28DKsfAy9P55NbtvnDrdW_0zBY477BSeodd_I03sy1E-gF_CbtOGxshlDxBV0FSQ9AQX-QHpKauKu5VROabtE7feG8HjQPSxgk-gZ7YLxO6vU4vjk1ZimtLWnCBY0sBjbiOCmUKlmQHp147Dw4a1kGVdhOpgmF-rd2FdwyvN8oD7YNr0RCms&t=AQLLTlQzVDv9d7XY7TY",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLlVfOT-84ljs0YIVimKfhOLLDYeVgDHcMJcvTiFOaA8oP_zogzEM9_sBVTolkpDak4N0HQcPu9Dkc8KD2CHcMgSpIMShiCIUUZmFFFNfyFElu1UsjyoVV0tyncVvc3ESUSJuVvCi4Lhnt26w6IYCen9vxWnC9xpYpMiX0i027mwo-94GkQ7puBdCpwyD-rQRhW1sqhAIl1beIgVu6_psah0bsrJtCZR5mS3e1mg3DDXNDYlZpqyPIeepqmYQCgQnaudKFqCtd4XOs61toKIy3zFxXLHEdgEdm5oNL6Uzqvik0V_XgV6iNFNCZ5pw-7fHVkBHIOLWpNt1Q7fwkJ9wxVuU69Vpw8DfcS_HAsvKx9eoZX6ydHWq_QCx-W0Kc60BeE-zfpMR8_4LBFeHb9hOb52AEzlhLUlqn5meO9rBQnJao4SbAi8aV4gfduUtxgSk8&t=AQKLCTaoItRk1aTx8kI",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=RdwVGTw1NMBvtkLngc79Gg&_nc_oc=AdprNY5vyG2hTHWERc8uwJskXBldNVx_rqERHpidXf9JUAl2ShlcK68QdkOFabgLK3c&ccb=13-1&oh=06_Q3--AQbU3d3SE0P6CNJ4b32qrRSUCe5NZnF4Xq0gAKBwKh-r&oe=69DEBF58&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=zCQ2Vz4tO8YmZJSVlS0mkA&_nc_oc=AdoPT7kUolLlMM4uFAT6Dvg2yUEA8Sg-rvQP-GxI_ZVQgtDtn2CogCRQTrrzVjftpdU&ccb=13-1&oh=06_Q3--AekdGuAjf-RY8K2zdD8LqNaBA33hPvcsG_sewvA25Emu&oe=69DEBF58&_nc_sid=58080a",
     "total": {
       "spend": 6.92,
       "leads": 1,
@@ -830,157 +4973,380 @@ const ADS = [
         "lpv": 0,
         "age": "65+"
       }
-    ]
-  },
-  {
-    "id": "120248547611830002",
-    "key": "ad7",
-    "badge": "NOVO",
-    "badgeClass": "bn",
-    "status": "OFF",
-    "name": "[AD02]",
-    "shortName": "[AD02]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQI5VENfS3mdxRuo8T009gWTJPhXkcNmwnXvmMtFBQA6Uviuch0oSxwzZhaEiEc0OVlqw333ZANBQlI8lKmCbigW84MS6NXxFPXtrvnZvFG5rHXhbXLCpDqQJo1NLZchDXNV6WfELKngHe6ndq_tTRJahlahujPuNbkl3pBgtP_B6MbBfmRPYA_fQgCi8vZrvfqxHf37tfuirM5yPYqhciRv1TbS6bQhBc8eCoqeRnvLehGNjZKZbbe47fj6CUJHfuXh9I7uqozpwKfvQBQFygCBWNxOvFhbDyduJ-_f6W_Db_oZqTpojLQDDluZZ-282cCqY-XQfmlJ74aneBrtjrTKM1zrPRK7DQRbSzM104-Sst8tZUCjGm8oJ6l-FG5ltd6bTj0ZQq12AzB9ycGk6qclWDbwceQaqIH7mPzU0lY0aLnJ46Fk-Di8MDszSjchoQM&t=AQKNRItd6WnzOzO_m8E",
-    "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_oc=AdqwJgpWd-fUYnvccOjHyrVBWBhDd-gcZw_7KyX8816FpokRIOo2RTEwFjOw2F7vlec&ccb=13-1&oh=06_Q3--AZAX-Zxf36HEfQJtdYR1ShB4Olbgnfu0rAbQtNO7OSo7&oe=69DEC155&_nc_sid=58080a",
-    "total": {
-      "spend": 5.57,
-      "leads": 0,
-      "imp": 956,
-      "cliques": 4,
-      "lpv": 3
-    },
-    "by_age": [
+    ],
+    "raw": [
       {
-        "spend": 0.34,
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.33,
         "leads": 0,
-        "imp": 127,
-        "cliques": 1,
-        "lpv": 1,
-        "age": "18–24"
+        "imp": 78,
+        "cliques": 2,
+        "lpv": 2
       },
       {
-        "spend": 1.72,
-        "leads": 0,
-        "imp": 366,
-        "cliques": 1,
-        "lpv": 1,
-        "age": "25–34"
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 1.66,
+        "leads": 1,
+        "imp": 332,
+        "cliques": 4,
+        "lpv": 5
       },
       {
-        "spend": 1.85,
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 1.54,
         "leads": 0,
-        "imp": 184,
-        "cliques": 1,
-        "lpv": 0,
-        "age": "35–44"
-      },
-      {
-        "spend": 0.83,
-        "leads": 0,
-        "imp": 113,
+        "imp": 209,
         "cliques": 0,
-        "lpv": 0,
-        "age": "45–54"
+        "lpv": 0
       },
       {
-        "spend": 0.44,
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.52,
         "leads": 0,
-        "imp": 82,
-        "cliques": 1,
-        "lpv": 1,
-        "age": "55–64"
+        "imp": 48,
+        "cliques": 2,
+        "lpv": 1
       },
       {
-        "spend": 0.39,
+        "date": "2026-04-10",
+        "age": "55-64",
+        "spend": 0.11,
         "leads": 0,
-        "imp": 84,
+        "imp": 8,
         "cliques": 0,
-        "lpv": 0,
-        "age": "65+"
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 45,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 1.01,
+        "leads": 0,
+        "imp": 175,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 0.76,
+        "leads": 0,
+        "imp": 101,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 0.61,
+        "leads": 0,
+        "imp": 42,
+        "cliques": 0,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
       }
     ]
   },
   {
-    "id": "120248802155360002",
-    "key": "ad8",
-    "badge": "NOVO",
-    "badgeClass": "bn",
+    "id": "120248555591920002",
+    "key": "ad13",
+    "badge": "TESTE",
+    "badgeClass": "by",
     "status": "OFF",
-    "name": "[MDL3]",
-    "shortName": "[MDL3]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLAxeM0DxWII4bQP1rLXsTXATTdYdW0NqY__4fteVYB0LnavKQL4zSmv1v5m1vBrOmAkMFkf3Ji9Vz4xByPiCkOiELrS9FpQn7wy4WQBTxMVjhVP2TQE4uIwgkSQIkS_e1JVSo7NRoCMH4NzS1O9CW-Dg0OIxceEqXt3A7aKCLfsSGk35Pk_Lz0GMNM0ez1l75n5Wjw1f3FTpVXnO4ap7ILYkYaT8m7jGPAE2qBQv_AdEOWu9Gky5XdufYmmHbuBveEs3FIDJGV4f2BiPYGEdAu_e6lT6lQkI6Vm0uEGMn8o2RDAKJeXW-s2ajFPWx1CkcMd5gj3JB00J8jdMnr0c-m3pMcvGNgROaT67lOtMKjapt08p1wMym_5X2mOy6IUWAS6W_Iq2HDfFLrUIEq7JdmJzX9elqVZQ_AwExseHXfR8DM4FJZbmrcYDKTAbWNxyU&t=AQLjZ4iY5DgnlBX1Tk0",
+    "name": "[MDL2]",
+    "shortName": "[MDL2]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKKlZS7r41dlYGdEBEjbP8lmAbEt4Eo9v2TqwFlsVYmf5GsCeaZbHfb8zxDwqnovKLGCi4rXcbTMfD6G_tXxiXLmT9-OFmp3gKFe0bBmAYhOPOlf_5iWvRthkuFIWUK3ZoRkC_7vNynlD6R9TI0giZ5lyOpaSv6seEq5aVMC03toTaHTJAPZ8tcT1oxTObHbN3BtTfagmUvbWMM7wD_XWb1nZhxYKG5dNMfw3bo269xPEohJvv9iJTABsmnKTwS-d4oRrTwSb0rUsZCeeIxCuDDvyDXyQ4vQMZacPzgTse1YsNjZrGH79kkRkN-3WQyE3yumdDEwe-16oP6f_RtWGqO9jm6HFCp9I-w9erePvnfS1tFtbcOT3HYGau-Gp8ea9ytlCNyyD5IXKB0kuX7eUf8jxIDaBJCop6pXaQ3oyiCZrOg7rlZ40P5FS6ZPjj9ohg&t=AQJEvcN1DmRcL5or-Mc",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=qqWcWD-gd-F4ePfcxkc3Eg&_nc_oc=AdqpCkVkSy2MWSOOGSV8LxIrSLzu2RUUuSV1FykxBQkdnJ4_fFtQu24czoFrkQBKRCc&ccb=13-1&oh=06_Q3--AdTaOoigzAP4Qs1EGRpO8vcjMJF653uE8Xw5PvBOBwsZ&oe=69DEB3E7&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/2625059912831818833?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQLUxtw5Cw_OS0NSu_A8PFLVt9a8RzcjpJWO82ktwDxLVpg18PTRk2Kv01OQPBnH8Kk5l4DgBYJPKe5FRrD1p73SxhOYJRj76YCJ4qGDzckhUn8Rgt2tmXv7slB-HEMRr6nzmKHD3BlEpmtfIOSnVCnE&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=Adp3a_2Yw_g1y6PQbO9i6A8EcKK3p7s6aBsfQ6S30UTpb1uzjwtaxkWmv-EzUplj6oc&ccb=13-1&oh=06_Q3--AUh9qJ-EEZMIv4OkDpCejgqUnfSsMR4Vm0ksK3nPF7MQ&oe=69DEE3D5&_nc_sid=58080a",
     "total": {
-      "spend": 5.48,
-      "leads": 0,
-      "imp": 766,
-      "cliques": 7,
-      "lpv": 6
+      "spend": 3.68,
+      "leads": 1,
+      "imp": 574,
+      "cliques": 24,
+      "lpv": 15
     },
     "by_age": [
       {
-        "spend": 0.88,
+        "spend": 0.3,
         "leads": 0,
-        "imp": 121,
-        "cliques": 1,
-        "lpv": 0,
+        "imp": 63,
+        "cliques": 2,
+        "lpv": 1,
         "age": "18–24"
       },
       {
-        "spend": 1.58,
-        "leads": 0,
-        "imp": 281,
-        "cliques": 2,
-        "lpv": 3,
+        "spend": 1.73,
+        "leads": 1,
+        "imp": 210,
+        "cliques": 6,
+        "lpv": 7,
         "age": "25–34"
       },
       {
-        "spend": 0.95,
+        "spend": 0.7,
         "leads": 0,
-        "imp": 163,
-        "cliques": 2,
+        "imp": 118,
+        "cliques": 3,
         "lpv": 2,
         "age": "35–44"
       },
       {
-        "spend": 1.54,
+        "spend": 0.42,
         "leads": 0,
-        "imp": 89,
-        "cliques": 0,
+        "imp": 65,
+        "cliques": 1,
         "lpv": 0,
         "age": "45–54"
       },
       {
-        "spend": 0.24,
+        "spend": 0.38,
         "leads": 0,
-        "imp": 62,
-        "cliques": 2,
-        "lpv": 1,
+        "imp": 39,
+        "cliques": 9,
+        "lpv": 4,
         "age": "55–64"
       },
       {
-        "spend": 0.29,
+        "spend": 0.15,
         "leads": 0,
-        "imp": 50,
-        "cliques": 0,
-        "lpv": 0,
+        "imp": 79,
+        "cliques": 3,
+        "lpv": 1,
         "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 5,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 5,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-29",
+        "age": "18-24",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "25-34",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "35-44",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-29",
+        "age": "65+",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 0.15,
+        "leads": 0,
+        "imp": 36,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 0.96,
+        "leads": 1,
+        "imp": 138,
+        "cliques": 3,
+        "lpv": 3
+      },
+      {
+        "date": "2026-03-30",
+        "age": "35-44",
+        "spend": 0.36,
+        "leads": 0,
+        "imp": 65,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-30",
+        "age": "45-54",
+        "spend": 0.35,
+        "leads": 0,
+        "imp": 33,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "55-64",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "65+",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 29,
+        "cliques": 2,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 0.74,
+        "leads": 0,
+        "imp": 62,
+        "cliques": 3,
+        "lpv": 4
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 0.3,
+        "leads": 0,
+        "imp": 48,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 31,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.26,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 3,
+        "lpv": 2
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 49,
+        "cliques": 0,
+        "lpv": 0
       }
     ]
   },
   {
     "id": "120249470568490002",
-    "key": "ad9",
+    "key": "ad14",
     "badge": "NOVO",
     "badgeClass": "bn",
     "status": "OFF",
     "name": "[NBP03VD] — Cópia",
     "shortName": "[NBP03VD] — Cópia",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKlMljLKkcGPiITpeTEUdI6hMPUeQ3rYAupaJtSHhX3WgVho8xWEcQUEwdmXrFxueX8kfBtX8PxyR-np9fvP0rfA7dnnNZdV0jWc6cFFg65MPYniqheNy-jBcRenm2Y58BMFpfebH0inAzg6l8QhH0v5ii3FRLQeFamzW5qV_9L5h-7UdLyQ5wGCYhKJ8Van_u-fXVtLk5Uea8bG8rAdNXjco6ktMcxpkZ9OebPv-HBSiAni5jcIACXF8N__gi-5_PUY5FeI2-dryRPy-i2nYMnFGwWnll6v3a7pUGiYzvBMzr-FBOr39ClHTStoRBzPm2S1g9kEB7NYkwAWN5UtNaTpOvv0NvLAjna-no3rfHobuOww6l7Y26RdliB7UxCYVMxA71iPjoT5QPyRz0tJ3NLsv42ClKJwN3MJzhw5elG4hTzLUb5oaRHtvw_6wGfuGE&t=AQJI52cVl_u_H-zSmO0",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKMDwT_wLL1kHLzbNHdI-jkQRwVJ3A2ab1QUtotdBoDtZshwswIUttHpLvM_5uZsJR9q4LLfVJRMVd9lxMsKQpkUIrmiK9Q7EQaxK3Zm4f1oXQIfRu0ATrr4OJ4GMKzpaVEpc2BzDqA4p_SApPPLQABJDJclY5JNP_xxcvAaLx_2gjEe7akV6s3sTsDRSBPDDcukpoaBqHs7M_iE7KmaBDYfA2QOg0gcEfVW1aFSUEXM3sA_Va6xM2k0Dcus2y3hOUFfo2WEhtxP75uJZnlU6sjUMeqT6At-d2-3mU1T_wC1agkp5fFbudoY2fDx1frxbIxQLAQJadTgvCzoouSw3A3Ju_QJUaZhjqr84w-VvsxLGkXKmLHp_n6dllvHQdnKba1rLry268KPiF8jHYsoctAuLPlJeeAyvO0PrEvRheCbFJLcLn47N8nW7BLd3neC7A&t=AQLT4KJVNZMPJBB0idg",
     "previewType": "fb",
-    "thumb": "https://scontent-iad3-2.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwEWomZ_&_nc_oc=Adp7LpPvjY0DE9Cu6YZ0C6q7BFZQxTYOyiGt5hab8PT0_5RHKW3ME0mx5hXm9DjYd2g&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=ANIILHsEAAAA&_nc_gid=RdwVGTw1NMBvtkLngc79Gg&_nc_tpa=Q5bMBQGaBA-XAkfGgtnucr-skShOoIzm6-DW13dlnDPmwPK0RNMF7yKOezZD_k2wylR-m0HmY40hRURJow&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3TTCawT4cQtCLqSUWnBCeTermFZTSe58zXN0jYc4HEkA&oe=69E2ADFD",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwHwodcV&_nc_oc=AdrOrQFSeWLF2c2PlKx0LWbln4CvOorB22BBxQZTwQ9sqkevotUssiEo6-hzWBj_jUM&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=zCQ2Vz4tO8YmZJSVlS0mkA&_nc_tpa=Q5bMBQHF9bHzGybf8FA-Nb_n1bw6Biari-J0TQUh0CUnJTNA6qOdlk-ELjZvSdoy9w5HqTSPKtYRFS2sFQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af22K-No1fJFwqjvJ0jY1EwXWGBeDnAuYjL6FH2iPm2-XA&oe=69E2ADFD",
     "total": {
       "spend": 2.12,
       "leads": 0,
@@ -1037,19 +5403,299 @@ const ADS = [
         "lpv": 0,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "55-64",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 0.05,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 35,
+        "cliques": 1,
+        "lpv": 2
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 39,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 0.34,
+        "leads": 0,
+        "imp": 29,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "55-64",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "65+",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 0.13,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 20,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 0.23,
+        "leads": 0,
+        "imp": 17,
+        "cliques": 1,
+        "lpv": 1
+      }
+    ]
+  },
+  {
+    "id": "120248861740200002",
+    "key": "ad15",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "status": "OFF",
+    "name": "[MDL2]",
+    "shortName": "[MDL2]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIALimPZhrwTWnP4JY0zYwb3aWhlPcv-ITvYCWNTrB6hgiFfoW5BCVrLn5sSMv5sNmJHPQ-p7b8edX8UluXHaLAKDtr3-jc-z0JrfkX99-XyhZIH79QSeJsZeLqpgO3Es-HLh7OZ-CmzD6dQG5k8PpFN9Oh8NxJocZNUHHPvPNFam9fA5kp8je6MulhVWY0YIrORq1iD3dx8DiXvVwnVx6DFODPC6Xnto_NGiChfkZpXUUcTn-cbi-rTZnnGbqzqHmxxKG78b2k69iV2BOn58wq8VHleETheKCWlIpE_uUpH8fQGQwQLb4-fp356yzPUy9drfLQA95BDJAibGNiZIY9SEyFgbx4vG4gzXT9IexdqvZxoNzcbyM0ZuIqu7EoBRp34hqtyUnxCjOYDhwtjg8IVafNeNUlJyQXejIup5xdHWmjiMZbFN6cL1czZRT5eiE&t=AQITqkvTCXiKfYuzDxM",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/2625059912831818833?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQLUxtw5Cw_OS0NSu_A8PFLVt9a8RzcjpJWO82ktwDxLVpg18PTRk2Kv01OQPBnH8Kk5l4DgBYJPKe5FRrD1p73SxhOYJRj76YCJ4qGDzckhUn8Rgt2tmXv7slB-HEMRr6nzmKHD3BlEpmtfIOSnVCnE&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=-WFurdNNo6tQJxnLCzUAtA&_nc_oc=Adp3a_2Yw_g1y6PQbO9i6A8EcKK3p7s6aBsfQ6S30UTpb1uzjwtaxkWmv-EzUplj6oc&ccb=13-1&oh=06_Q3--AV00dDP1TlnGdTmyRhcN5y6SBQkocA2l0bn5u1LkbWR_&oe=69DEE3D5&_nc_sid=58080a",
+    "total": {
+      "spend": 1.85,
+      "leads": 0,
+      "imp": 201,
+      "cliques": 8,
+      "lpv": 3
+    },
+    "by_age": [
+      {
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 20,
+        "cliques": 2,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.86,
+        "leads": 0,
+        "imp": 78,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.47,
+        "leads": 0,
+        "imp": 61,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.21,
+        "leads": 0,
+        "imp": 22,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 2,
+        "lpv": 1,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-30",
+        "age": "18-24",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-30",
+        "age": "25-34",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-31",
+        "age": "18-24",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 19,
+        "cliques": 2,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "25-34",
+        "spend": 0.86,
+        "leads": 0,
+        "imp": 77,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "35-44",
+        "spend": 0.47,
+        "leads": 0,
+        "imp": 60,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "45-54",
+        "spend": 0.21,
+        "leads": 0,
+        "imp": 22,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-31",
+        "age": "55-64",
+        "spend": 0.1,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-03-31",
+        "age": "65+",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 2,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      }
     ]
   },
   {
     "id": "120249404790490002",
-    "key": "ad10",
+    "key": "ad16",
     "badge": "NOVO",
     "badgeClass": "bn",
     "status": "OFF",
     "name": "[AD02]",
     "shortName": "[AD02]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQL7u_j_55s0jSOaiQg9IGrLstIeY5ML9tuakUbNaqtqVd-fVFujp2OHyXFz9s7bxil3yHapY4BuBfhLad_6iDlwWBsUVYUxlA_p6uLON10hC_quiyUg6SEazK3Dc4ju10lc2ZrPwl8w-ENYNJKW2vXdB8eTewSaNeS8qrzGavWuRR8JdS_4pg_oPTRFDmd2pKwJruw6D7emkMKZM90ZklOD6gKKrr7kfiMtSWzWBjfAXMrMIt2_3BazFJJC88_2vaAhJTU167dr_KuF_4aRpb8a8juZiM4vDGhDnG8AuWWsP3uOkkox8l_oVVDs4d2YAfIud68pX4hhVOBeM5If_aVCdPAvIfNtSanEjNl991UMbUr7_FgPCdlgrlUdq1N95cfF7rdlUahT6MFLfW6kJ3YREPegUBeHeXUOl52Guf9askD52KIfqo-6wss6wH_Uo_c&t=AQKMDcX4qF9erHbYX3I",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJ5UxcHy0bE0IbCyWTP_h2MOvzjca9_YhWHDOVudwpSFu9AGftaMDfBDBvIwGhQ5ftg3OlMQeOnK_tXD68dmZiwwrmNIAcbrnfpz6_b-5o9PcfzzM_TIB5sq_SpuUfZhURlUkBadhuV3-t72zDbsERpzVP6TMSN3fYQNF93NhU7jGoA5u64xxaVu9lm63xsWrqlsMdn9ncgvIUjM_EEFx23_eszVygUzsavnKpPFS3HuxaCGYRlE_JK9DR4su5pH9l-OsHKwTtx6tKjOFFMUmyxaBkRiexvjDINq7pfDA9cyu6Zx3pK4u7sjrdMp3moR9VuGlIz9IyfPMHF1owyqXfLcW9DlHlZuco1DFBf2_wQpaC-uH14AOVJCJpzKZJ5Ocxg7iIyjKDeudGTeLqOkzWT-JrcVpmo8N-dWi0vww1vh_BS8VtZE2H1mtKGylt6OKI&t=AQIdcBJL_5wiGD3TRp4",
     "previewType": "fb",
-    "thumb": "https://external-iad3-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=RdwVGTw1NMBvtkLngc79Gg&_nc_oc=AdqwJgpWd-fUYnvccOjHyrVBWBhDd-gcZw_7KyX8816FpokRIOo2RTEwFjOw2F7vlec&ccb=13-1&oh=06_Q3--AYWqFhzkm2XlYoHdU8W6FfUfsQv2RjZp-MSE3Z9UFW7K&oe=69DEC155&_nc_sid=58080a",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=zCQ2Vz4tO8YmZJSVlS0mkA&_nc_oc=Ado4pshUQvZRP8pv01BR-ry0ZltGwtJmmjtzkIW1R8PtmAUxlw61goK_xbVxq9-B04I&ccb=13-1&oh=06_Q3--ASC1fjMyKF0U7lirN7A0Ua7_QNJOJUUQOxZUk_N1Vdey&oe=69DEC155&_nc_sid=58080a",
     "total": {
       "spend": 1.45,
       "leads": 0,
@@ -1106,6 +5752,482 @@ const ADS = [
         "lpv": 0,
         "age": "65+"
       }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-10",
+        "age": "18-24",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 7,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "25-34",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "35-44",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 10,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "45-54",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-10",
+        "age": "65+",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "18-24",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "25-34",
+        "spend": 0.24,
+        "leads": 0,
+        "imp": 25,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "35-44",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 20,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-11",
+        "age": "45-54",
+        "spend": 0.06,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "18-24",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "25-34",
+        "spend": 0.33,
+        "leads": 0,
+        "imp": 29,
+        "cliques": 1,
+        "lpv": 1
+      },
+      {
+        "date": "2026-04-12",
+        "age": "35-44",
+        "spend": 0.08,
+        "leads": 0,
+        "imp": 16,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-12",
+        "age": "45-54",
+        "spend": 0.04,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "18-24",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 4,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "25-34",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 8,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "35-44",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-13",
+        "age": "45-54",
+        "spend": 0.07,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248912657580002",
+    "key": "ad17",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "status": "OFF",
+    "name": "[NBP03VD]",
+    "shortName": "[NBP03VD]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLjQA071rA41D7PyiqFQU8ZSsUL34RZUpKTJCy8bbSQtHT-DFuak_KopBUzrum6Au_o_I-2GEqp3PVb95WzUY-lbn0v90x8kwhG0DJNaw9tHLbjWRj2-pMQEJDKUzCXF1ziK0CC1vqh7Y6_FFnYrd_yZzNOwyWclGhXmbeBAygXGfzAHt1gRsyf8ldmmC5CnH_JZyZjsk6hNg0ZkdJdJujpDqvYrdJetCzYvkFBkgadlVs6ecTO94pi49-ngtx9_crv4OU0W3Oxjuig4j7gGaVPqqYcRb3PvdWy6VjyYZFstM3ciFxRJ5VMrc9ufHPmpqnaAJbokzUXjbu7ok2o1pYN2s_hnL1ZoCVbHZhcsBTwYbKgEYYqRq7kAlb_EzTT7ApBNNHSdbsswoTrfEzowWvB02NzZP-F6D6JadhFqpemLzxJNEUf9RNsjRRl-E7lMFM&t=AQKDdjOVVHrS11qgMCE",
+    "previewType": "fb",
+    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwHwodcV&_nc_oc=AdrOrQFSeWLF2c2PlKx0LWbln4CvOorB22BBxQZTwQ9sqkevotUssiEo6-hzWBj_jUM&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_tpa=Q5bMBQH4aHiKXv--8AwgmjCsejY0_7ult_3ZxFBlF7iR8fyKa2avbQSmOMlpDd0oIed08WmrBx9xaby6sQ&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3gog2cbqG9m3_-1_GOLlRJGqSYTzyKrMmoFfuCfXQrnA&oe=69E2ADFD",
+    "total": {
+      "spend": 0.98,
+      "leads": 0,
+      "imp": 162,
+      "cliques": 0,
+      "lpv": 0
+    },
+    "by_age": [
+      {
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 43,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.41,
+        "leads": 0,
+        "imp": 82,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-02",
+        "age": "18-24",
+        "spend": 0.11,
+        "leads": 0,
+        "imp": 43,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "25-34",
+        "spend": 0.41,
+        "leads": 0,
+        "imp": 82,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "35-44",
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 21,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "45-54",
+        "spend": 0.25,
+        "leads": 0,
+        "imp": 13,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "55-64",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-02",
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248547611820002",
+    "key": "ad18",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "status": "OFF",
+    "name": "[AD05]",
+    "shortName": "[AD05]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLhzM73leydlA1ESVJ505mBEtlcdHIt28LkoxkzEOb0CMnAS8YZjo6128Mcruo1d_Yt4dOSMU1f8vG0PSWU_sNeM1pxbtNi5UUeFefZGc02e_AWGV4-T3rxHN2lwJoZmxzzAN5GmqZvP_x26Cwonwk1SDc6Mn-lW2Tlu5fN7tjhGc21-ePuXmTSZxVpV7nLi47qKLWxJVNnewuBNXWdhuWSNRkp6D-2g0U0lhKkvmW5OaxG6_Rn1R8z30MqPP4fVpVg_EDL6-E4mVmtRLWFq-KOIfPEBnoJpb_1lNDmFysMcyQ55TWfYzXWg6T5610TRoAyyd2bRMZo1kW8RtLDfGb8VTeZl5C1hASl_nditDCuIUy-bHmul2J5hnl5ghpG_aLxb6GtGIJ4OKxwvIK_lTRtfC0vjs_MgIR5JNwMnDcjMD5ewztZcaFeFJ5rLbQgqdo&t=AQLyx5MByF5H_DtKLDc",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/6050589995860436964?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIsQgwoss_eZz3VC3U-101yxt5ksIV0XakCZv3-j1MuHzjw2lS-doFCrPyUlqhE0I05R9uB3lNAWOrK7D5gA5NCL2nRvTpew2hSbtsOgvSJwYb9aDCmrHgbr0PmzgkfIQ1CL4uM_gxZmVW-gbWLAJPG&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=JU0sPGbrTjYXIRswk2C3SQ&_nc_oc=Ado5-LH8vToo2yFmtvRMS5JY-seagv4jIpsaVFAFubYXZ4qdAXIuLj916FxIiH_FFEw&ccb=13-1&oh=06_Q3--AcsroN44api2PdFBSvYbb1q0df7VNtS224ZTCPtIHhYf&oe=69DED7EC&_nc_sid=58080a",
+    "total": {
+      "spend": 0.41,
+      "leads": 0,
+      "imp": 57,
+      "cliques": 3,
+      "lpv": 0
+    },
+    "by_age": [
+      {
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.09,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 1,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-03-26",
+        "age": "18-24",
+        "spend": 0.02,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "25-34",
+        "spend": 0.19,
+        "leads": 0,
+        "imp": 28,
+        "cliques": 1,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "35-44",
+        "spend": 0.12,
+        "leads": 0,
+        "imp": 12,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-03-26",
+        "age": "45-54",
+        "spend": 0.09,
+        "leads": 0,
+        "imp": 6,
+        "cliques": 1,
+        "lpv": 0
+      }
+    ]
+  },
+  {
+    "id": "120248861708550002",
+    "key": "ad19",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "status": "OFF",
+    "name": "[04 NOVA LEVA]",
+    "shortName": "[04 NOVA LEVA]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJs_8AbB_i6js_ttPKdK8e_Z9nBnQ3hLtA0njMxKSxfLvLn14w830nqN3nala8HxfV4sBKARlkIcBWmBZM-Whoy6xLb6mYg8J3ILgK1tfK0NA-wH7uDbSxhXzOT2rYlEMXt3tcjgUGceWoscEEqMm5kJYNzcnH48TByjsjpRhqJ3n6pfiYqpRkos5wVJlqNuumk29XsshDIAQ0yN1vlSexTQTj77GJYdHQHkL8m6GkRYkEVpaV69VS6k1YPIFzAdI3rgs23RLVFsiU6vdQqVWhOcGXNY0pY8COYzAWgjD2znnet-tqlTpqZzM7SWBdoZJijm1d7pqkNXJdp7YylvtSeYc-tA0nv9WZ5WMqE7e4UedMmXZET8DHiOtAXtacoqxgZdFV24f7j0xPOhKQEBHH4fovii1zGCLaNHpmSKHKeiFeovd5eyhD-P2T6lcA_jV4&t=AQJ19MnmVWFzutWjW_0",
+    "previewType": "fb",
+    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/10774884394354492266?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQLC_2qbkM_ThgVm6Bg22u3ObQlOQW-3y1sJTum1rPhgNS3-7OaglrvgcBhZIGVOkeI5B-lNo1wC-LB4TrPx_LU02xGcHXm23Pn8Uox6fawALD9R9k_oR-7aJM1Ys6wfW7-6W5ax2L8NdsBSI8fCjTqp&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=-WFurdNNo6tQJxnLCzUAtA&_nc_oc=AdpeXLhLG-Wpkktmy4q_fCaT67pbrwb2na6Bc4gWm4KCVJTIUp8c5ktKBntbrjY3_pY&ccb=13-1&oh=06_Q3--AVxWkVoKvGH5tBr4MbcSKsINv0CxZ5rTvFO4nUWzDrth&oe=69DEE642&_nc_sid=58080a",
+    "total": {
+      "spend": 0.01,
+      "leads": 0,
+      "imp": 5,
+      "cliques": 0,
+      "lpv": 0
+    },
+    "by_age": [
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "18–24"
+      },
+      {
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "25–34"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "35–44"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "45–54"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "55–64"
+      },
+      {
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "age": "65+"
+      }
+    ],
+    "raw": [
+      {
+        "date": "2026-04-03",
+        "age": "25-34",
+        "spend": 0.01,
+        "leads": 0,
+        "imp": 3,
+        "cliques": 0,
+        "lpv": 0
+      },
+      {
+        "date": "2026-04-03",
+        "age": "35-44",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0
+      }
     ]
   }
 ];
@@ -1128,57 +6250,314 @@ const cLPV    = v => `<b>${v || '—'}</b>`;
 const cLeads  = v => v ? `<b style="color:var(--g2)">${v}</b>` : `<span class="cn">—</span>`;
 const cCPV    = v => chip(v, 3, 6, eur, true);
 
-// ═══ DYNAMIC GLOBALS ══════════════════════════════════════════════════════
-(function() {
-  const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  function fmtD(s) { const [y,m,d] = s.split('-'); return `${parseInt(d)} ${MONTHS_PT[parseInt(m)-1]}`; }
-  const periodStr = `${fmtD(META_PERIOD.since)} – ${fmtD(META_PERIOD.until)} ${META_PERIOD.until.slice(0,4)}`;
+// ═══ FILTER STATE ══════════════════════════════════════════════════════════
+const AGES_RAW    = ['18-24','25-34','35-44','45-54','55-64','65+'];
+const AGES_DISP   = {'18-24':'18\u201324','25-34':'25\u201334','35-44':'35\u201344','45-54':'45\u201354','55-64':'55\u201364','65+':'65+'};
 
-  const totS = ADS.reduce((s,a) => s + a.total.spend, 0);
-  const totL = ADS.reduce((s,a) => s + a.total.leads, 0);
-  const totI = ADS.reduce((s,a) => s + a.total.imp, 0);
-  const totLPV = ADS.reduce((s,a) => s + a.total.lpv, 0);
+// Init date inputs with full period
+const dtFromEl = document.getElementById('dt-from');
+const dtToEl   = document.getElementById('dt-to');
+dtFromEl.value = META_PERIOD.since;
+dtToEl.value   = META_PERIOD.until;
+dtFromEl.min   = META_PERIOD.since;
+dtFromEl.max   = META_PERIOD.until;
+dtToEl.min     = META_PERIOD.since;
+dtToEl.max     = META_PERIOD.until;
 
-  const withLeads = ADS.filter(a => a.total.leads > 0);
-  const bestAd = withLeads.length ? withLeads.reduce((b,a) => a.total.spend/a.total.leads < b.total.spend/b.total.leads ? a : b) : ADS[0];
-  const bestCPL = bestAd.total.leads > 0 ? bestAd.total.spend / bestAd.total.leads : null;
+function applyFilter() {
+  const from = dtFromEl.value;
+  const to   = dtToEl.value;
+  if (!from || !to || from > to) return;
+  renderDashboard(from, to);
+}
+
+// ═══ FILTER ENGINE ═════════════════════════════════════════════════════════
+function filteredADS(from, to) {
+  return ADS.map(ad => {
+    if (!ad.raw || ad.raw.length === 0) {
+      // fallback: use pre-computed totals
+      return {...ad};
+    }
+    const subset = ad.raw.filter(r => r.date >= from && r.date <= to);
+    const total  = {spend:0, leads:0, imp:0, cliques:0, lpv:0};
+    const ageMap = {};
+    AGES_RAW.forEach(a => ageMap[a] = {spend:0, leads:0, imp:0, cliques:0, lpv:0, age: AGES_DISP[a]});
+    for (const r of subset) {
+      total.spend   += r.spend;
+      total.leads   += r.leads;
+      total.imp     += r.imp;
+      total.cliques += r.cliques;
+      total.lpv     += r.lpv;
+      const ak = r.age;
+      if (ageMap[ak]) {
+        ageMap[ak].spend   += r.spend;
+        ageMap[ak].leads   += r.leads;
+        ageMap[ak].imp     += r.imp;
+        ageMap[ak].cliques += r.cliques;
+        ageMap[ak].lpv     += r.lpv;
+      }
+    }
+    total.spend = Math.round(total.spend * 100) / 100;
+    const by_age = AGES_RAW.map(a => ({...ageMap[a], spend: Math.round(ageMap[a].spend*100)/100}));
+    return {...ad, total, by_age};
+  }).filter(ad => ad.total.spend > 0 || ad.total.leads > 0)
+    .sort((a,b) => b.total.spend - a.total.spend);
+}
+
+// ═══ CHART INSTANCES ═══════════════════════════════════════════════════════
+let chartAge = null, chartDonut = null, chartCPL = null;
+
+// ═══ RENDER ════════════════════════════════════════════════════════════════
+function renderDashboard(from, to) {
+  const fADS = filteredADS(from, to);
+  const days  = Math.round((new Date(to) - new Date(from)) / 86400000) + 1;
+  const periodStr = `${from} \u2192 ${to} (${days}d)`;
+
+  // ── KPIs ──────────────────────────────────────────────────────────────
+  const totS  = fADS.reduce((s,a) => s + a.total.spend, 0);
+  const totL  = fADS.reduce((s,a) => s + a.total.leads, 0);
+  const totI  = fADS.reduce((s,a) => s + a.total.imp,   0);
+  const totV  = fADS.reduce((s,a) => s + a.total.lpv,   0);
+  const totC  = fADS.reduce((s,a) => s + a.total.cliques, 0);
   const avgCPL = totL > 0 ? totS / totL : null;
+  const withLeads = fADS.filter(a => a.total.leads > 0);
+  const activeON  = ADS.filter(a => a.status === 'ON').length;
 
-  const fmt = (v, d=2) => v.toFixed(d).replace('.', ',');
-  const fmtEUR = v => v == null ? '—' : `€${fmt(v)}`;
-  const fmtN = v => Math.round(v).toLocaleString('pt-BR');
-  function set(id, val) { const e = document.getElementById(id); if (e) e.innerHTML = val; }
-
-  const now = new Date();
-  const nowStr = `${now.getDate()} ${MONTHS_PT[now.getMonth()]} ${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-  // Sidebar
-  set('sb-period', periodStr);
-  set('sb-invest', `€${fmt(totS)}`);
-  set('sb-leads', fmtN(totL));
-  set('sb-cpl', `€${fmt(avgCPL || 0)}`);
-  set('sb-imp', fmtN(totI));
-  set('footer-updated', nowStr);
-
-  // Topbar date pill
-  set('date-pill', periodStr);
-
-  // KPI cards
-  set('kv-invest', fmtEUR(totS));
-  set('ks-invest', `${ADS.length} criativos · ${META_PERIOD.days} dias`);
-  set('kv-leads', fmtN(totL));
-  set('ks-leads', bestCPL ? `↓ CPL €${fmt(bestCPL)} melhor` : '');
-  set('kv-cpl', fmtEUR(avgCPL));
-  set('ks-cpl', bestAd.shortName + ' lidera');
-  set('kv-imp', fmtN(totI));
-  set('ks-imp', `LPV total: ${fmtN(totLPV)}`);
-  set('kv-vis', fmtN(totLPV));
-  set('kv-cliques', ADS.length);
-  set('ks-cliques', `${withLeads.length} com conversões`);
-
-  // Footer period
+  const set = (id, val) => { const e = document.getElementById(id); if (e) e.innerHTML = val; };
+  set('kv-invest',  eur(totS));
+  set('ks-invest',  `${fADS.length} criativos \u00b7 ${periodStr}`);
+  set('kv-leads',   totL);
+  set('ks-leads',   withLeads.length > 0 ? `Melhor: ${eur(Math.min(...withLeads.map(a => a.total.spend/a.total.leads)))} CPL` : '\u2014');
+  set('kv-cpl',     avgCPL ? eur(avgCPL) : '\u2014');
+  set('ks-cpl',     `Meta \u2264 \u20ac3`);
+  set('kv-imp',     totI.toLocaleString('pt-BR'));
+  set('ks-imp',     `${fADS.length} ads`);
+  set('kv-vis',     totV);
+  set('kv-cliques', activeON);
+  set('ks-cliques', `${ADS.length - activeON} pausados`);
+  set('sb-invest',  eur(totS));
+  set('sb-leads',   totL);
+  set('sb-cpl',     avgCPL ? eur(avgCPL) : '\u2014');
+  set('sb-imp',     totI.toLocaleString('pt-BR'));
+  set('sb-period',  `${from} \u2192 ${to}`);
   set('footer-period', periodStr);
-})();
+  set('footer-updated', new Date().toLocaleString('pt-BR', {timeZone:'UTC'}) + ' UTC');
+
+  // ── CHARTS ────────────────────────────────────────────────────────────
+  if (chartAge)   { chartAge.destroy();   chartAge   = null; }
+  if (chartDonut) { chartDonut.destroy(); chartDonut = null; }
+  if (chartCPL)   { chartCPL.destroy();   chartCPL   = null; }
+
+  Chart.defaults.color = '#4a7a5a';
+  Chart.defaults.font.family = 'Inter';
+
+  const COLORS = ['#00c4a8','#d4a84b','#33d4bc','#e8c06a','#7aaa8a','#f47070','#a0e0d0','#f0c060','#60b0a0','#e09060','#80c0b0'];
+  const adsWithLeads = fADS.filter(a => a.total.leads > 0).slice(0, 5);
+
+  // Rebuild age legend
+  const ageLegend = document.getElementById('age-legend');
+  ageLegend.innerHTML = '';
+  adsWithLeads.forEach((ad, i) => {
+    const li = document.createElement('div');
+    li.className = 'leg-i';
+    li.innerHTML = `<div class="leg-d" style="background:${COLORS[i]}"></div>${ad.shortName}`;
+    ageLegend.appendChild(li);
+  });
+
+  chartAge = new Chart(document.getElementById('ageChart'), {
+    type: 'bar',
+    data: {
+      labels: AGES,
+      datasets: adsWithLeads.map((ad, i) => ({
+        label: ad.shortName,
+        data: ad.by_age.map(a => a.leads),
+        backgroundColor: COLORS[i] + 'cc', borderColor: COLORS[i], borderWidth:1, borderRadius:4
+      }))
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#0d1f16',borderColor:'rgba(0,196,168,0.2)',borderWidth:1,padding:12,cornerRadius:8}
+      },
+      scales:{
+        x:{grid:{color:'rgba(0,196,168,0.04)'},ticks:{font:{size:9}}},
+        y:{grid:{color:'rgba(0,196,168,0.04)'},ticks:{font:{size:9},stepSize:1}}
+      }
+    }
+  });
+
+  const donutAds = fADS.filter(a => a.total.leads > 0);
+  chartDonut = new Chart(document.getElementById('donutChart'), {
+    type:'doughnut',
+    data:{
+      labels: donutAds.map(a => a.shortName),
+      datasets:[{data: donutAds.map(a => a.total.leads), backgroundColor: COLORS.slice(0,donutAds.length), borderColor:'#0d1f16', borderWidth:3, hoverOffset:6}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'65%',
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:8},boxWidth:7,padding:8,color:'#4a7a5a'}},
+        tooltip:{backgroundColor:'#0d1f16',borderColor:'rgba(0,196,168,0.2)',borderWidth:1,padding:10,cornerRadius:8}
+      }
+    }
+  });
+
+  const cplAds = fADS.filter(a => a.total.leads > 0);
+  chartCPL = new Chart(document.getElementById('cplChart'), {
+    type:'bar',
+    data:{
+      labels: cplAds.map(a => a.shortName),
+      datasets:[{
+        label:'CPL (\u20ac)',
+        data: cplAds.map(a => +(a.total.spend / a.total.leads).toFixed(2)),
+        backgroundColor: cplAds.map(a => {
+          const c = a.total.spend/a.total.leads;
+          return c<=3?'rgba(0,196,168,0.7)':c<=6?'rgba(212,168,75,0.7)':'rgba(224,82,82,0.7)';
+        }),
+        borderColor: cplAds.map(a => {
+          const c = a.total.spend/a.total.leads;
+          return c<=3?'#00c4a8':c<=6?'#d4a84b':'#e05252';
+        }),
+        borderWidth:1, borderRadius:5
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#0d1f16',borderColor:'rgba(0,196,168,0.2)',borderWidth:1,padding:10,cornerRadius:8}
+      },
+      scales:{
+        x:{grid:{color:'rgba(0,196,168,0.04)'},ticks:{font:{size:9},callback:v=>'\u20ac'+v}},
+        y:{grid:{display:false},ticks:{font:{size:9}}}
+      }
+    }
+  });
+
+  // ── CARDS ─────────────────────────────────────────────────────────────
+  const container = document.getElementById('cc-container');
+  container.innerHTML = '';
+
+  fADS.forEach((ad, ai) => {
+    const t    = ad.total;
+    const cpl  = R(t.leads > 0 ? t.spend / t.leads : null);
+    const cpv  = R(t.lpv   > 0 ? t.spend / t.lpv   : null);
+    const stOn = ad.status === 'ON';
+    const stBadgeHtml = `<span class="st-badge ${stOn?'st-on':'st-off'}"><span class="st-dot"></span>${stOn?'ON':'OFF'}</span>`;
+
+    const ageRows = ad.by_age.filter(a => a.spend > 0).map(a => {
+      const a_cpl = R(a.leads > 0 ? a.spend / a.leads : null);
+      const a_cpv = R(a.lpv   > 0 ? a.spend / a.lpv   : null);
+      return `<tr>
+        <td>${a.age}</td>
+        <td>${a.leads || '\u2014'}</td>
+        <td>${cCPL(a_cpl)}</td>
+        <td>${a.lpv || '\u2014'}</td>
+        <td>${a_cpv ? eur(a_cpv) : '\u2014'}</td>
+        <td>${a.imp.toLocaleString('pt-BR')}</td>
+        <td>${eur(a.spend)}</td>
+      </tr>`;
+    }).join('');
+
+    const thumbHtml = ad.thumb
+      ? `<img class="cc-thumb" src="${ad.thumb}" onerror="this.style.background='var(--card3)';this.style.display='flex';"/>`
+      : `<div class="cc-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted2)">${ad.shortName.slice(0,4)}</div>`;
+
+    const sparkId = `spk-${ad.id}`;
+
+    const html = `
+    <div class="cc" id="cc-${ad.id}">
+      <div class="cc-header">
+        ${thumbHtml}
+        <div class="cc-info">
+          <div class="cc-name">${ad.name} <span class="badge ${ad.badgeClass}" style="font-size:9px;margin-left:6px">${ad.badge}</span> ${stBadgeHtml}</div>
+          <div class="cc-adset">act_615338413578534 \u00b7 ID ${ad.id}</div>
+          <div class="cc-links">
+            <a class="preview-btn preview-fb" href="${ad.preview}" target="_blank">Ver Pr\u00e9via \u2192</a>
+          </div>
+        </div>
+        <div class="cc-right-stats">
+          <div class="cc-stat"><div class="cc-stat-v" style="color:var(--g2)">${t.leads}</div><div class="cc-stat-l">Leads</div></div>
+          <div class="cc-stat"><div class="cc-stat-v">${cpl ? eur(cpl) : '\u2014'}</div><div class="cc-stat-l">CPL</div></div>
+          <div class="cc-stat"><div class="cc-stat-v" style="color:var(--p2)">${eur(t.spend)}</div><div class="cc-stat-l">Investido</div></div>
+        </div>
+      </div>
+      <div class="metrics-grid">
+        <div class="m-cell"><div class="m-lbl">LPV</div><div class="m-val"><b style="color:var(--p2)">${t.lpv}</b></div><div class="m-sub">Landing Page Views</div></div>
+        <div class="m-cell"><div class="m-lbl">Custo / LPV</div><div class="m-val">${cCPV(cpv)}</div><div class="m-sub">Spend \u00f7 LPV</div></div>
+        <div class="m-cell"><div class="m-lbl">CPL</div><div class="m-val">${cCPL(cpl)}</div><div class="m-sub">Custo por Lead</div></div>
+        <div class="m-cell"><div class="m-lbl">Impress\u00f5es</div><div class="m-val"><b>${t.imp.toLocaleString('pt-BR')}</b></div><div class="m-sub">Total no per\u00edodo</div></div>
+      </div>
+      <div class="cc-two">
+        <div class="cc-panel">
+          <div class="cc-panel-title">Breakdown por Faixa Et\u00e1ria</div>
+          <table class="age-table">
+            <thead><tr>
+              <th style="text-align:left">Idade</th>
+              <th>Leads</th><th>CPL</th><th>LPV</th><th>CPV</th><th>Impr.</th><th>Spend</th>
+            </tr></thead>
+            <tbody>${ageRows}</tbody>
+            <tfoot><tr class="tot">
+              <td>TOTAL</td>
+              <td>${t.leads}</td>
+              <td>${cpl ? eur(cpl) : '\u2014'}</td>
+              <td>${t.lpv}</td>
+              <td>${cpv ? eur(cpv) : '\u2014'}</td>
+              <td>${t.imp.toLocaleString('pt-BR')}</td>
+              <td>${eur(t.spend)}</td>
+            </tr></tfoot>
+          </table>
+        </div>
+        <div class="cc-panel">
+          <div class="cc-panel-title">Leads por Faixa Et\u00e1ria</div>
+          <div style="height:180px"><canvas id="${sparkId}"></canvas></div>
+        </div>
+      </div>
+    </div>`;
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    container.appendChild(wrapper.firstElementChild);
+
+    // Spark chart
+    const ageData = ad.by_age.filter(a => a.spend > 0);
+    if (ageData.some(a => a.leads > 0)) {
+      new Chart(document.getElementById(sparkId), {
+        type:'bar',
+        data:{
+          labels: ageData.map(a => a.age),
+          datasets:[{
+            label:'Leads',
+            data: ageData.map(a => a.leads),
+            backgroundColor:'rgba(0,196,168,0.6)', borderColor:'#00c4a8', borderWidth:1, borderRadius:3
+          },{
+            label:'Spend (\u20ac)',
+            data: ageData.map(a => a.spend),
+            backgroundColor:'rgba(212,168,75,0.5)', borderColor:'#d4a84b', borderWidth:1, borderRadius:3,
+            yAxisID:'y2'
+          }]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend:{position:'bottom',labels:{font:{size:8},boxWidth:7,padding:6,color:'#4a7a5a'}},
+            tooltip:{backgroundColor:'#0d1f16',borderColor:'rgba(0,196,168,0.2)',borderWidth:1,padding:8,cornerRadius:6}
+          },
+          scales:{
+            x:{grid:{display:false},ticks:{font:{size:8}}},
+            y:{grid:{color:'rgba(0,196,168,0.04)'},ticks:{font:{size:8},stepSize:1},title:{display:true,text:'Leads',font:{size:8},color:'#4a7a5a'}},
+            y2:{position:'right',grid:{display:false},ticks:{font:{size:8},callback:v=>'\u20ac'+v},title:{display:true,text:'Spend',font:{size:8},color:'#4a7a5a'}}
+          }
+        }
+      });
+    }
+  });
+}
+
+// ═══ INITIAL RENDER ════════════════════════════════════════════════════════
+renderDashboard(META_PERIOD.since, META_PERIOD.until);
 
 // ═══ SIDEBAR BUILD ════════════════════════════════════════════════════════
 const sbList = document.getElementById('sb-list');
@@ -1199,295 +6578,13 @@ ADS.forEach(ad => {
   sbList.appendChild(div);
 });
 
-// ═══ GLOBAL CHARTS ════════════════════════════════════════════════════════
-Chart.defaults.color = '#4a7a5a';
-Chart.defaults.font.family = 'Inter';
-
-const CHART_COLORS = ['#00c4a8','#d4a84b','#33d4bc','#e8c06a','#7aaa8a','#f47070','#a0e0d0','#f0c060','#60b0a0','#e09060','#80c0b0'];
-
-// Age chart — grouped bar (top 4 ads with leads)
-const adsWithLeads = ADS.filter(a => a.total.leads > 0).slice(0, 5);
-
-// Build legend
-const ageLegend = document.getElementById('age-legend');
-adsWithLeads.forEach((ad, i) => {
-  const li = document.createElement('div');
-  li.className = 'leg-i';
-  li.innerHTML = `<div class="leg-d" style="background:${CHART_COLORS[i]}"></div>${ad.shortName}`;
-  ageLegend.appendChild(li);
-});
-
-new Chart(document.getElementById('ageChart'), {
-  type: 'bar',
-  data: {
-    labels: AGES,
-    datasets: adsWithLeads.map((ad, i) => ({
-      label: ad.shortName,
-      data: ad.by_age.map(a => a.leads),
-      backgroundColor: CHART_COLORS[i] + 'cc',
-      borderColor: CHART_COLORS[i],
-      borderWidth: 1,
-      borderRadius: 4
-    }))
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: {mode:'index', intersect:false},
-    plugins: {
-      legend: {display:false},
-      tooltip: {backgroundColor:'#0d1f16', borderColor:'rgba(0,196,168,0.2)', borderWidth:1, padding:12, cornerRadius:8}
-    },
-    scales: {
-      x: {grid:{color:'rgba(0,196,168,0.04)'}, ticks:{font:{size:9}}},
-      y: {grid:{color:'rgba(0,196,168,0.04)'}, ticks:{font:{size:9}, stepSize:1}}
-    }
-  }
-});
-
-// Donut
-const donutAds = ADS.filter(a => a.total.leads > 0);
-new Chart(document.getElementById('donutChart'), {
-  type: 'doughnut',
-  data: {
-    labels: donutAds.map(a => a.shortName),
-    datasets: [{
-      data: donutAds.map(a => a.total.leads),
-      backgroundColor: CHART_COLORS.slice(0, donutAds.length),
-      borderColor: '#0d1f16',
-      borderWidth: 3,
-      hoverOffset: 6
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '65%',
-    plugins: {
-      legend: {position:'bottom', labels:{font:{size:8}, boxWidth:7, padding:8, color:'#4a7a5a'}},
-      tooltip: {backgroundColor:'#0d1f16', borderColor:'rgba(0,196,168,0.2)', borderWidth:1, padding:10, cornerRadius:8}
-    }
-  }
-});
-
-// CPL bar
-const cplAds = ADS.filter(a => a.total.leads > 0);
-new Chart(document.getElementById('cplChart'), {
-  type: 'bar',
-  data: {
-    labels: cplAds.map(a => a.shortName),
-    datasets: [{
-      label: 'CPL (€)',
-      data: cplAds.map(a => +(a.total.spend / a.total.leads).toFixed(2)),
-      backgroundColor: cplAds.map(a => {
-        const cpl = a.total.spend / a.total.leads;
-        return cpl <= 2.5 ? 'rgba(0,196,168,0.75)' : cpl <= 5 ? 'rgba(212,168,75,0.75)' : 'rgba(224,82,82,0.75)';
-      }),
-      borderRadius: 5,
-      borderSkipped: false
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: {display:false},
-      tooltip: {
-        backgroundColor:'#0d1f16', borderColor:'rgba(0,196,168,0.2)', borderWidth:1, padding:10, cornerRadius:8,
-        callbacks: {label: c => `CPL: €${c.parsed.y.toFixed(2)}`}
-      }
-    },
-    scales: {
-      x: {grid:{display:false}, ticks:{font:{size:8}}},
-      y: {grid:{color:'rgba(0,196,168,0.04)'}, ticks:{font:{size:9}, callback: v => '€' + v}}
-    }
-  }
-});
-
-// ═══ CREATIVE CARDS ═══════════════════════════════════════════════════════
-const container = document.getElementById('cc-container');
-
-ADS.forEach((ad, ai) => {
-  const t = ad.total;
-  const cpl  = R(t.leads > 0 ? t.spend / t.leads : null);
-  const cpv  = R(t.lpv > 0 ? t.spend / t.lpv : null);
-
-  const ageRows = ad.by_age.filter(a => a.spend > 0).map(a => {
-    const a_cpl = R(a.leads > 0 ? a.spend / a.leads : null);
-    const a_cpv = R(a.lpv > 0 ? a.spend / a.lpv : null);
-    return `<tr>
-      <td>${a.age}</td>
-      <td>${a.leads || '—'}</td>
-      <td>${cCPL(a_cpl)}</td>
-      <td>${a.lpv || '—'}</td>
-      <td>${a_cpv ? eur(a_cpv) : '—'}</td>
-      <td>${a.imp.toLocaleString('pt-BR')}</td>
-      <td>${eur(a.spend)}</td>
-    </tr>`;
-  }).join('');
-
-  const sparkId = `spk-${ad.id}`;
-
-  const thumbHtml = ad.thumb
-    ? `<img class="cc-thumb" src="${ad.thumb}" onerror="this.style.background='var(--card3)';this.style.display='flex';"/>`
-    : `<div class="cc-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted2)">${ad.shortName.slice(0,4)}</div>`;
-
-  const stOn = ad.status === 'ON';
-  const stBadgeHtml = `<span class="st-badge ${stOn?'st-on':'st-off'}"><span class="st-dot"></span>${stOn?'ON':'OFF'}</span>`;
-  const html = `
-  <div class="cc" id="cc-${ad.id}">
-    <div class="cc-header">
-      ${thumbHtml}
-      <div class="cc-info">
-        <div class="cc-name">${ad.name} <span class="badge ${ad.badgeClass}" style="font-size:9px;margin-left:6px">${ad.badge}</span> ${stBadgeHtml}</div>
-        <div class="cc-adset">act_615338413578534 · ID ${ad.id}</div>
-        <div class="cc-links">
-          <a class="preview-btn preview-fb" href="${ad.preview}" target="_blank">Ver Prévia →</a>
-        </div>
-      </div>
-      <div class="cc-right-stats">
-        <div class="cc-stat"><div class="cc-stat-v" style="color:var(--g2)">${t.leads}</div><div class="cc-stat-l">Leads</div></div>
-        <div class="cc-stat"><div class="cc-stat-v">${cpl ? eur(cpl) : '—'}</div><div class="cc-stat-l">CPL</div></div>
-        <div class="cc-stat"><div class="cc-stat-v" style="color:var(--p2)">${eur(t.spend)}</div><div class="cc-stat-l">Investido</div></div>
-      </div>
-    </div>
-
-    <!-- METRICS: FUNIL -->
-    <div class="metrics-grid">
-      <div class="m-cell">
-        <div class="m-lbl">LPV</div>
-        <div class="m-val"><b style="color:var(--p2)">${t.lpv}</b></div>
-        <div class="m-sub">Landing Page Views</div>
-      </div>
-      <div class="m-cell">
-        <div class="m-lbl">Custo / LPV</div>
-        <div class="m-val">${cCPV(cpv)}</div>
-        <div class="m-sub">Spend ÷ LPV</div>
-      </div>
-      <div class="m-cell">
-        <div class="m-lbl">CPL</div>
-        <div class="m-val">${cCPL(cpl)}</div>
-        <div class="m-sub">Custo por Lead</div>
-      </div>
-      <div class="m-cell">
-        <div class="m-lbl">Impressões</div>
-        <div class="m-val"><b>${t.imp.toLocaleString('pt-BR')}</b></div>
-        <div class="m-sub">Total no período</div>
-      </div>
-    </div>
-
-    <!-- AGE BREAKDOWN + CHART -->
-    <div class="cc-two">
-      <div class="cc-panel">
-        <div class="cc-panel-title">Breakdown por Faixa Etária</div>
-        <table class="age-table">
-          <thead><tr>
-            <th style="text-align:left">Idade</th>
-            <th>Leads</th>
-            <th>CPL</th>
-            <th>LPV</th>
-            <th>Custo/LPV</th>
-            <th>Impres.</th>
-            <th>Gasto</th>
-          </tr></thead>
-          <tbody>
-            ${ageRows}
-            <tr class="tot">
-              <td>TOTAL</td>
-              <td>${cLeads(t.leads)}</td>
-              <td>${cCPL(cpl)}</td>
-              <td><b>${t.lpv}</b></td>
-              <td>${cCPV(cpv)}</td>
-              <td>${t.imp.toLocaleString('pt-BR')}</td>
-              <td><b style="color:var(--p2)">${eur(t.spend)}</b></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="cc-panel">
-        <div class="cc-panel-title">Leads &amp; Gasto por Idade</div>
-        <div style="height:200px"><canvas id="${sparkId}"></canvas></div>
-      </div>
-    </div>
-  </div>`;
-
-  container.insertAdjacentHTML('beforeend', html);
-
-  // Age sparkline chart
-  const ageLabels  = ad.by_age.filter(a => a.spend > 0).map(a => a.age);
-  const ageLeads   = ad.by_age.filter(a => a.spend > 0).map(a => a.leads);
-  const ageSpends  = ad.by_age.filter(a => a.spend > 0).map(a => a.spend);
-  const barColor   = CHART_COLORS[ai % CHART_COLORS.length];
-
-  new Chart(document.getElementById(sparkId), {
-    type: 'bar',
-    data: {
-      labels: ageLabels,
-      datasets: [
-        {
-          label: 'Leads',
-          data: ageLeads,
-          backgroundColor: barColor + 'aa',
-          borderRadius: 5,
-          borderSkipped: false,
-          yAxisID: 'y'
-        },
-        {
-          label: 'Gasto (€)',
-          data: ageSpends,
-          type: 'line',
-          borderColor: 'rgba(212,168,75,0.6)',
-          backgroundColor: 'transparent',
-          borderWidth: 1.5,
-          pointRadius: 3,
-          pointBackgroundColor: 'rgba(212,168,75,0.8)',
-          tension: 0.4,
-          yAxisID: 'y2'
-        }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: {mode:'index', intersect:false},
-      plugins: {
-        legend: {display:false},
-        tooltip: {
-          backgroundColor: '#0d1f16',
-          borderColor: 'rgba(0,196,168,0.2)',
-          borderWidth: 1,
-          padding: 10,
-          cornerRadius: 8,
-          callbacks: {
-            label: c => c.dataset.label + ': ' + (c.dataset.yAxisID === 'y2' ? '€' + c.parsed.y.toFixed(2) : c.parsed.y)
-          }
-        }
-      },
-      scales: {
-        x: {grid:{color:'rgba(0,196,168,0.04)'}, ticks:{font:{size:9}}},
-        y: {grid:{color:'rgba(0,196,168,0.04)'}, ticks:{font:{size:9}, stepSize:1}, position:'left'},
-        y2: {grid:{display:false}, ticks:{font:{size:9}, callback: v => '€' + v.toFixed(0)}, position:'right'}
-      }
-    }
-  });
-});
-
-// Sidebar active state via IntersectionObserver
-const cards   = document.querySelectorAll('.cc');
-const sbItems = document.querySelectorAll('.sb-c');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const id = e.target.id.replace('cc-', '');
-      sbItems.forEach((s, i) => { s.classList.toggle('active', ADS[i].id === id); });
-    }
-  });
-}, {threshold: 0.3});
-cards.forEach(c => obs.observe(c));
-
-// ─── Mobile sidebar toggle ───
-const mobBtn  = document.getElementById('mob-toggle');
-const sbEl    = document.querySelector('.sb');
-const overlay = document.getElementById('sb-overlay');
-function openSb()  { sbEl.classList.add('open');    overlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
-function closeSb() { sbEl.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; }
-mobBtn.addEventListener('click', () => sbEl.classList.contains('open') ? closeSb() : openSb());
-overlay.addEventListener('click', closeSb);
+// Mobile menu
+const mobBtn = document.getElementById('mob-toggle');
+const sbEl   = document.querySelector('.sb');
+const overlay= document.getElementById('sb-overlay');
+function openSb(){sbEl.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden'}
+function closeSb(){sbEl.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow=''}
+if(mobBtn){mobBtn.addEventListener('click',()=>sbEl.classList.contains('open')?closeSb():openSb());overlay.addEventListener('click',closeSb);}
 document.querySelectorAll('.sb-nav-item,.sb-c').forEach(el => el.addEventListener('click', () => { if (window.innerWidth <= 700) closeSb(); }));
 </script>
 </body>
