@@ -354,86 +354,633 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 <script>
 // ═══ DATA ══════════════════════════════════════════════════════════════════
 // __DATA_START__
-const META_PERIOD = {since:'2026-04-02',until:'2026-04-12',days:10};
+const META_PERIOD = {"since":"2026-04-04","until":"2026-04-13","days":10};
 const AGES = ['18–24','25–34','35–44','45–54','55–64','65+'];
 const ADS = [
   {
-    id:'6897272042554', key:'v1', badge:'TOP', badgeClass:'bg',
-    name:'CRIATIVO NATIVO · POST 01/04 (v1)', shortName:'Post 01/04 v1',
-    preview:'https://www.instagram.com/p/DWpFfZqgBXW/#advertiser', previewType:'ig',
-    thumb:'https://scontent.fbnu5-1.fna.fbcdn.net/v/t15.5256-10/661169855_1655733072140064_5908846331102137081_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=bPFdQGJodZYQ7kNvwECcDrH&oh=00_Af219tNkKV1xKUGLsbRMsraUoCjpNe3X0pYDIPfcPOYYDg&oe=69E018FF',
-    total:{spend:296.57,leads:54,imp:18858,cliques:714,lpv:595,ig_vis:461,ig_fol:53,reach:0},
-    by_age:[
-      {age:'18–24',spend:104.76,leads:25,imp:8838,cliques:248,lpv:201,ig_vis:191,ig_fol:17},
-      {age:'25–34',spend:117.83,leads:19,imp:7273,cliques:319,lpv:272,ig_vis:220,ig_fol:28},
-      {age:'35–44',spend:48.24, leads:6, imp:1938,cliques:103,lpv:85, ig_vis:34, ig_fol:3},
-      {age:'45–54',spend:18.69, leads:3, imp:628, cliques:33, lpv:28, ig_vis:14, ig_fol:4},
-      {age:'55–64',spend:4.54,  leads:1, imp:145, cliques:11, lpv:9,  ig_vis:2,  ig_fol:1},
-      {age:'65+',  spend:1.95,  leads:0, imp:85,  cliques:2,  lpv:1,  ig_vis:1,  ig_fol:0},
+    "id": "6897272042554",
+    "key": "ad0",
+    "badge": "TOP",
+    "badgeClass": "bg",
+    "name": "[CRIATIVO NATIVO  2 - POST DIA 01/04]",
+    "shortName": "[CRIATIVO NATIVO  2 …",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJOr_6fE-pf1fCipsesuNhyXQNae4c5zwsF9rzNyB40Y5zrXtHs7SnztWjgircPumgtHAxIR8juLrMf-G6YuTr2paQNiMKcYgvXWTXZVESsiukW8o5rRrZ7v3IBuaJLEb7MV-guxZSR6tk-NfHYv54mEU6m43NqAL-8fhtN4UTC7IMkhh-FQFne1iM91FU0MZ0vKs4RfL3lYwYxv0-s42pbaglxIbucgAGKt2SMcc0fRtso6BwldHjNDGd01j6L5s_RwC8Lhvk0Se9Ep9jru94NMmZMXbhQpSkEa9iU1QE2Rw7_l-Vp6N40TkDW4LlB-ipA6Wg6wbZHSzIdVJmL4wdJvT5i1PqLLoHJH-KupFne3bLs24tMvjnd7nO8xgNTORZIp7CtdDCGoWu5C2Ucz52cdAh2kB6GIyDkW9oe8WCFbM6X81pc5Pk5Lg-yt-nOlV8&t=AQK0-v1esatUrYj36zw",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad3-1.xx.fbcdn.net/v/t15.5256-10/661169855_1655733072140064_5908846331102137081_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=b0JtqrNisPsQ7kNvwGsorXy&_nc_oc=AdrLDJcSfUq7A4S6FsOdYhxHZh8iyBa2ilWlLEzwpA-Wza_F5SyZL_vFG1XAmuwfqe4&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQHkm1VT4rNvcJsaQmBcB7SyhzwfCkGw_sIP3Y6heWurz0H9OSz_O9C7NZpdLbGaBPbE9RI5FOgWgg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2BlDFp_T2veZJne6L9AUnqCET8D6iu5o3wssU8TLFaow&oe=69E2F43F",
+    "total": {
+      "spend": 308.16,
+      "leads": 54,
+      "imp": 20819,
+      "cliques": 702,
+      "lpv": 573,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 104.75,
+        "leads": 24,
+        "imp": 9560,
+        "cliques": 226,
+        "lpv": 181,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 117.55,
+        "leads": 18,
+        "imp": 7854,
+        "cliques": 311,
+        "lpv": 264,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 57.14,
+        "leads": 6,
+        "imp": 2410,
+        "cliques": 115,
+        "lpv": 84,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 20.82,
+        "leads": 5,
+        "imp": 748,
+        "cliques": 40,
+        "lpv": 35,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 4.77,
+        "leads": 1,
+        "imp": 161,
+        "cliques": 9,
+        "lpv": 7,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 3.13,
+        "leads": 0,
+        "imp": 86,
+        "cliques": 1,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
     ]
   },
   {
-    id:'6896512221354', key:'venda', badge:'BOM', badgeClass:'by',
-    name:'CRIATIVO NATIVO · VENDA', shortName:'Nativo Venda',
-    preview:'https://www.facebook.com/61580697744255/posts/963616856160060/', previewType:'fb',
-    thumb:'https://scontent.fbnu5-1.fna.fbcdn.net/v/t15.5256-10/659785304_963616872826725_4981432250761069541_n.jpg?_nc_cat=109&ccb=1-7&_nc_ohc=ON5Vfh3bmZ0Q7kNvwG72LYX&oh=00_Af25-WCF4yBESYQEhKA5wjxZPEGEe10CinMzGB9XehOblA&oe=69E016FB',
-    total:{spend:135.09,leads:13,imp:7847,cliques:126,lpv:103,ig_vis:310,ig_fol:48,reach:0},
-    by_age:[
-      {age:'18–24',spend:46.63, leads:9, imp:3702,cliques:59, lpv:50, ig_vis:147,ig_fol:14},
-      {age:'25–34',spend:53.86, leads:3, imp:2975,cliques:40, lpv:34, ig_vis:116,ig_fol:22},
-      {age:'35–44',spend:21.44, leads:1, imp:779, cliques:17, lpv:11, ig_vis:33, ig_fol:8},
-      {age:'45–54',spend:9.54,  leads:0, imp:284, cliques:9,  lpv:7,  ig_vis:13, ig_fol:4},
-      {age:'55–64',spend:2.37,  leads:0, imp:69,  cliques:1,  lpv:1,  ig_vis:1,  ig_fol:0},
-      {age:'65+',  spend:1.25,  leads:0, imp:38,  cliques:0,  lpv:0,  ig_vis:0,  ig_fol:0},
+    "id": "6897689079354",
+    "key": "ad1",
+    "badge": "BOM",
+    "badgeClass": "by",
+    "name": "[CRIATIVO NATIVO - POST DIA 01/04]",
+    "shortName": "[CRIATIVO NATIVO - P…",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIycOXqZUa255uMN5aiEmI_bHfESbra7kR616GwjdRmK0vUXjlDl34lfFRfJyDUMeVuGXh-nUNj1cZHOQ7gDp1BRn0nKtCokbMl8I_vljr2f-O8n50HRV4FV70vYkcypkk8VZbKl_B4iz1JeGDWXweN-9eYN9nRSADmtnp3zbGw5otxYu4CKNiZe7rEV1321s-KD2eTIkR_OhM8yVdDnGJaQBt27QBOhBRO5FgYI6xmB0Z9QbdD1_wUJL0kxELwhMT0p8JelnRZvNSeoaUjz0C608cHIux-PX5sWjXcsfvoQbKAy2cczfdmr2xt6P2stA-B8zSwq_pQH42aoF5N853QJOkqbktia5Vj-JOFVRIjJrW8NAK-iKhxmOMVAcdklDU28QpwuSwTmBvIRrkwdJXe7buqBUKpaC_7x_Em4dGDloMlkOcdYWetT6-rgCUDIG4&t=AQLQx5UMAY5yZPMWJm8",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad3-1.xx.fbcdn.net/v/t15.5256-10/667868105_945780698237224_8213436685143829287_n.jpg?_nc_cat=104&ccb=1-7&_nc_ohc=C5ELGIKuq6AQ7kNvwGO4cjQ&_nc_oc=Adp3OBl388f7Y2fhP1v0LLxIZVGFoQZ0y1MFGQlGKDPeNWUDtBNHmsX6mNFh-R9tdfY&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQGIQWXbHamHO9DeCGI6L4XL9ES5nK5idVDZ6KYtSvXy8mD3x4P6V9rJiHN0XJfU5h6fEMTPI9nnOg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2Jhp6EHrRBkz4KBAukRKJT8bI8QLdaDuwOGVF9lTi7tQ&oe=69E2F444",
+    "total": {
+      "spend": 194.87,
+      "leads": 18,
+      "imp": 8819,
+      "cliques": 145,
+      "lpv": 116,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 59.48,
+        "leads": 2,
+        "imp": 3976,
+        "cliques": 46,
+        "lpv": 33,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 73.86,
+        "leads": 6,
+        "imp": 3320,
+        "cliques": 61,
+        "lpv": 55,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 36.25,
+        "leads": 5,
+        "imp": 968,
+        "cliques": 26,
+        "lpv": 19,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 15.4,
+        "leads": 5,
+        "imp": 374,
+        "cliques": 10,
+        "lpv": 7,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 4.31,
+        "leads": 0,
+        "imp": 117,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 5.53,
+        "leads": 0,
+        "imp": 63,
+        "cliques": 2,
+        "lpv": 2,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
     ]
   },
   {
-    id:'6897689079354', key:'v2', badge:'REVISAR', badgeClass:'br',
-    name:'CRIATIVO NATIVO · POST 01/04 (v2)', shortName:'Post 01/04 v2',
-    preview:'https://www.instagram.com/p/DWm3ljZgLRK/#advertiser', previewType:'ig',
-    thumb:'https://scontent.fbnu5-1.fna.fbcdn.net/v/t15.5256-10/667868105_945780698237224_8213436685143829287_n.jpg?_nc_cat=104&ccb=1-7&_nc_ohc=NvdW77BNCc8Q7kNvwEtK8JP&oh=00_Af2zy32JPlyMFlQk-pwXWbRDrb5m7QDjj-4KF9_egDYNCg&oe=69E01904',
-    total:{spend:176.89,leads:14,imp:8723,cliques:135,lpv:113,ig_vis:203,ig_fol:28,reach:0},
-    by_age:[
-      {age:'18–24',spend:61.12, leads:1, imp:4060,cliques:45, lpv:35, ig_vis:81, ig_fol:12},
-      {age:'25–34',spend:72.40, leads:6, imp:3371,cliques:63, lpv:58, ig_vis:87, ig_fol:13},
-      {age:'35–44',spend:28.69, leads:4, imp:852, cliques:17, lpv:14, ig_vis:23, ig_fol:2},
-      {age:'45–54',spend:9.98,  leads:3, imp:289, cliques:8,  lpv:5,  ig_vis:9,  ig_fol:1},
-      {age:'55–64',spend:2.75,  leads:0, imp:66,  cliques:0,  lpv:2,  ig_vis:2,  ig_fol:0},
-      {age:'65+',  spend:2.51,  leads:0, imp:36,  cliques:0,  lpv:0,  ig_vis:0,  ig_fol:0},
+    "id": "6896512221354",
+    "key": "ad2",
+    "badge": "REVISAR",
+    "badgeClass": "br",
+    "name": "[CRIATIVO NATIVO - VENDA]",
+    "shortName": "[CRIATIVO NATIVO - V…",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIZQ4gBSmV1sBhUIs481tGem_iqqD-wj0J2jouV5ycDkK-iZ6Er8xFtZs59wu1U9s-cXfp1Hudyny2IAiqSaYsmxwqPNCuAva6OFoAI6EMqq5PB79eACm_3niEbvyat-s90DtFGGrr2kXbaUMLjuX8KVp0yNZYHsA3ixUvQj_1tep133dcTa4ZPolWkgro40wN3CcWKJlqmvBzH4vMUlFSrNnn_PuJhWtuJ0uYyNE3ykEEUwFYhsLeFyot4d0VnrZ3WuWRSo5uTntdB2S1PrXqTyMdStMrhErwA3NcW-Hc4GRwnuuGDMsciBr8Mie8d4DdWGaKf51VZPcnP33PKiukaMTJzYmmxXbWi8jPhWqUM9fdToQ4aJ905mb-nwCNsXcYkDaS08fLGOiycYbGf0eHJDN57Ui8APPjt1iF1Wk9A3wpJ5q7riGCyzUHPwe4KUyc&t=AQLWFPGCJj_W5NZldzQ",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad6-1.xx.fbcdn.net/v/t15.5256-10/659785304_963616872826725_4981432250761069541_n.jpg?_nc_cat=109&ccb=1-7&_nc_ohc=bPLparSMJ3QQ7kNvwH5J7vX&_nc_oc=AdrVaLDJEsYp3Yv6oMtgL8vP55Md-NmMkpuGtgmSnD-ODqgDh4hJ1qth2Y5TPFKTI5g&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQEk-PZNvMadDYA7Irb4oJ9yId7TnA9rusrTZQUHuotZCvmjcYrUt3pfv3EVHwvyZNYsu6cwDP2WAg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2yc-AyM1jo8OANzDhgBMl1p4mEl5ONfa5y1SGgTNnPmw&oe=69E2F23B",
+    "total": {
+      "spend": 41.5,
+      "leads": 2,
+      "imp": 2017,
+      "cliques": 34,
+      "lpv": 31,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 15.75,
+        "leads": 1,
+        "imp": 1018,
+        "cliques": 18,
+        "lpv": 16,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 14.52,
+        "leads": 1,
+        "imp": 711,
+        "cliques": 8,
+        "lpv": 10,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 6.98,
+        "leads": 0,
+        "imp": 210,
+        "cliques": 6,
+        "lpv": 4,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 3.53,
+        "leads": 0,
+        "imp": 58,
+        "cliques": 2,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 0.43,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 0.29,
+        "leads": 0,
+        "imp": 9,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
     ]
   },
   {
-    id:'6900262832754', key:'post06', badge:'NOVO', badgeClass:'bn',
-    name:'CRIATIVO NATIVO · POST 06/04', shortName:'Post 06/04',
-    preview:'https://www.instagram.com/p/DW4VXkSAFuF/#advertiser', previewType:'ig',
-    thumb:'https://scontent.fbnu5-1.fna.fbcdn.net/v/t15.5256-10/667466034_962093786176216_7455975262675364530_n.jpg?_nc_cat=101&ccb=1-7&_nc_ohc=iUr0DYJMYpAQ7kNvwFivpcK&oh=00_Af1FJ1nF0Cg5JRvNb70xJxA7Jqpux9z7d7SV03mrOkeDPA&oe=69E0361F',
-    total:{spend:21.37,leads:0,imp:833,cliques:14,lpv:11,ig_vis:15,ig_fol:1,reach:0},
-    by_age:[
-      {age:'18–24',spend:10.22,leads:0,imp:446,cliques:8, lpv:4, ig_vis:8,ig_fol:0},
-      {age:'25–34',spend:8.10, leads:0,imp:298,cliques:3, lpv:3, ig_vis:7,ig_fol:1},
-      {age:'35–44',spend:2.20, leads:0,imp:59, cliques:2, lpv:3, ig_vis:0,ig_fol:0},
-      {age:'45–54',spend:0.82, leads:0,imp:27, cliques:1, lpv:1, ig_vis:0,ig_fol:0},
-      {age:'55–64',spend:0.03, leads:0,imp:2,  cliques:0, lpv:0, ig_vis:0,ig_fol:0},
-      {age:'65+',  spend:0,    leads:0,imp:1,  cliques:0, lpv:0, ig_vis:0,ig_fol:0},
+    "id": "6895776327954",
+    "key": "ad3",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "MERCADO",
+    "shortName": "MERCADO",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLCJV1E8Ta8p5TA-CNzFNmRiO0EumUndjffIsXMFwgfZMxrrN-wo4rcAUlblzrS_mfuSEm_7o4r4WRAwNLNeZCWUXxY_AR4XuJwHGZjCELHZSXxkZ759pUr24RRRA4pZ3gFqr-2iDRatrAroyLG8ChAXYkgkjpIb-lDS6YNAD_u3OUP71uKlZgBxOb-vScWDppIuVVzkgGNBD0WWDpf8DSHccCXbpzrBFGwoStqJU1qFjhaGPkKZ0a4Zlnsd9XG7DI2u0TJPySMJ7DxbP1ZI2sy4lFIphcHqqzdczdma8OANIwN3Z06W_EsS7DCLGMeqAhxnP_9BLLtVzHMUnFZBaKgc9PNLT7QLEMo13n_Zx0t6cNI4SzQhI_bhgztyIjXEi-bKI6o0fFQT6eTmHdr4f31ty2uj87G7GAK4pq8BTfr1_DgbcPGrAFP0IizpwJcT5s&t=AQK1YPYvSqeJraWIAkQ",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad6-1.xx.fbcdn.net/v/t15.5256-10/659576189_950573050684403_9044984064631092081_n.jpg?_nc_cat=109&ccb=1-7&_nc_ohc=Q_cSUZ1obkQQ7kNvwGJJCqY&_nc_oc=Adq2jBPdHJRqQDuuvrjupK-jmhyDtqcgh5HAkGvOBmBHD93_kNJtZoD0i7mRSBJcCbc&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQEHaiF8e8eKlEpYa6UV4mDM_CLys1_aPAckBL1nnJ9Sb7brPUyt21fQbP3iXa4k2h1W2QSJtBMtSA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af0ASpSYmKDa_qHIR-4JnUmAFE-B8FMtgHg9PbbOB-WdJg&oe=69E2E5DA",
+    "total": {
+      "spend": 35.79,
+      "leads": 0,
+      "imp": 6703,
+      "cliques": 0,
+      "lpv": 2,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 13.88,
+        "leads": 0,
+        "imp": 3256,
+        "cliques": 0,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 15.35,
+        "leads": 0,
+        "imp": 2638,
+        "cliques": 0,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 4.48,
+        "leads": 0,
+        "imp": 540,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 1.13,
+        "leads": 0,
+        "imp": 184,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 0.46,
+        "leads": 0,
+        "imp": 48,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 0.49,
+        "leads": 0,
+        "imp": 37,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
     ]
   },
   {
-    id:'6896489872154', key:'c3', badge:'TESTE', badgeClass:'by',
-    name:'CRIATIVO 3', shortName:'Criativo 3',
-    preview:'https://www.facebook.com/61580697744255/posts/122104912743023258/', previewType:'fb',
-    thumb:'https://scontent.fbnu5-1.fna.fbcdn.net/v/t15.5256-10/659836534_1641937193796249_2316537676487209507_n.jpg?_nc_cat=109&ccb=1-7&_nc_ohc=T3FABTjOv10Q7kNvwHn5k8B&oh=00_Af0tjg7WudHCxgNv5Xu_Fh1JPzaKllKYC3-Jb3ekJv6pxQ&oe=69E00DA1',
-    total:{spend:10.58,leads:1,imp:506,cliques:10,lpv:10,ig_vis:16,ig_fol:0,reach:0},
-    by_age:[
-      {age:'18–24',spend:3.08, leads:1,imp:235,cliques:4,lpv:4,ig_vis:5, ig_fol:0},
-      {age:'25–34',spend:5.15, leads:0,imp:195,cliques:3,lpv:3,ig_vis:8, ig_fol:0},
-      {age:'35–44',spend:1.58, leads:0,imp:50, cliques:3,lpv:3,ig_vis:3, ig_fol:0},
-      {age:'45–54',spend:0.48, leads:0,imp:17, cliques:0,lpv:0,ig_vis:0, ig_fol:0},
-      {age:'55–64',spend:0.05, leads:0,imp:4,  cliques:0,lpv:0,ig_vis:0, ig_fol:0},
-      {age:'65+',  spend:0.24, leads:0,imp:5,  cliques:0,lpv:0,ig_vis:0, ig_fol:0},
+    "id": "6900262832754",
+    "key": "ad4",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[CRIATIVO NATIVO - POST DIA 06/04]",
+    "shortName": "[CRIATIVO NATIVO - P…",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKvLy2cwNybndOTlptzQuLVesDb9yfxh1EvuLy3C0w7AM_BAMVaZLxek6APDXkX_n3OY0R_zmpjwUAjvR_mrURgitXvDlN4o6ih6ehcj4HsR_-70kYJgjpdkx3oLh1V9irBLLqV9VwbAg_AFIEYNNvYKPY5RznDJZ8rbLjbmhtpgm7EOsv_qXDJO7EwOjLY2MfPKeHWSeGaOXUF3_gjktRcSBHoWq59ae1vODp5TaXN4HUjJNiWzqid0AzomNLYkZ4BCYYK9p9Gn8K2ERO4okEALnkj482eG9HqEhzUCmzrBmcaT8eV60dMwNzGdOYIV02mWVPiq5YK-WA05ijUr-VwyP00e0cQLvH8vOAjNxnSIuMn3UgC-WYIhtUmH4PQiGugnu9h17HA1HhcEZR974QjabqLHAA6m8lCQONG_xSXg6jnYvcILt7ucz22VEwMTB4&t=AQKopP8UtcbCg_oHOD8",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad3-1.xx.fbcdn.net/v/t15.5256-10/667466034_962093786176216_7455975262675364530_n.jpg?_nc_cat=101&ccb=1-7&_nc_ohc=mI-AqlKkxTEQ7kNvwFi4V6g&_nc_oc=AdqqOQZfKLilbvUWr2z7-PcgSZxSOWWAXC1PyOqUj7pK_nZ_1BCtD4m2-bTBO8UTfwg&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQE7kZff278W057HHWrJ9neaLvHUoidXsLrMwl50sPse0g5l37ylqvs4-qYfCWxuxzBRZD2PHSD76A&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af36zg3adkauUCbeIWvFbkYJTiO2cgFloicHo6dBf6EDQQ&oe=69E2D91F",
+    "total": {
+      "spend": 21.37,
+      "leads": 0,
+      "imp": 833,
+      "cliques": 14,
+      "lpv": 11,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 10.22,
+        "leads": 0,
+        "imp": 446,
+        "cliques": 8,
+        "lpv": 4,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 8.1,
+        "leads": 0,
+        "imp": 298,
+        "cliques": 3,
+        "lpv": 3,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 2.2,
+        "leads": 0,
+        "imp": 59,
+        "cliques": 2,
+        "lpv": 3,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 0.82,
+        "leads": 0,
+        "imp": 27,
+        "cliques": 1,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 0.03,
+        "leads": 0,
+        "imp": 2,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 1,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
+    ]
+  },
+  {
+    "id": "6901483647154",
+    "key": "ad5",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "Ad 6901483647154",
+    "shortName": "Ad 6901483647154",
+    "preview": "",
+    "previewType": "fb",
+    "thumb": "",
+    "total": {
+      "spend": 10.97,
+      "leads": 0,
+      "imp": 529,
+      "cliques": 8,
+      "lpv": 6,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 3.7,
+        "leads": 0,
+        "imp": 244,
+        "cliques": 4,
+        "lpv": 2,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 3.55,
+        "leads": 0,
+        "imp": 180,
+        "cliques": 2,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 2.01,
+        "leads": 0,
+        "imp": 61,
+        "cliques": 1,
+        "lpv": 1,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 0.64,
+        "leads": 0,
+        "imp": 18,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 0.41,
+        "leads": 0,
+        "imp": 11,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 0.66,
+        "leads": 0,
+        "imp": 15,
+        "cliques": 1,
+        "lpv": 2,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
+    ]
+  },
+  {
+    "id": "6896028780554",
+    "key": "ad6",
+    "badge": "NOVO",
+    "badgeClass": "bn",
+    "name": "[CRIATIVO 3]",
+    "shortName": "[CRIATIVO 3]",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLM41kd_0SRAdNtlDVfofg3ouLQy2pKX3VmLa7VI2LPZr2dfbPyDLB1QkjbOegyFQT816XvkT62rtY_qhYobAjebNZtMEKIWy8X_aqi2rbSKDe1RIQA6J9zaZ5hi_2V8PRMQqwdQ16IIs5sHx_31O0mYpQAP-UendwJtQXijbCPnxIBsfS8b1jc8huGr2BMYWTi4JOgpUPG3-zCkB4-byZ7v9L64_yxgTQhcyvlYxWgYV7szP69dx-hAJvWF_mx8l34lZZOvmOnADQ3fVqbi0jG0taHlcDw590AMS65e8Fu6JSsKYb2eubl6aeepBjUV8JRzYHMha3Bhb0Qn-wWJvkaOIWNTs7-I7dMmVmoOUyoXiDFRe2shXAJO2p-zP_ydj-h_V9bbffHhjcZJ3nHWnUFSJcC4VdRAaL2odF19KdQ7yB7_X8kmdyOQ4fu9xQYx60&t=AQLNXOaqSPbeoMsqfNk",
+    "previewType": "fb",
+    "thumb": "https://scontent-iad6-1.xx.fbcdn.net/v/t15.5256-10/659836534_1641937193796249_2316537676487209507_n.jpg?_nc_cat=109&ccb=1-7&_nc_ohc=RiRSothodyUQ7kNvwHBLzli&_nc_oc=AdpSY4Z5CwxwExL2blAagXigBDq4JmR4HFLI61c5wL-NAukvPHfGu8iciWVS7NlXgfE&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=V4arOcv0_8HTEhCxtEapEA&_nc_tpa=Q5bMBQFqiHk2XUg915P7DRii_CzL7hEQu4ZDLYfY9PNDCy0rtTEIAFKqxSOC4jqsMELwi1lsNi3-YS2Omg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0rQAbUlz-IPAskedBrM4itr0zMCWkEZEyxUcCleh3kZw&oe=69E2E8E1",
+    "total": {
+      "spend": 0.0,
+      "leads": 0,
+      "imp": 0,
+      "cliques": 0,
+      "lpv": 0,
+      "ig_vis": 0,
+      "ig_fol": 0,
+      "reach": 0
+    },
+    "by_age": [
+      {
+        "age": "18–24",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "25–34",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "35–44",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "45–54",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "55–64",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      },
+      {
+        "age": "65+",
+        "spend": 0.0,
+        "leads": 0,
+        "imp": 0,
+        "cliques": 0,
+        "lpv": 0,
+        "ig_vis": 0,
+        "ig_fol": 0,
+        "reach": 0
+      }
     ]
   }
 ];
-
 // __DATA_END__
 
 // ═══ HELPERS ══════════════════════════════════════════════════════════════
