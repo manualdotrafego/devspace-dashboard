@@ -58,6 +58,13 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 .by{background:rgba(0,196,168,0.12);color:var(--p2);border:1px solid rgba(0,196,168,0.25)}
 .br{background:rgba(224,82,82,0.12);color:var(--r2);border:1px solid rgba(224,82,82,0.25)}
 .bn{background:var(--card2);color:var(--muted2);border:1px solid var(--b1)}
+/* STATUS */
+.st-badge{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.st-on{background:rgba(0,196,168,0.13);color:#33d4bc;border:1px solid rgba(0,196,168,0.3)}
+.st-off{background:rgba(224,82,82,0.11);color:#f47070;border:1px solid rgba(224,82,82,0.25)}
+.st-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.st-on .st-dot{background:#33d4bc;box-shadow:0 0 4px #33d4bc}
+.st-off .st-dot{background:#f47070}
 .sb-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--b1)}
 .sb-footer-text{font-size:9px;color:var(--muted);line-height:1.8}
 
@@ -347,47 +354,48 @@ const ADS = [
     "key": "ad0",
     "badge": "TOP",
     "badgeClass": "bg",
+    "status": "ON",
     "name": "[NBP02VD]",
     "shortName": "[NBP02VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIYtqIzVyllXyIQ51CI42KigxZDzX6v9SoITXu44e0iLK5Kl_tU058jQwhGLVF6hEt6Zl1LRUQvZoZHXMBJC-MTs08pNJjitp1OTiFIvkGw4JKpOfLJmFZjdZcOSSyX4SRKq1o4DknPe5FYOC8z4AprsIrD0JAlAJQ2Z7tNU4oDM9LmU43J9vTeyN1A_p5d15Vq3sttyzwI6ZRWbt12HjbBNfxAbqWObI-_bCERLVuvP45XebDLj_NsZ6s6h-3kIF2SJ9_O-DIHgKYHdyXloeOwwngNEJRtI6ggomeu3A3DrhR10oskhyOtoB4paKwx4OcmNSe0h3dKYsY_M7JU-sklefNNPwAF-mW7rBi8NoD4XCGbjRALKB2HApYVaT82RpiHBrK5SRNKfWNIlR5oAXp9CagMLEzZ6Pn-gBui1jDpzDoSUUXfo4mv4-XkHg-Hvak&t=AQLF1PC2YYn8fZv8jRQ",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJgEdye7eUuUWMGxQv20rNM5mSiwWcXqJQXTAuYnKHCGGDyjv5buZhaiuHWyn40H9KSaCCQXN6Fwy9bKj053oFkpn1l3lz2srFbM6lfrMtUcC3g2bsEQZ-73RMrEXHJqRa3poXcwIbw2uqPCTmfAzv-cHQ7xR9hmy0YiZBPHiDlBpNVvBmO4o2W-sc0WZ3vK3aWEadTmfpVrABOswUwnCV7E4afUOGtCQlAswDKgbMYZKXMEt4uLCB2sVc-fZud4PqcSy8xAITuOb4pmkx2UF5HDbp557L83LqKplxC_9Vwdv-7S2Er86AICdKLEdZ9cTJeNpn2zooUU1_f2DD7uwO5GqJ0scJrxo89hAMgmIDad--NLlVPrF8yOG6gL8XhGtTFDSWO-XGWivWZMmsLP7W-uT1W-7cO-MYdpoRMzYGhPt6ap13yMII1dtiUVhZrRzg&t=AQLP_H8GJYQkQHoOMRs",
     "previewType": "fb",
-    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwFoE5F3&_nc_oc=Adqxja6MRWU9bhK_vQ5JDnrnZv0xuMcQvvwz7xNBAIAyOT0N9mEP4YFq1nt4o7-2OGc&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQG1j8NTdoQjkqMiO2SAgoFiGQ71Qol3BVoGWw9znbvC5lc4hKt6mDUgIHMw6PzokyqpzuT_k37OHg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0Jnmes9JmI2TbLvCXSn7ff4wZButGQabI8Ip1_1Uvu9A&oe=69E2D073",
+    "thumb": "https://scontent-sjc3-1.xx.fbcdn.net/v/t15.5256-10/657323046_4375145626083261_8088078719687937794_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=gTWX2O7u8o4Q7kNvwHEXrZo&_nc_oc=AdpqGV-vwp8M6pAMsLjwRhL5OFPa6s1J_JfYd_LDBuC6NbpNRVtUMBJsybL_734B3hQ&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_tpa=Q5bMBQGK8DuBHzIwLrdB-5bN6sbXEu_MeTUzJaZ-zpzNhZZOmMpcp2NeedoER8Rne2EX2CLpWmDvALR68w&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af2FVdeIEg71jKoR3Ii6TnEEcwsSfrECnXgvYrxeSOQGBw&oe=69E2D073",
     "total": {
-      "spend": 64.44,
+      "spend": 64.71,
       "leads": 25,
-      "imp": 7933,
+      "imp": 7959,
       "cliques": 93,
       "lpv": 86
     },
     "by_age": [
       {
-        "spend": 4.28,
+        "spend": 4.32,
         "leads": 1,
-        "imp": 1018,
+        "imp": 1022,
         "cliques": 5,
         "lpv": 5,
         "age": "18–24"
       },
       {
-        "spend": 16.45,
+        "spend": 16.48,
         "leads": 7,
-        "imp": 2975,
+        "imp": 2982,
         "cliques": 23,
         "lpv": 22,
         "age": "25–34"
       },
       {
-        "spend": 19.88,
+        "spend": 19.97,
         "leads": 9,
-        "imp": 2318,
+        "imp": 2330,
         "cliques": 32,
         "lpv": 29,
         "age": "35–44"
       },
       {
-        "spend": 18.11,
+        "spend": 18.22,
         "leads": 6,
-        "imp": 1176,
+        "imp": 1179,
         "cliques": 22,
         "lpv": 20,
         "age": "45–54"
@@ -415,55 +423,56 @@ const ADS = [
     "key": "ad1",
     "badge": "BOM",
     "badgeClass": "by",
+    "status": "ON",
     "name": "[AD05]",
     "shortName": "[AD05]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQIb0LvZNTCPDNs2bBbbf64BU9eSspPGxATXXuMlCj2yBix15x2XoXJm2p2C6xK_e57C3Gg5RgtnQDGf93E8UcE204-chXQs4QYccEaSfxAGsknSHXo4-SvF8I8jsiL5jZkBGsUNWuSzW9d8LzK07qhHOJNRjhrFPYwODHz1h9WBrv2iNCvWlydx5ippo9IfPJvGJgDyerSa2nifmK7BfyadhHNoH7fSkFv05ckUgcPC9m6y2LgCKDFyuUyx9T44xvqrAasGssotYhM05r7Csvzw9eZmKhTznh-IaFbpHuExl5Q6ZNO7F-7E26T12qV9xCrJWVrBVCvTutTzTlO7gVqEM6rn6VHN2RB0RoPIi64rc-NLVgBvj120Wpa8__sik3VQ7tpVFE_HOW3ObcZCYBA2Is-Y0uhuk6J0kUVdDzFzA-z11kzeupCZ4webYetuTDs&t=AQKwiKJCxUMXxORwzKM",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJVMhwRpPGaezpU_Dp9gCfQtXH1dWEE9WY5YWzf5eTddC3eWDX0fhdTG5q8rNLpK0Zglmh0EWk8aIMQXYCBt6p2K0EIzGLIUg81ie0lllOllctqCts2VZJqImgkb8Pd8dlSerABkObPGU7py0hfcARH-z5JKkPIj_dWEV7MqK6PxUCT8_JQATjcZJ485iJVRFv8iUzkXLr9y6ief-ZMB4Dyd7iT3F7nUDMXlnNiyD1ADlIJdVU1iEBZ8q-QweRPuFZXWeoV70447wER_COMncOKth4l8DBq8O5K80tXIwlJIoU2-LWATgjmU56hSVh78vt800b1j7mbnUPaB0C9vtodAc3aAhFRBHdwb-sDF_Kv9nKZ7RQybhvKhk2AJN0DbJNaQf2ZyMBPf19mQwZzI0kRcg0JiieR7EIdPvtHuor8wcoxpHPWfG61EBZi-PXl4nI&t=AQIcMUAn0Ouit_uVQ4Y",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdoHwckuDmD0JMVaKIQzdub9CO4sku1_YGd1sDO6gx1yYCUqrVYIJy9XUh-t8aMz05k&ccb=13-1&oh=06_Q3--AZqFncoY-iMuFUHsXydha8QO6PJEZ1f20dc4Ov5npIId&oe=69DEC848&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/8026561957111488242?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI-WTipeGFMsZR1EZuI-ZN6-OVh_vXNasD3Bwh-G4OZwYRn8HcyuXtv1esVRziGgq_mVJ6iP9Dnr00oIdKOWVy0mIsEsKDLOH9C_Ur4gsk74uyyghiwv1LsqQWa9XR8QY2Lf1tv4QKbFcwdmCz2VYv9&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_oc=Adrf7pZG6PFd5M3OHVOZNN0ZIoar0csZJe6a9nYGGQkGu5t4x0HBa7U0lXQPgE4mjAg&ccb=13-1&oh=06_Q3--AX1hdKgKcyGGdDrfNEZIN52sNnGbI3-13SnGh5YNXedV&oe=69DEC848&_nc_sid=58080a",
     "total": {
-      "spend": 49.73,
+      "spend": 50.01,
       "leads": 9,
-      "imp": 5175,
+      "imp": 5185,
       "cliques": 65,
       "lpv": 51
     },
     "by_age": [
       {
-        "spend": 9.3,
+        "spend": 9.31,
         "leads": 1,
-        "imp": 1114,
+        "imp": 1115,
         "cliques": 2,
         "lpv": 2,
         "age": "18–24"
       },
       {
-        "spend": 14.33,
+        "spend": 14.57,
         "leads": 4,
-        "imp": 1962,
+        "imp": 1967,
         "cliques": 18,
         "lpv": 12,
         "age": "25–34"
       },
       {
-        "spend": 11.25,
+        "spend": 11.26,
         "leads": 1,
-        "imp": 1076,
+        "imp": 1078,
         "cliques": 9,
         "lpv": 8,
         "age": "35–44"
       },
       {
-        "spend": 8.39,
+        "spend": 8.4,
         "leads": 2,
-        "imp": 547,
+        "imp": 548,
         "cliques": 15,
         "lpv": 11,
         "age": "45–54"
       },
       {
-        "spend": 3.7,
+        "spend": 3.71,
         "leads": 1,
-        "imp": 276,
+        "imp": 277,
         "cliques": 12,
         "lpv": 10,
         "age": "55–64"
@@ -483,11 +492,12 @@ const ADS = [
     "key": "ad2",
     "badge": "REVISAR",
     "badgeClass": "br",
+    "status": "OFF",
     "name": "[MDL2]",
     "shortName": "[MDL2]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQI-gGmG1bPMAM6LCD7yFu6q16UffH_vnm5G1Gl-AzMD5zEvXZfCVdGyu1CyrRYqe0Ka1WzqdE9Rgcv_aVLeSIBobuWCVtDtqKgPdy4sOk0EpXom19kSQlz0gpA5HceD151ytDKEckhyKgcQ3q6Qup2ZngwfigbTIVSBs_keCmFvH_jfMB8UrQGKxL6VvLRs20Mx_leMXP15g2jA0nlf-WSnXu0F8F2Mww7XWflyssBE-LUmF_XnXayNMA91JFbf2oMx9-U62oo8jl9S4iLabh-XnWiB9S3J6t-VUEaOF0acAPSRKH3a5wcwk6vkVfOmsiYmblsR9PkHxigszgMo7pw1qVz6-9--YZOAR0KtjcMdUkU6oY4Q1mAkmshX7Of84PB8OVesHxwKR5GAPffJ-BdVPUFeOv01U_CKsPRf6JatElfKH8C7pzT6VKIxttrM_m0&t=AQJsDjFw_gjtd0indyI",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKJO--kcX1_cSDljeArWd_B6BnkoZbxkwPfzeL1KxAsK3pC_dTSC2aRHmMUMhPp4X8gSJ5A5RnjUXWFNFeyK6We-CsSiM-HWbDjruTzKydt_qo0qao62-QjoOzWmdPs0D4mE97uMYcTEB4wzdi5LLK0N2md7GQfp35-h2c3B2ZDycWEcvGUazbWPrSZktGQx3IezRVfqqa1xL68Qmcp5GnMN335MCuekVDngO7a7wId5TPPdr1YIrggX3uGyKBtHkT84o1nOLaHbHNOf2FnWa9Ys59_5l3GBPIOLuLhuh6rGUudzol442gzYVP2yTWzHnla4whvlbSmnauBzQUUi0ygJ8TcZCNai6ThVg1EIqiggZjTWK_tN3cBXFTlYVtPrIAqmbzrglrdSLRhlna_3ZBd_iRuk5Wi18GaheAYKSnih8eljexA6YgfrQTYLdOMg3w&t=AQJQvHGX9bUGstHPBrY",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdpOH_97omBL95Qh5Y2P9788vg7jXt9Icekwk-8T-4Qv3hgvDuwvNbSO5mIyr99voQw&ccb=13-1&oh=06_Q3--AQtkRuew2ufimCV_CJrMHXSxlBOx8yQwg2B5zU3dBnLc&oe=69DECC65&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/7293829514656529324?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ0rmSwXyixgp2aG7rlKYaJlqI1FBuzH6vfsp6phvul220M45NmlCmZyM2ZhmdSQLaz_yN4dfA6z53XTM-sBCNnvRfBa9jZPyrQR34xOaBPXO-ysLiKgnzmVY3Edv6HAsDHpYdS0JuUGibXx36oIYlt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=pju1CCte4weIO1zJOZycQw&_nc_oc=AdoG7kEYULNfk9CVHsvE1i4aB5ANjeBrXmuC5e_WCX6xH7yr8DrOq8UYfQG0uJTTVHg&ccb=13-1&oh=06_Q3--AZHKobJuTUEZbkBTFdQTAblYFPQtX6WjC7d3Mg3gy0Oa&oe=69DECC65&_nc_sid=58080a",
     "total": {
       "spend": 25.94,
       "leads": 3,
@@ -551,11 +561,12 @@ const ADS = [
     "key": "ad3",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[NBP01VD]",
     "shortName": "[NBP01VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLHF-2pmwsakVKSDTV3oVbrAEYHVoTht7fqblGZwkUWjJxRPJV9bEa8diJUr9XeeS5ke9CbxpGvVfX_hgY4-unPbJ8BOveg6jVYv-mpqmkTlfbDpjINll9IBP7Vw-kR_Ox2AYutx0WjCfvgxCYFwOJeUFRttz3D1K8hl6yETA2R9WXlxTjBlJK6amE778uQpb6nTgCg5gW2wpiLOefM9WUPa2gma9NJ2fAi1qgHwlqAFg0bFVAmnZz0Jp3mc1znoz4x-FVD-gSUEiDLSsxPHrMOBxER4VN2_SUyaDO67fXSk0vMRS_s9A0vUpQ3jGxOfErvQ_uTY8IfS8lO04T8t8JZc2FZKhtF1-xvlNQ4vplr6S6cK2M_sbaH0vymmKw-tgqBz7ndtRoapphbWabnKBD4eKmjxUZcs6b7zPedoUp8lhIVb3BBxtZK401-ZjVJf18&t=AQKsBi8m2aEYmb25k-Y",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKr4MeLLoXHsfESCGwHS9006mPMG7PAus4ixQA_dBLnzUtD0QAhSseqT9Ez_abWNqIZjvADTzZ030_jnJI2zaQiaFaAQ8_Apaeo06qZAXeE2YxsqDV6s6RKjJ4XLCjDTsOvo7y-yBGDJQnBQ5aY1HAaEWHnLd1uKIxrc4fayUx4birRNl-3BaELVM6-9QEQX0KcVde52IL5IvKBj9uOPA81CzMJ-6-pPmOwmYVLcv6XdR5OtuxTqtOrTh46Tbt0Jow63__tPC6e_G7RE0zQo9sleOFDf54WLFW_YapYPB86ECJhOyIbzzV15zw6SBBIwHWhGoB4x-kw4cDDJuFgsJz--mHTMBW-QHq7owLavBFVBXFaQcneLl4sPuL3N-VUIsyjog5PkrogNY6YBfSB7PZzUbSV_vEjazVvnOkHI1rerZcLs5FAFrvnzRK9Vlk__Gs&t=AQKENcogIxzc00IcQbI",
     "previewType": "fb",
-    "thumb": "https://scontent-hkg4-1.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwGdlkK_&_nc_oc=Adrm_9DOL2km04IQCDVuwffm7ogCal1RwR4fCtdDZ1IqCz50PU-CAqdM1Cwj-AacX8s&_nc_zt=23&_nc_ht=scontent-hkg4-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQEk8BGxpF-KBPLgya5o-zbaq2I7AqBCB2DyO-hmewYzUYjf0l3dKf_nfLixGAPVhjtPHqaXE7XW8w&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1xQyRloCNkm4699Uf5fd20zn9jhVdqfjjXievTh0ZulQ&oe=69E2C431",
+    "thumb": "https://scontent-sjc3-1.xx.fbcdn.net/v/t15.5256-10/659773827_1360641989156870_8517687294043390867_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=t-JYqBm1zrgQ7kNvwHOyMHx&_nc_oc=AdrejEKj4vZ9KzyceHyZyp1NJDXsDRAAAPNhPlNu6r6mglhMyWvveMkMkf5wEDAf17k&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_tpa=Q5bMBQE-2wZFhB4hPBUTIYnR9rlY1TI-xHBAoUoughdH4NMxo_9EcD-gek-LOJZIvQMv-snoHTNIoLX9SA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3GiBX2XGM6OI1zvoKe8vvyXU51gR1kPb_N2tFzbMVmAg&oe=69E2C431",
     "total": {
       "spend": 9.54,
       "leads": 0,
@@ -619,11 +630,12 @@ const ADS = [
     "key": "ad4",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[NBP03VD]",
     "shortName": "[NBP03VD]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKtcunuee7HoVG6-G0BDyBkaz6o2bb79_Fif2epLO70n0rk2FCMyclwNZ7jZiBnpItcbMNgD_cNeUiQI2PNU1xzU5h1II22QA2cdOst473fdKhvrEeZ0JNzveRaJOT60rxRkSIKsaWIhDWWmEbNbUJwMxUVJdEQ3whxToi4Q0k_CzBPLW4lIg7Zy3P3OAA25Vi743ck0Fl8t9DLvJHbgM3mNfHP_tkm-KHQ0MRVtXkZgH5t-aOT1p--JkNQkW2daTfBRTZ6f95PogMBu2eb8AbfFg_hOQ91Ek-96LjeK0Y-_6djtU4vVysuUY9nhd-thQZ9QAM6Tv7RUBH1gHgbJUE5aCR65qA9-uVdiWGhVXKeGXJ0eefDCfgSnPioDruFpnURnh6LW8KzJt_FmeSPbs8qaoKHWgjuGOxk27EyccVEtcqir_fLS04p4xXOcl_SCfI&t=AQJ8WP9BuwymSIWs0xs",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJzCGrU22627Ruhnho0ERaepxx-YfDboJfzWiPVdSdZcrZSoemcRhwMWti95TRZ9a3iwNNZqH_zzaXTGQH09DYqLOvAK3eyasI6wN8u2Z8sS1ggn1jKegzr1_PkC1Gzt52t_zzIe6x3pPEKAGvLDEYgFFxipV9BaFmMOL3vlgVHFBTk6JeZluYfcPC9R7WvJKJMZ7ApTjHW0eBS74zwY2CWuOrcYglo6TBNRarZl3JUI8vzouDa1pA73KNyl_p9TjsupLXr55PldKTxO-gddAyRuLf9AoQNCVsgCEA0_2UEMpcVWygIcgT4TJfAZy2SFeiWvrsXOyvXpmsJU0KOGf7Lz-PEQokcTV23S9scrmM3BTWcDaysTl9VAvVqZLUbsGnSEJ-ndaRgR7K5YDqsuhmcq7xecgLOqVrP6l-lmHBWId6WHMACmP-XEODzYLaEIag&t=AQJobhOL3_P5MCaGg5w",
     "previewType": "fb",
-    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFtHF3P&_nc_oc=AdoUdWxX6T3DuS2J5rTbbUniK5jo_WscRm0duaLLoUT7x6-PPfY_Pp-ksc6A3qt9maw&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_tpa=Q5bMBQEjRqE2v6ISSn-BvTK-rxgKMs1apGGX67CKeeWeN9pPg9lKaIrYPrsp9_hQ1OnO_3bpvDjsg8DNXA&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3ZFWIEmNYjZmTYm-sBe7zvESix7uw77OfXDHqFgWh3Og&oe=69E2ADFD",
+    "thumb": "https://scontent-sjc3-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwGPCsI8&_nc_oc=Adrrxbylj-VqT2C3QfRommjNZKafhOOH1fZFtUyQxp5iuiWhHwFeoRqtmIuMtrPDIWQ&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_tpa=Q5bMBQGt8doP0S7IAKtOcBUrmwGzEeKXc-E1rsulLwt6sZjcl3ND7usLDqULgN7hB70tUEoc-L7_2Y8epw&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af2yUIgAIiuRo-X2yEF3Qg2EwMuE0Uli69ETBJe3ty_5fA&oe=69E2ADFD",
     "total": {
       "spend": 9.08,
       "leads": 0,
@@ -687,11 +699,12 @@ const ADS = [
     "key": "ad5",
     "badge": "REVISAR",
     "badgeClass": "br",
+    "status": "OFF",
     "name": "[MDL3]",
     "shortName": "[MDL3]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQL-KerSCuG4UzRRzb86qNNf0mLkAXMxIj5Rba6mgZ_mOnbqUQvjbFScN1GSXA7hserikAaMucg272aStBSiyH9reB4p3z281IKfJ8qO-4XLIQImyE23CsTYzyc4u5lKC29zwmnhodRjiFvPclkXB-nHww6G-4Y-B4suEPJNEpCfTz4ykWAZXI3UQ3ofuOiJ56vpziTsCQxZR3ECSpTYrTm4Hg2MCPKXGWOlOniJ7wA8drgD-cOXki_ODiXNUNyM67_ep7KkeNrfoKSe1WcAA1E21ABR6HBkbRLXe-8T_0ahE36UTHa2f7YJpuFZ5xtdxWVHSz7YqpLn1sYriuuvi3pLM1FpJdPgoFTf8_PDbg2UcM7WyGX0x-JqMc3DlHW0qp90Rmw_kCowUReC19U6cN9HZnlqLk2XfSROHtwxeAIFBR0IVDTBlEtDk-Rw0EjafpI&t=AQIHekmxz3obDl3wbXo",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLmjgtEqHV6JkXefPqcMBzU9Kr_QzqGIGvufJ_8Kfg_Y4EuqcXY9DFSegPtREywgHFFa2kx_TxdEmp_bFNuXFeKh2jPyQoaWq4711n1yVn7OhO9JQKPfekSCLSAERozdZ1L-RLhfrSwtLtwiTGJjN6GavRqdSVn1lj3LgdfxXvKCTjHLvQgOE70x-yQFZtC98ZOPPPSfM3pYixd7-X7NQ6588CqXACiF3hoFtLqUOSOFGilk8bRCnmn7Lq2jTt60k1lRcZVXiMYChRbgWyCcoIxucAdUUE4vzLuBM2RdVVg7fRhomsbb9uNcoDhCRENKrxzGbVukgTmRajdnCAFhJcAjE56qdOR38wwIBKDPmUcUCFPpJy4h7WXWPeBcQVeejGtGzh7eI6k7r02XBTEEmu12JP0cVnJdtZllI7Z9NOEFI_w45JQB6-SVUyl1dh7KhE&t=AQJyZaqYkwHoKEf5kXg",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdrOs6mYY8B5yS1U-_ktuMW-mmYE3B14r0yYOPsYYOx2lABQ09FBg4kuIKhKZ6khAnc&ccb=13-1&oh=06_Q3--AdGJ6aGMY8UFsynZsRGInQLjotoy7KN5kLL2PpQ2b8MU&oe=69DEB2D0&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/15036827459784212920?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKYiWZoyrHVhQlH4lzTK_sP6fhPkEFpqlLXJ-CLEVqIa8DdIPQm29RzBJq5cot-UrjaXbw01DGpMMU0oLDDxF8W-0z1eemqxRY_lZpBzmfH5KftDL2aWCXVA0kjHQ_PuW9QDZtoufZJrc31cd4Uz1c_&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=pju1CCte4weIO1zJOZycQw&_nc_oc=AdqKNIb7Nzh3AtKWw9-w-ZdfivTjCxSiIw-Z3oKIU9xlgaquir83imGpi0ixaGxzny4&ccb=13-1&oh=06_Q3--Ab4VZ8S47p2GEsCen-5ZMftOpEi3j0PYoxA5wUuQkw9B&oe=69DEB2D0&_nc_sid=58080a",
     "total": {
       "spend": 8.32,
       "leads": 1,
@@ -755,11 +768,12 @@ const ADS = [
     "key": "ad6",
     "badge": "REVISAR",
     "badgeClass": "br",
+    "status": "OFF",
     "name": "[AD03]",
     "shortName": "[AD03]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJseRl5LHWb5U8zXTRdtF77QJPSVrx8F8yqx9OyoNg0WfuJZHBrsbl-E0Kcv5ESbIBlQ9TmvYf8RDR2EXtAkYcHfL4F7qBeqeKe3MOe5dqXytyEit4En7SrNE-nBXksTrwbMk2wl7JX0X9mDSq-_0elC8xGXX88FGEtcQhLuZe_yna9I-00gR7ZgvuRCeHErgrJdSTrPGGxWPLzCCjPV-GaQdv-LIeZ1veMJjxhsS-Xv4Cf3tA3JUQGj_LvqV7x4R32jiTE7agwYESQZQoWPqzjgUjOv_gf30NaibSTem18TMU58dZvE3MFSJQ5nPt9q_I1gM5QLBXQoIT3gFJSkdFuZpsdBjXn_GXD_jil15oJqJHRsNiQQ6GXm8cxp7kghev_r1cjDbzRIEdSMExJmz7UWGd1HS8VUuQGqSLEwaqSJLXvtd7RnkV3rKsPJeyHFJ0&t=AQJPR-x2no_Q255RvLo",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJcGTqqqok8tJw_RunsCD5G8UqBwDDTc6Hrn-yHrFw1PWMvqb36EzI6V0R1q9FliVt_wVT8P7vuZFxk1cNcLDZ7bQjzL8cdS_AXG0N0wzqLpcedbOQCRuSC4sdd5005PiKBhzGwmoisBRT4WGiT0qsmGwS0mCcGkVNLTgdLEk6qSOqCFKPLQAzbIyi2Gv_PLxpxJ9nuhMXSDgEmvORl08KVK8hU6EMYqHGTZJND4riczNqbZ1D4XtuMY4Rx1e0NYrlm5raolGGhez_Pv-VhCh1niM5m7CRD17mNV6v4e_8yXArLU4gZ0YVwJ61u0NDT1lLOJ2irL0B5RX4GoPqqpv1leoijDYRLJx6WTcV6nwF2BMEpZRaGQAR3KUrJaAgPMvW0GQpNtiWaGR6kN-0G3hRTNQIf6upal8HSqUuNOiCb4McowK1vlzcMyhyzK9UF6aY&t=AQLNgQ8MvC-OuHAt6fg",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdqyVmqTyLmXB1C0Qvij2wFF_qDNAzWZo9GUgrBOx51iVAzWtMGKk2gJ-v0-yS0wK-0&ccb=13-1&oh=06_Q3--AT-njedjcNCua52bpke818xcJ-PQMxEZ5FOiKAEC21l2&oe=69DEBF58&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/7181614722709825649?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQId32vrM9fbBhvY8PFhzOH9-IiEs3Wnt-AyjyEOXyH27gY9htNAOeVn32NaMI6m-5YnEkmAJlCR7M5nIPaJEO0XlwE5oCTqxp9y3NWnZ9wtr-xGjdC7hJXtNQrR3_Pp2-s8HApbH2bek7C0YqPH1ona&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=pju1CCte4weIO1zJOZycQw&_nc_oc=AdpRG0ATBOCyZ0nA7IMbFCNsduztDlvdLD4M5TTpmJDO0ItOJ9iw6U27VsoXXfMZ9Gs&ccb=13-1&oh=06_Q3--AQlmuLG5AJXUSJ9E1RN2crQn7REJkrhY70l4bY0s_35_&oe=69DEBF58&_nc_sid=58080a",
     "total": {
       "spend": 6.92,
       "leads": 1,
@@ -823,11 +837,12 @@ const ADS = [
     "key": "ad7",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[AD02]",
     "shortName": "[AD02]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLCNoSuECSRuLmT0v3-M6SwLFVVU6MOZtLJUCtJ1k9hMtz5MPbglzO8HqnzoF9yk6JbpdbCAUZyYDh8nixyVpi09zlukOVZb47MvPIyPDDDekfccM3Gq7f9uJrfnHMIkmOgKVbnwcClQrw1hiCx2gStMMse5nMVpNA9XMMPsLrYvQK72Nw0mYutNYkYCdl0Re0o0UYRmKPQZ9MvEZb8MAnc4TFeKNI5mpK1BT5Wifd6wL0uAgs6Hk25zvf1q0S3Sm1_mr2fp_qb94WkTJRSN6PxLuG5diY2MJKV4TBkLGQ7tNkkHAOgzH7B6TbdHV8JJAFIe4h57kXFjAojK4op-c9YwAbJ1hOpJNs4pQmk9ETCft_W8imiG4bma-zVnatiAEuqcP1v3XOmI8yQOyKtz3EYyf4XA9Akr0NYu83S6T4YfIA04hGnxTJlTpiBH0EFWhQ&t=AQK4aC7ew5rI0U8eU8o",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQLY7fXsxhkzbQpjCvItSeQMCwruUX-S5WaaVe73L3bt1AO4bLT6-jA206nRrtUBxt34opb9DeR07ZvbUX5oy2_Efz-Xuqza0Kquig2chxLuwq5Gox24Gw0ppTTPFNOkaugTXqBRDCtpHdGLY15o0tphFHdn97XgJzBHDz-ZaAaSvahaFvjd7-O-8IkbsqXvOywRytpFlnL8CPgPZFArgv1qDVnyx4keJY3SslX_aai_ZGNB20wzsOzr-YSKY9UyBf1SylPI8ZwJrc_5hAtqpHiojMMuX6fv17PiJA9HieKdknm89X4ErTFM2nFRAwqznE689rgke_Yl1KoaD-v0y3z3hwEqSvL2NgXeJPIiZ3i7_baxlQ0UOff4h05ObUfztlKhFWOi8tt-993PQJW9evYM4I6bgwz17UX3Ie4vNYV3pgsqgzGINYHExJ6ITz9Z_vQ&t=AQI0H0ASxjUAwjdCCBk",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdrlPwlOn_aJQQ7m1OcSdHlbzQDTSTcJMRNzld7tdT3DKLbrFY3Z6sUs3LX9zM-B_tw&ccb=13-1&oh=06_Q3--AWZj6-6r46JMpa5B39eXMVrk1Eh_JQDRos9KYbHFmtR_&oe=69DEC155&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_oc=AdoMQ4GOn9VGMTWfGNCg1pvsl3uNqUHmh5lMR2lrqlKNC33mcgvRIIAwOAT_2ZOUEr4&ccb=13-1&oh=06_Q3--AW4AeqtnEY_WbXLjZcYKHio9mZvvrUanHRokNQ5_fWiu&oe=69DEC155&_nc_sid=58080a",
     "total": {
       "spend": 5.57,
       "leads": 0,
@@ -891,11 +906,12 @@ const ADS = [
     "key": "ad8",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[MDL3]",
     "shortName": "[MDL3]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJNJ_CHVgQVcD7045Ex5zTRkUzaFXwmjQnnGwyUKjfOWys6VNZsMzPg_23mM6Idl9w8ziVplCgdBlJyi8J25SxIMPvEoecW5Tl0cuLvEXxctgyT1AjKgSwQ9x9gV2rL_I6xaaTdhigF5nji2uMqpqi5hs4ooYb4OQwkEOO_eD-0dPDXq9yR-nKrHEqNCexDU3WMkhvX_0tnaueSi9bqq7sd_LG64Z55L_Xp61xtubj8LRLRFC0echU4RsILE3bjDJ8c4OTW3boyU-HJWg-0RWyK6ZzFkanD47q8WkNyauqo8a27y0aXSDbvXVWwFsmA5oa1JA9M7RY8duHbcCgbCvPNcaTIESpCtzaBIRyLFbNGSvvYWWgSI8lTvCXMP6HOuotrLJHdyRZSGIu7bwUykt2bLmbQIQVQtstAoRuHygmXB3MzxDHgmzJqbxTeB2YUN10&t=AQK5xWeUO8uBXrz-YTI",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJqARUzGK1HQ7D27aEa6G_9O4AOh679i1EzYUKc9A-eK9y-vBm7HnXcQtnVmfbRRsubSyKDw5muX_JwlFS5kyTCoofBzwHyjPEfLo-CmEq3eJZjLi-T_2OFNs8Tbdn1mzlPIMO3mqRLBPQQL88rF-qJQXaj4luQh96SdM15-RYz89-EwgR-m8NTuRHHTbTxxfnuPZBCB1rFbdVCO8lZGnIjp7LEst793Dh4TlkJRHW_MU4oOA9lTApAaZ6sOfNwuFGwHU4yE_jQPE_jY_3Z2v5_hzz-0-5i43yOgIJJ_Pf_UW2D-ksb6GqMO5unwkuw11wO9dmjPFG_-FYJDqjl1cyMhqI5jBh6-Hd6gVWZLUaeQpEABlm0TGZVDoT1rsQX7s6q3pM0GgWTM6tl1mzBLJYut1sNos5GRRSoTKPGZOusGBwuVbiYPuk07lgL72R5Wis&t=AQKo6aOfbtTfbFToWaM",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=YxC8PNr9uyfTIfTMrP5ULQ&_nc_oc=AdolDa4snD1PK7af2jELx_7MQJwi_rs8fCvTn5QYyeXMgWIMkbkjOICfROc4Pmmqmo0&ccb=13-1&oh=06_Q3--AWAc9Jr8mtU3YOOAGP7awj4P-gOBXfbPpM7fcnfft_yr&oe=69DEB3E7&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/969637440397396586?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJL7Fax7NMqkqYywCvraQufNUKV2Es_vaoVWZ4VYF3aJIezp82-85ZDGnu7RrIpu_cN581whnwl1Iie59mSlq5XUg5vMVHkBbcmvEscRsGuScjVv-gsKmwclEt3UPd6ffXDfjR06hiIxc3Z2WLcUb95&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=esXGNfxEpYeGIMPWxWNVRQ&_nc_oc=Adqg1dev9FqIE4afgvpoTx2ccVdwQibZ6Gt8i7He_F-OSSQhWERTFcaOyti6LBOb0EY&ccb=13-1&oh=06_Q3--AcktkGpKlDx--N1vKZ-FCM3Ee0fWLh9kgwu0THceVv9o&oe=69DEB3E7&_nc_sid=58080a",
     "total": {
       "spend": 5.48,
       "leads": 0,
@@ -959,11 +975,12 @@ const ADS = [
     "key": "ad9",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[NBP03VD] — Cópia",
     "shortName": "[NBP03VD] — Cópia",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJPYan8jZNlNBz9XSJSNZxvMzfNGUrBN8JSljfWYKBCzAznuCz2FNust6oNnRGj9Vh9ZOWqBCd6lEpDjVnPXyuxLYuChTVxS_U2Fg2bHHZUNXMJxCHWL15lpbniPG-SHVWCFiWY9JM6ijd73HWOSqpk7tm-6aNlfX43XvS9UzaEDKc1BZO_2_cMztwE7-jyHK6Q-7edTRT6RbiuFW1Ec4DlNg3_rmUNUXdWpgHkMEipVuRppcA7XRUvaeWL9k09w2rgO_RnUfLkCCZUcmTQzP0F8Qjv1baV2jUz61pCFKiTWbe3zsu108s8jwbabloTDWmy9Zbn4FdZr-H6CMRawa0nXf3uHn71LqbHLGQXH-9oZ_JlANEbx36znmP8To2tVTbcyxUgK8F2_d8xqRBJrQQr-mk3xjwL4RGMDvAxq2VADpFz-PQsIdxJfmpH7vfIFGI&t=AQJLfS5QEANxu0e5tws",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKCm1b4XX-tqmOIQeBvaE-QgnsKXL-CCrXC8hALZLUQcnPdnHen3OK4Ube1R7Qxit8sQmJ0MyaHY_1G01zA4st1krY-un7pn3PnL3Egh6PYwEv5lZADzTSFeEWSoUKGgdcKud2PExKwsAFFW_OIRubWqL4-qUuqQ178HEi7wVDfMGR8vx2NH4ltv6foNLSPOQBuyDRp0TvSSdErjqTMWC8Bth4Ri_t8nZMisXd56RIryNI0VOpWlXVW1XbXr0IZ_IW9QXSiuTUd0H5cPT5MUoXiKqOH8pVKSzsx4kOZRt0y3Hc079VcIicTZNhg_rWXb817J-OpQRCcMrVKXBstn7Ag2BQ6I6oQUXhnaW05ptSsQ_zD4B6gUHia6BGJwKMMgX334FD5OXG9h1uDTgp2szh02dFxu_BzJ7Y3NyPveCnGYQVywnGvnMdW3iOTZnQXwcI&t=AQJ_sJkH0_Bp4U25bAA",
     "previewType": "fb",
-    "thumb": "https://scontent-hkg1-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwFtHF3P&_nc_oc=AdoUdWxX6T3DuS2J5rTbbUniK5jo_WscRm0duaLLoUT7x6-PPfY_Pp-ksc6A3qt9maw&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_tpa=Q5bMBQF_6ZmyBuuQYChhd_vPtlcDVhH6ftTLomT7yYuiNj02N5TZNWIaJBQbhdS5EtFMLSO_kx0upmjL9A&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3ZtKZBxbPX8l6Iss_CR_UNW7jR5qcCicuXiu8ZrdRUGw&oe=69E2ADFD",
+    "thumb": "https://scontent-sjc3-1.xx.fbcdn.net/v/t15.5256-10/659124320_2341565369659649_8338726989294617128_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=jjuSWwONmooQ7kNvwGPCsI8&_nc_oc=Adrrxbylj-VqT2C3QfRommjNZKafhOOH1fZFtUyQxp5iuiWhHwFeoRqtmIuMtrPDIWQ&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=ANIILHsEAAAA&_nc_gid=pju1CCte4weIO1zJOZycQw&_nc_tpa=Q5bMBQFBeAJT_7YrB7wpVuT8ofxbsd3G1RkrhPEYsryfPgGZxBykR0KGHrQsg14wH8wVZSfaEHWspyo-Fg&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0-DfHfGm7rtYGwUXWevO6lCG60r71UIun0aZGtdDDzqA&oe=69E2ADFD",
     "total": {
       "spend": 2.12,
       "leads": 0,
@@ -1027,11 +1044,12 @@ const ADS = [
     "key": "ad10",
     "badge": "NOVO",
     "badgeClass": "bn",
+    "status": "OFF",
     "name": "[AD02]",
     "shortName": "[AD02]",
-    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJlL_3eBGD5gwqETj3PBt-sLqXRLUZPqsSS-QAGftKGFTQiwg4MrAwJlQBJf9S03jjP6iCMqXLwRgE-ZF7e9slVUNqkYIBQOnbgUmY2cxv3sW3_bei6qjdMvHlfHZ641eXTYU7HNqGIdknCS8Qj8C6Q6zqJUiTNMBT7Tuyhvcr2-zr9f-fYfbA0mAnKAhajKnJNde37memA7aWY15yJczh2tk6GtNatkkQgtKmftInj1tiLm18aPwqg_KVqtiuN2Tnm4QlD7lehOLRkFRCsmNxtnRSf0mmhAveYu-DjdtSskC6GbYnr_ZJ4WXhbU5N2x3GkXSboNH2hOaMVdPVnt00me_3gb7JlZLK99UUlyMwOAxZyrcZnO3ClSvitt-_j7Zv0XkkPeerBM-EtcUeTMuQYHEHjKlTS-LSaCbk2-7vbZejq8jzDsPItEQSNElWyUCc&t=AQIZXgnpARSY56bL3UQ",
+    "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQKFW0l4X3llWnL3qCUBXugUDeA5bm8HFgxNnlnXGyJcPwhgehniqyGridKu2SZA5gUlvTD0qEpBNqUKEW9UPnbEu5EZzH28kpFkNx57eFoMPh2ASSx9jtGuNc60Hh5gTwRI4xCpuE1UauY_dVCm_gJVE58RQ021JOHiuAYiw8AOVDkQ8Zao64LJwjRtd3c7YYNB2A-wr80s1e8OV7uiVj0x9CSohm4pRM6vhiV-8B77CXPTVoxVZT24pHZv84N1bMr7-uxqTe-FR5PFI0JyA66gnvRrQPrZ0omLOWOZdMTK9yY-B0eawByswX7hSGRtLhVwiGTrlFI0mzh2AyxKASyZdGVD3GRWl12toguZJv8yQlVEBnCz5TC_dy6u_ioFPhFzEdUkuo2Ht6yDZtY7IauL6klh2GpBboAPYM2o_qVox6siEkL6gJPeKb4LrhDRw1g&t=AQIYoJK-aVziIWr3zQY",
     "previewType": "fb",
-    "thumb": "https://external-hkg1-2.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=j4PXE4L0m1yRAnTLj_Gt7w&_nc_oc=AdrlPwlOn_aJQQ7m1OcSdHlbzQDTSTcJMRNzld7tdT3DKLbrFY3Z6sUs3LX9zM-B_tw&ccb=13-1&oh=06_Q3--AeaNBPzSb354Sgl5xs7z4YvFAGLxFO0_RuhP8Sh5IL0l&oe=69DEC155&_nc_sid=58080a",
+    "thumb": "https://external-sjc6-1.xx.fbcdn.net/emg1/v/t13/15130340720575049228?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQKig267YiVoaez3chH7k_4vfyQffmWcI9z1-vRviukZbyiSwSeLDblv7RFKVASb9xAXUKgBPt-Gx3kiWtmIGxh5HB8FRRe5_m0nhz-tjTQb3Nw5jwstaQD2L9OE8BkLqpEzEAqG7c94wHNDcKmqaw3a&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=ANIILHsEAAAA&_nc_gid=pju1CCte4weIO1zJOZycQw&_nc_oc=AdoMQ4GOn9VGMTWfGNCg1pvsl3uNqUHmh5lMR2lrqlKNC33mcgvRIIAwOAT_2ZOUEr4&ccb=13-1&oh=06_Q3--AYU14orYPPtqfqyLuIjxE1qbdE18pJ6d4sAq-LkBgypO&oe=69DEC155&_nc_sid=58080a",
     "total": {
       "spend": 1.45,
       "leads": 0,
@@ -1170,10 +1188,11 @@ ADS.forEach(ad => {
   const div = document.createElement('div');
   div.className = 'sb-c';
   div.onclick = () => document.getElementById('cc-' + ad.id).scrollIntoView({behavior:'smooth'});
+  const stOnSb = ad.status === 'ON';
   div.innerHTML = `
     <div class="sb-c-thumb" style="background:var(--card3);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--muted2)">${ad.shortName.slice(0,3)}</div>
     <div class="sb-c-info">
-      <div class="sb-c-name">${ad.shortName}</div>
+      <div class="sb-c-name">${ad.shortName} <span class="st-badge ${stOnSb?'st-on':'st-off'}" style="font-size:7px;padding:1px 5px;margin-left:3px"><span class="st-dot"></span>${stOnSb?'ON':'OFF'}</span></div>
       <div class="sb-c-sub">${eur(t.spend)} · ${t.leads} leads</div>
     </div>
     <span class="badge ${ad.badgeClass}">${ad.badge}</span>`;
@@ -1309,12 +1328,14 @@ ADS.forEach((ad, ai) => {
     ? `<img class="cc-thumb" src="${ad.thumb}" onerror="this.style.background='var(--card3)';this.style.display='flex';"/>`
     : `<div class="cc-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted2)">${ad.shortName.slice(0,4)}</div>`;
 
+  const stOn = ad.status === 'ON';
+  const stBadgeHtml = `<span class="st-badge ${stOn?'st-on':'st-off'}"><span class="st-dot"></span>${stOn?'ON':'OFF'}</span>`;
   const html = `
   <div class="cc" id="cc-${ad.id}">
     <div class="cc-header">
       ${thumbHtml}
       <div class="cc-info">
-        <div class="cc-name">${ad.name} <span class="badge ${ad.badgeClass}" style="font-size:9px;margin-left:6px">${ad.badge}</span></div>
+        <div class="cc-name">${ad.name} <span class="badge ${ad.badgeClass}" style="font-size:9px;margin-left:6px">${ad.badge}</span> ${stBadgeHtml}</div>
         <div class="cc-adset">act_615338413578534 · ID ${ad.id}</div>
         <div class="cc-links">
           <a class="preview-btn preview-fb" href="${ad.preview}" target="_blank">Ver Prévia →</a>
