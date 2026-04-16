@@ -99,31 +99,16 @@ billing    = 'IMPRESSIONS'
 bid_strat  = 'LOWEST_COST_WITHOUT_CAP'   # sem cap — deixa o algoritmo otimizar
 daily_budget_cents = 1500  # €15/dia por ad set → max €60/dia total
 
-ADSET_IDS = []
-for i, cr in enumerate(creatives):
-    adset_name = f"[ABO] - [{cr['ad_name']}] - [VENDAS PRESENCIAL]"
-    adset_data = {
-        'name':              adset_name,
-        'campaign_id':       camp_id,
-        'status':            'PAUSED',
-        'daily_budget':      daily_budget_cents,
-        'billing_event':     billing,
-        'optimization_goal': opt_goal,
-        'bid_strategy':      bid_strat,
-        'destination_type':  'WEBSITE',
-        'promoted_object':   json.dumps(promo_obj),
-        'targeting':         json.dumps(base_targeting),
-        'start_time':        datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S+0000'),
-    }
-    try:
-        r = api_post(f'{BASE}/{ACCT}/adsets', adset_data)
-        adset_id = r['id']
-        ADSET_IDS.append((adset_id, cr))
-        print(f"  ✅ Ad set {i+1}: {adset_name}")
-        print(f"     id={adset_id} | budget=€15/dia | opt={opt_goal}")
-    except Exception as e:
-        print(f"  ❌ Falhou adset {adset_name}: {e}")
-        ADSET_IDS.append((None, cr))
+# Ad sets já criados no run anterior — reutilizar
+EXISTING_ADSET_IDS = [
+    '120249750028170002',  # IMG_4583
+    '120249750031710002',  # IMG_4585
+    '120249750033750002',  # IMG_4584
+    '120249750037010002',  # MIX ESTÁTICO
+]
+ADSET_IDS = list(zip(EXISTING_ADSET_IDS, creatives))
+for adset_id, cr in ADSET_IDS:
+    print(f"  ♻️  Adset existente: {adset_id} → {cr['ad_name']}")
 
 # ─── 6. CREATE ADS ───────────────────────────────────────────────────────────
 print("\n=== 6. CRIANDO ANÚNCIOS ===")
@@ -137,7 +122,6 @@ for adset_id, cr in ADSET_IDS:
         'adset_id':   adset_id,
         'creative':   json.dumps({'creative_id': cr['creative_id']}),
         'status':     'PAUSED',
-        'tracking_specs': json.dumps([{'action.type': ['offsite_conversion'], 'fb_pixel': [pixel_id]}]) if pixel_id else json.dumps([]),
     }
     try:
         r = api_post(f'{BASE}/{ACCT}/ads', ad_data)
