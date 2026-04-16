@@ -81,13 +81,13 @@ print("\n=== 5. CRIANDO AD SETS (ABO) ===")
 # Pixel: João Mafra lançamento (último disparo 2026-04-10)
 PIXEL_LANCAMENTO = '428168332789537'
 
-# Advantage+ placements — sem restrições de posicionamento
-# (a Meta distribui automaticamente; melhor para OUTCOME_SALES)
+# Targeting com Advantage+ audience DESATIVADO (0) + geo PT/BR
+# targeting_automation obrigatório na v19+ para OUTCOME_SALES
 base_targeting = {
     'age_min': 22,
     'age_max': 55,
     'geo_locations': {'countries': ['PT', 'BR']},
-    # sem publisher_platforms/positions → Advantage+ placements
+    'targeting_automation': {'advantage_audience': 0},
 }
 
 # promoted_object — PURCHASE event no pixel de lançamento
