@@ -75,6 +75,7 @@ camp_data = {
     'objective': 'OUTCOME_SALES',
     'status': 'PAUSED',
     'special_ad_categories': json.dumps([]),
+    'is_adset_budget_sharing_enabled': 'false',  # ABO: budget fixo por adset
 }
 camp_resp = api_post(f'{BASE}/{ACCT}/campaigns', camp_data)
 camp_id = camp_resp['id']
@@ -85,26 +86,26 @@ print(f"     Objetivo: OUTCOME_SALES | Budget: ABO | Status: PAUSED")
 # ─── 5. CREATE 4 AD SETS (one per creative) ──────────────────────────────────
 print("\n=== 5. CRIANDO AD SETS (ABO) ===")
 
-# Use base targeting or fallback to broad
-if not base_targeting:
-    base_targeting = {
-        'age_min': 22,
-        'age_max': 55,
-        'geo_locations': {'countries': ['PT', 'BR']},
-        'publisher_platforms': ['facebook', 'instagram'],
-        'facebook_positions': ['feed', 'story', 'reels'],
-        'instagram_positions': ['stream', 'story', 'reels'],
-    }
+# Pixel mais recente e relevante: João Mafra lançamento
+PIXEL_LANCAMENTO = '428168332789537'
 
-# promoted_object
-promo_obj = {}
-if pixel_id:
-    promo_obj = {'pixel_id': pixel_id, 'custom_event_type': 'COMPLETE_REGISTRATION'}
+# targeting amplo PT+BR (as campanha originais usavam Advantage+)
+base_targeting = {
+    'age_min': 22,
+    'age_max': 55,
+    'geo_locations': {'countries': ['PT', 'BR']},
+    'publisher_platforms': ['facebook', 'instagram'],
+    'facebook_positions': ['feed', 'story', 'reels'],
+    'instagram_positions': ['stream', 'story', 'reels'],
+}
+
+# promoted_object — pixel lançamento + conversão de compra
+promo_obj = {'pixel_id': PIXEL_LANCAMENTO, 'custom_event_type': 'PURCHASE'}
 
 # opt goal & billing
-opt_goal = 'OFFSITE_CONVERSIONS' if pixel_id else 'LINK_CLICKS'
+opt_goal = 'OFFSITE_CONVERSIONS'
 billing  = 'IMPRESSIONS'
-daily_budget_cents = 1500  # €15/day per ad set
+daily_budget_cents = 1500  # €15/dia por ad set → max €60/dia total
 
 ADSET_IDS = []
 for i, cr in enumerate(creatives):
