@@ -68,38 +68,29 @@ for ads in original_adsets:
 if base_targeting:
     print(f"  → Targeting capturado: geo={[g.get('name') for g in base_targeting.get('geo_locations',{}).get('countries',[])]}, age={base_targeting.get('age_min')}-{base_targeting.get('age_max')}")
 
-# ─── 4. CREATE CAMPAIGN (ABO, PAUSED) ────────────────────────────────────────
-print("\n=== 4. CRIANDO CAMPANHA ===")
-camp_data = {
-    'name': '[VENDAS] - [PRESENCIAL NOD MAIO 2026]',
-    'objective': 'OUTCOME_SALES',
-    'status': 'PAUSED',
-    'special_ad_categories': json.dumps([]),
-    'is_adset_budget_sharing_enabled': 'false',  # ABO: budget fixo por adset
-}
-camp_resp = api_post(f'{BASE}/{ACCT}/campaigns', camp_data)
-camp_id = camp_resp['id']
-print(f"  ✅ Campanha criada: id={camp_id}")
+# ─── 4. REUSE existing campaign (already created) ────────────────────────────
+print("\n=== 4. CAMPANHA ===")
+camp_id = '120249749878160002'   # criada no run anterior
+print(f"  ♻️  Reutilizando campanha já criada: id={camp_id}")
 print(f"     Nome: [VENDAS] - [PRESENCIAL NOD MAIO 2026]")
 print(f"     Objetivo: OUTCOME_SALES | Budget: ABO | Status: PAUSED")
 
 # ─── 5. CREATE 4 AD SETS (one per creative) ──────────────────────────────────
 print("\n=== 5. CRIANDO AD SETS (ABO) ===")
 
-# Pixel mais recente e relevante: João Mafra lançamento
+# Pixel: João Mafra lançamento (último disparo 2026-04-10)
 PIXEL_LANCAMENTO = '428168332789537'
 
-# targeting amplo PT+BR (as campanha originais usavam Advantage+)
+# Advantage+ placements — sem restrições de posicionamento
+# (a Meta distribui automaticamente; melhor para OUTCOME_SALES)
 base_targeting = {
     'age_min': 22,
     'age_max': 55,
     'geo_locations': {'countries': ['PT', 'BR']},
-    'publisher_platforms': ['facebook', 'instagram'],
-    'facebook_positions': ['feed', 'story', 'reels'],
-    'instagram_positions': ['stream', 'story', 'reels'],
+    # sem publisher_platforms/positions → Advantage+ placements
 }
 
-# promoted_object — pixel lançamento + conversão de compra
+# promoted_object — PURCHASE event no pixel de lançamento
 promo_obj = {'pixel_id': PIXEL_LANCAMENTO, 'custom_event_type': 'PURCHASE'}
 
 # opt goal & billing
@@ -118,12 +109,10 @@ for i, cr in enumerate(creatives):
         'billing_event':     billing,
         'optimization_goal': opt_goal,
         'destination_type':  'WEBSITE',
+        'promoted_object':   json.dumps(promo_obj),
         'targeting':         json.dumps(base_targeting),
         'start_time':        datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S+0000'),
     }
-    if promo_obj:
-        adset_data['promoted_object'] = json.dumps(promo_obj)
-
     try:
         r = api_post(f'{BASE}/{ACCT}/adsets', adset_data)
         adset_id = r['id']
