@@ -94,8 +94,9 @@ base_targeting = {
 promo_obj = {'pixel_id': PIXEL_LANCAMENTO, 'custom_event_type': 'PURCHASE'}
 
 # opt goal & billing
-opt_goal = 'OFFSITE_CONVERSIONS'
-billing  = 'IMPRESSIONS'
+opt_goal   = 'OFFSITE_CONVERSIONS'
+billing    = 'IMPRESSIONS'
+bid_strat  = 'LOWEST_COST_WITHOUT_CAP'   # sem cap — deixa o algoritmo otimizar
 daily_budget_cents = 1500  # €15/dia por ad set → max €60/dia total
 
 ADSET_IDS = []
@@ -108,6 +109,7 @@ for i, cr in enumerate(creatives):
         'daily_budget':      daily_budget_cents,
         'billing_event':     billing,
         'optimization_goal': opt_goal,
+        'bid_strategy':      bid_strat,
         'destination_type':  'WEBSITE',
         'promoted_object':   json.dumps(promo_obj),
         'targeting':         json.dumps(base_targeting),
