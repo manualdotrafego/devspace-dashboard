@@ -39,10 +39,13 @@ print("="*60)
 print("BUSCANDO ADSETS DE [CAPTAÇÃO]-[0 AO EMPREGO]-[VALIDAÇÃO CRIATIVO]")
 print("="*60)
 
-# Busca adsets contendo "CRIATIVO" no nome (sem acento especial)
+# Busca adsets contendo "CRIATIVO" no nome — inclui IN_DRAFT
 resp = api_get(f"{BASE}/{ACCT}/adsets", {
     'fields': 'id,name,campaign_id,created_time,effective_status',
-    'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"CRIATIVO"}]),
+    'filtering': json.dumps([
+        {"field":"name","operator":"CONTAIN","value":"CRIATIVO"},
+        {"field":"effective_status","operator":"IN","value":["ACTIVE","PAUSED","IN_DRAFT","CAMPAIGN_PAUSED","ARCHIVED"]}
+    ]),
     'limit': 100
 })
 
@@ -55,7 +58,10 @@ if not adsets_raw:
     # fallback: busca por "Copia" ou "AD SET"
     resp2 = api_get(f"{BASE}/{ACCT}/adsets", {
         'fields': 'id,name,campaign_id,created_time,effective_status',
-        'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"AD SET 1"}]),
+        'filtering': json.dumps([
+            {"field":"name","operator":"CONTAIN","value":"AD SET 1"},
+            {"field":"effective_status","operator":"IN","value":["ACTIVE","PAUSED","IN_DRAFT","CAMPAIGN_PAUSED","ARCHIVED"]}
+        ]),
         'limit': 100
     })
     adsets_raw = resp2.get('data', [])
