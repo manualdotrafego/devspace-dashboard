@@ -43,7 +43,6 @@ found_camp = None
 next_url = f"{BASE}/{ACCT}/campaigns"
 params = {
     'fields': 'id,name,effective_status',
-    'effective_status': json.dumps(["ACTIVE","PAUSED","ARCHIVED","DELETED","PENDING_REVIEW","WITH_ISSUES"]),
     'limit': 100
 }
 
