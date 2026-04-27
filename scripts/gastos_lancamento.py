@@ -67,7 +67,7 @@ for label, since, until in periods:
 
 # ─── Por campanha (lifetime) ───────────────────────────────────────────────────
 print("\n" + "="*70)
-print("📊 CAMPANHAS — Gasto lifetime (ordenado por spend)")
+print("📊 CAMPANHAS — Gasto Abril/2026 (ordenado por spend)")
 print("="*70)
 
 camps_ins = paginate(f"{BASE}/{ACCT}/campaigns", {
@@ -79,7 +79,7 @@ camp_data = []
 for c in camps_ins:
     ins = get(f"{BASE}/{c['id']}/insights", {
         'fields': 'spend,impressions,clicks,ctr,cpc,actions,reach',
-        'date_preset': 'maximum',
+        'time_range': json.dumps({'since': '2026-04-01', 'until': '2026-04-27'}),
         'level': 'campaign'
     }).get('data', [{}])
     d = ins[0] if ins else {}
