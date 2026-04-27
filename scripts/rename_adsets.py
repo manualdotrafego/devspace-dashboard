@@ -1,4 +1,4 @@
-import requests, os, time
+import requests, os, time, json
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
@@ -34,68 +34,65 @@ def api_post(url, data=None):
         return {}
     return r.json()
 
-def paginate(url, params, max_pages=20):
-    results, page, data = [], 0, api_get(url, params)
-    results.extend(data.get('data', []))
-    while data.get('paging', {}).get('next') and page < max_pages:
-        time.sleep(0.3)
-        data = api_get(data['paging']['next'])
-        results.extend(data.get('data', []))
-        page += 1
-    return results
-
-# ─── 1. Busca campanha por nome com filtering ─────────────────────────────────
-import json
+# ─── 1. Acha os adsets pelo nome via filtering ────────────────────────────────
 print("="*60)
-print("BUSCANDO CAMPANHA [CAPTAÇÃO]-[0 AO EMPREGO]-[VALIDAÇÃO CRIATIVO]")
+print("BUSCANDO ADSETS DE [CAPTAÇÃO]-[0 AO EMPREGO]-[VALIDAÇÃO CRIATIVO]")
 print("="*60)
 
-# Busca filtrada por parte do nome
-camp_data = api_get(f"{BASE}/{ACCT}/campaigns", {
-    'fields': 'id,name,effective_status',
-    'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"VALIDAÇÃO CRIATIVO"}]),
-    'limit': 50
+# Busca adsets contendo "CRIATIVO" no nome (sem acento especial)
+resp = api_get(f"{BASE}/{ACCT}/adsets", {
+    'fields': 'id,name,campaign_id,created_time,effective_status',
+    'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"CRIATIVO"}]),
+    'limit': 100
 })
 
-camps = camp_data.get('data', [])
-print(f"Encontradas {len(camps)} campanhas com 'VALIDAÇÃO CRIATIVO':")
-for c in camps:
-    print(f"  [{c.get('effective_status','?')[:6]}] {c['name']}  id:{c['id']}")
+adsets_raw = resp.get('data', [])
+print(f"Adsets com 'CRIATIVO' no nome: {len(adsets_raw)}")
+for a in adsets_raw:
+    print(f"  [{a.get('effective_status','?')[:6]}] {a['name']}  camp:{a.get('campaign_id','?')}")
 
-if not camps:
-    # tenta sem acento
-    camp_data2 = api_get(f"{BASE}/{ACCT}/campaigns", {
-        'fields': 'id,name,effective_status',
-        'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"EMPREGO"}]),
-        'limit': 50
+if not adsets_raw:
+    # fallback: busca por "Copia" ou "AD SET"
+    resp2 = api_get(f"{BASE}/{ACCT}/adsets", {
+        'fields': 'id,name,campaign_id,created_time,effective_status',
+        'filtering': json.dumps([{"field":"name","operator":"CONTAIN","value":"AD SET 1"}]),
+        'limit': 100
     })
-    camps = camp_data2.get('data', [])
-    print(f"Tentativa com 'EMPREGO': {len(camps)} campanhas")
-    for c in camps:
-        print(f"  [{c.get('effective_status','?')[:6]}] {c['name']}  id:{c['id']}")
+    adsets_raw = resp2.get('data', [])
+    print(f"\nFallback - adsets com 'AD SET 1': {len(adsets_raw)}")
+    for a in adsets_raw:
+        print(f"  [{a.get('effective_status','?')[:6]}] {a['name']}  camp:{a.get('campaign_id','?')}")
 
-if not camps:
-    print("❌ Campanha não encontrada.")
+if not adsets_raw:
+    print("❌ Nenhum adset encontrado. Verifique o nome da campanha.")
     exit(1)
 
-camp = camps[0]
-print(f"\n✅ Usando: {camp['name']}  (id:{camp['id']})")
+# ─── 2. Descobre a campanha e confirma ───────────────────────────────────────
+camp_ids = list(set(a['campaign_id'] for a in adsets_raw))
+print(f"\nCampanhas associadas: {camp_ids}")
 
-# ─── 2. Busca adsets APENAS dessa campanha ────────────────────────────────────
-print("\n" + "="*60)
-print("ADSETS DA CAMPANHA")
-print("="*60)
-
-adsets = paginate(f"{BASE}/{camp['id']}/adsets", {
-    'fields': 'id,name,created_time,effective_status',
-    'limit': 50
+# Pega info da campanha
+camp_info = api_get(f"{BASE}/{camp_ids[0]}", {
+    'fields': 'id,name,effective_status'
 })
+print(f"Campanha: {camp_info.get('name')}  [{camp_info.get('effective_status')}]")
 
-adsets.sort(key=lambda x: x.get('created_time',''))
-print(f"\n{len(adsets)} ad sets encontrados:")
-for i, a in enumerate(adsets, 1):
-    print(f"  {i:2}. [{a.get('effective_status','?')[:6]}] {a['name']}")
-    print(f"       id:{a['id']} | criado:{a.get('created_time','')[:19]}")
+# Se tiver mais de 1 campanha, filtra pela que tem "EMPREGO" no nome
+if len(camp_ids) > 1:
+    for cid in camp_ids:
+        ci = api_get(f"{BASE}/{cid}", {'fields': 'id,name'})
+        print(f"  [{cid}] {ci.get('name')}")
+        if 'EMPREGO' in ci.get('name','').upper():
+            camp_info = ci
+            break
+
+# Filtra adsets apenas da campanha certa
+targets = [a for a in adsets_raw if a['campaign_id'] == camp_info['id']]
+targets.sort(key=lambda x: x.get('created_time',''))
+
+print(f"\n{len(targets)} adsets da campanha [{camp_info['name']}]:")
+for i, a in enumerate(targets, 1):
+    print(f"  {i:2}. {a['name']}  (id:{a['id']})")
 
 # ─── 3. Busca ads de cada adset ───────────────────────────────────────────────
 print("\n" + "="*60)
@@ -103,14 +100,14 @@ print("ADS DENTRO DE CADA ADSET")
 print("="*60)
 
 adset_ads = {}
-for a in adsets:
+for a in targets:
     time.sleep(0.2)
     ads = api_get(f"{BASE}/{a['id']}/ads", {
-        'fields': 'id,name,created_time,effective_status',
+        'fields': 'id,name,created_time',
         'limit': 50
     }).get('data', [])
     adset_ads[a['id']] = sorted(ads, key=lambda x: x.get('created_time',''))
-    print(f"\n  [{a['name'][:50]}]")
+    print(f"\n  [{a['name'][:55]}]")
     for ad in adset_ads[a['id']]:
         print(f"    → {ad['name']}  (id:{ad['id']})")
 
@@ -119,49 +116,47 @@ print("\n" + "="*60)
 print("RENOMEANDO ADSETS")
 print("="*60)
 
-for i, adset in enumerate(adsets, 1):
-    new_name = f"[AD SET 1.{i}] - [VALIDAÇÃO CRIATIVO]"
+for i, adset in enumerate(targets, 1):
+    new_name = f"[AD SET 1.{i}] - [VALIDA\u00c7\u00c3O CRIATIVO]"
     time.sleep(0.2)
     result = api_post(f"{BASE}/{adset['id']}", {'name': new_name})
     ok = result.get('success') or result.get('id')
-    status = "✅" if ok else "❌"
-    print(f"  {status} {adset['name']}")
+    print(f"  {'✅' if ok else '❌'} {adset['name'][:55]}")
     print(f"       → {new_name}")
 
 # ─── 5. Renomeia ads ──────────────────────────────────────────────────────────
 print("\n" + "="*60)
-print("RENOMEANDO ADS (criativos)")
+print("RENOMEANDO ADS")
 print("="*60)
 
 creative_idx = 0
-for adset in adsets:
+for adset in targets:
     for ad in adset_ads[adset['id']]:
         if creative_idx >= len(CREATIVE_NAMES):
-            print(f"  ⚠️  Sem nome para ad {ad['id']} - criativo_idx={creative_idx}")
+            print(f"  ⚠️  Mais ads do que nomes disponíveis (ad:{ad['id']})")
             continue
         new_ad_name = CREATIVE_NAMES[creative_idx]
         time.sleep(0.2)
         result = api_post(f"{BASE}/{ad['id']}", {'name': new_ad_name})
         ok = result.get('success') or result.get('id')
-        status = "✅" if ok else "❌"
-        print(f"  {status} {ad['name']}")
+        print(f"  {'✅' if ok else '❌'} {ad['name'][:55]}")
         print(f"       → {new_ad_name}")
         creative_idx += 1
 
-# ─── 6. Resumo final ──────────────────────────────────────────────────────────
+# ─── 6. Resultado final ───────────────────────────────────────────────────────
 print("\n" + "="*60)
 print("RESULTADO FINAL")
 print("="*60)
 time.sleep(1)
-final = api_get(f"{BASE}/{camp['id']}/adsets", {
+final_adsets = api_get(f"{BASE}/{camp_info['id']}/adsets", {
     'fields': 'id,name',
     'limit': 50
 }).get('data', [])
-final.sort(key=lambda x: x.get('name',''))
-for a in final:
+final_adsets.sort(key=lambda x: x.get('name',''))
+for a in final_adsets:
+    time.sleep(0.1)
     ads = api_get(f"{BASE}/{a['id']}/ads", {
-        'fields': 'id,name',
-        'limit': 50
+        'fields': 'id,name', 'limit': 50
     }).get('data', [])
     print(f"\n  {a['name']}")
     for ad in ads:
