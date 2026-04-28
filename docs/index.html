@@ -349,7 +349,7 @@ tr:hover td{background:rgba(255,229,0,.025)}
         <span>Gasto &amp; Leads diários</span>
         <span class="bsm bsm-yl" id="chart-badge">—</span>
       </div>
-      <canvas id="chart" height="118" style="margin-top:10px"></canvas>
+      <canvas id="chart" style="margin-top:10px"></canvas>
     </div>
   </div>
 
@@ -555,7 +555,8 @@ function renderPills() {
   all.onclick = () => selDay('all', all);
   c.appendChild(all);
 
-  (D.daily || []).forEach(d => {
+  // Only show pills for days that actually had spend
+  (D.daily || []).filter(d => d.spend > 0).forEach(d => {
     const dt  = new Date(d.date + 'T12:00:00Z');
     const lbl = days[dt.getUTCDay()] + ' ' +
                 dt.getUTCDate().toString().padStart(2,'0') + '/' +
@@ -632,34 +633,61 @@ function updateKPIs(m) {
 /* ── Chart ────────────────────────────────────────────── */
 function renderChart() {
   if (ch) { ch.destroy(); ch = null; }
+  // D.daily always has 7 entries (script fills missing days with 0)
+  const labels = D.daily.map(d => {
+    const dt = new Date(d.date + 'T12:00:00Z');
+    const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    return days[dt.getUTCDay()] + ' ' +
+           dt.getUTCDate().toString().padStart(2,'0') + '/' +
+           (dt.getUTCMonth()+1).toString().padStart(2,'0');
+  });
+  const spends = D.daily.map(d => d.spend || 0);
+  const leads  = D.daily.map(d => d.leads || 0);
+  const forms  = D.daily.map(d => d.form_thanks || 0);
+
   const ctx = document.getElementById('chart').getContext('2d');
   ch = new Chart(ctx, {
     data: {
-      labels: D.daily.map(d => fd(d.date)),
+      labels,
       datasets: [
         {
           type: 'bar',
           label: 'Gasto (R$)',
-          data: D.daily.map(d => d.spend),
-          backgroundColor: 'rgba(255,229,0,.6)',
+          data: spends,
+          backgroundColor: 'rgba(255,229,0,.65)',
           yAxisID: 'y',
-          borderRadius: 4,
-          order: 2,
+          borderRadius: 3,
+          order: 3,
         },
         {
           type: 'line',
           label: 'Leads',
-          data: D.daily.map(d => d.leads),
+          data: leads,
           borderColor: '#4DFFF8',
           backgroundColor: 'rgba(77,255,248,.07)',
           pointBackgroundColor: '#4DFFF8',
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.35,
-          fill: true,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          tension: 0.3,
+          fill: false,
           yAxisID: 'y2',
           order: 1,
-        }
+        },
+        {
+          type: 'line',
+          label: 'Forms Obrigado',
+          data: forms,
+          borderColor: '#B39DDB',
+          backgroundColor: 'transparent',
+          pointBackgroundColor: '#B39DDB',
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          tension: 0.3,
+          fill: false,
+          yAxisID: 'y2',
+          order: 2,
+          borderDash: [4, 3],
+        },
       ]
     },
     options: {
@@ -669,7 +697,7 @@ function renderChart() {
       plugins: {
         legend: {
           display: true,
-          labels: { color: 'rgba(255,255,255,.4)', boxWidth: 12, font: { size: 11 } }
+          labels: { color: 'rgba(255,255,255,.4)', boxWidth: 10, font: { size: 10 }, padding: 12 }
         },
         tooltip: {
           backgroundColor: '#1c1c1c',
@@ -678,16 +706,17 @@ function renderChart() {
           titleColor: '#fff',
           bodyColor: 'rgba(255,255,255,.65)',
           callbacks: {
-            label: ctx => ctx.dataset.yAxisID === 'y'
-              ? ' Gasto: R$ ' + ctx.parsed.y.toFixed(2)
-              : ' Leads: ' + ctx.parsed.y
+            label: c => {
+              if (c.dataset.yAxisID === 'y') return ' Gasto: R$ ' + c.parsed.y.toFixed(2);
+              return ` ${c.dataset.label}: ${c.parsed.y}`;
+            }
           }
         }
       },
       scales: {
-        x : { ticks: { color: 'rgba(255,255,255,.3)', font: { size: 10 } },  grid: { color: 'rgba(255,255,255,.05)' } },
-        y : { position: 'left',  ticks: { color: 'rgba(255,229,0,.55)',  font: { size: 10 }, callback: v => 'R$' + v }, grid: { color: 'rgba(255,255,255,.05)' } },
-        y2: { position: 'right', ticks: { color: 'rgba(77,255,248,.55)', font: { size: 10 } }, grid: { display: false } }
+        x : { ticks: { color: 'rgba(255,255,255,.35)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
+        y : { position: 'left',  ticks: { color: 'rgba(255,229,0,.55)',  font: { size: 10 }, callback: v => 'R$'+v }, grid: { color: 'rgba(255,255,255,.05)' } },
+        y2: { position: 'right', ticks: { color: 'rgba(77,255,248,.5)', font: { size: 10 } }, grid: { display: false }, min: 0 }
       }
     }
   });
@@ -696,8 +725,8 @@ function renderChart() {
 function highlightDay(date) {
   const idx = D.daily.findIndex(d => d.date === date);
   ch.data.datasets[0].backgroundColor = D.daily.map((_,i) =>
-    date === 'all' ? 'rgba(255,229,0,.6)' :
-    i === idx ? 'rgba(255,229,0,1)' : 'rgba(255,229,0,.15)'
+    date === 'all' ? 'rgba(255,229,0,.65)' :
+    i === idx ? 'rgba(255,229,0,1)' : 'rgba(255,229,0,.12)'
   );
   ch.update();
 }
