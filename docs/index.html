@@ -259,11 +259,11 @@ tr:hover td{background:rgba(255,229,0,.025)}
     </div>
   </div>
 
-  <div class="sb-sec">Período</div>
+  <div class="sb-sec">Dias com gasto</div>
   <div class="sb-pills" id="day-pills"></div>
 
   <div class="sb-sum">
-    <div class="sb-sum-ttl">Resumo 7 dias</div>
+    <div class="sb-sum-ttl">Resumo Lifetime</div>
     <div class="sb-row"><span class="sb-lbl">💰 Gasto</span><span class="sb-val" id="ss-spend">—</span></div>
     <div class="sb-row"><span class="sb-lbl">🎯 Leads</span><span class="sb-val" id="ss-leads">—</span></div>
     <div class="sb-row wh"><span class="sb-lbl">📊 CPL</span><span class="sb-val" id="ss-cpl">—</span></div>
@@ -633,12 +633,13 @@ function updateKPIs(m) {
 /* ── Chart ────────────────────────────────────────────── */
 function renderChart() {
   if (ch) { ch.destroy(); ch = null; }
-  // D.daily always has 7 entries (script fills missing days with 0)
+  // D.daily covers all days from campaign start to today
+  const n = D.daily.length;
+  const dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   const labels = D.daily.map(d => {
     const dt = new Date(d.date + 'T12:00:00Z');
-    const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-    return days[dt.getUTCDay()] + ' ' +
-           dt.getUTCDate().toString().padStart(2,'0') + '/' +
+    // Short label for many-day charts
+    return dt.getUTCDate().toString().padStart(2,'0') + '/' +
            (dt.getUTCMonth()+1).toString().padStart(2,'0');
   });
   const spends = D.daily.map(d => d.spend || 0);
@@ -714,7 +715,7 @@ function renderChart() {
         }
       },
       scales: {
-        x : { ticks: { color: 'rgba(255,255,255,.35)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
+        x : { ticks: { color: 'rgba(255,255,255,.35)', font: { size: 10 }, maxTicksLimit: 14 }, grid: { color: 'rgba(255,255,255,.05)' } },
         y : { position: 'left',  ticks: { color: 'rgba(255,229,0,.55)',  font: { size: 10 }, callback: v => 'R$'+v }, grid: { color: 'rgba(255,255,255,.05)' } },
         y2: { position: 'right', ticks: { color: 'rgba(77,255,248,.5)', font: { size: 10 } }, grid: { display: false }, min: 0 }
       }
