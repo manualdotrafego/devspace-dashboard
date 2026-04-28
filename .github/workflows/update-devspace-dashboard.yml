@@ -29,9 +29,9 @@ jobs:
           cp docs/index.html /tmp/index.html
           cp -r docs/thumbnails /tmp/thumbnails 2>/dev/null || mkdir /tmp/thumbnails
 
-          # Ir para gh-pages
+          # Ir para gh-pages (force para descartar mudanças no worktree)
           git fetch origin gh-pages
-          git checkout gh-pages
+          git checkout -f gh-pages
 
           # Atualizar arquivos
           cp /tmp/data.json  data.json
