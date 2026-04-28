@@ -94,6 +94,18 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Inter','Sego
 /* ── Row-1: Gauges + Chart ────────────────────────────── */
 .row1{display:grid;grid-template-columns:1fr 1fr 1fr 2.3fr;gap:14px;align-items:start}
 
+/* ── Interactive hover expand (all metric cards) ──────── */
+.gcrd,.kcrd,.xcrd,.vcrd{
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.gcrd:hover,.kcrd:hover,.xcrd:hover,.vcrd:hover{
+  transform:scale(1.04) translateY(-3px);
+  border-color:rgba(255,229,0,.38);
+  box-shadow:0 10px 36px rgba(0,0,0,.55);
+  z-index:2;
+  position:relative;
+}
+
 /* Gauge */
 .gcrd{
   background:var(--card);border:1px solid var(--border);border-radius:12px;
@@ -195,9 +207,24 @@ tr:hover td{background:rgba(255,229,0,.025)}
   background:var(--card);border:1px solid var(--border);border-radius:12px;
   overflow:hidden;transition:transform .14s,border-color .14s;
 }
-.crcrd:hover{transform:translateY(-2px);border-color:rgba(255,229,0,.22)}
+.crcrd:hover{transform:translateY(-3px);border-color:rgba(255,229,0,.3);box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.cr-thumb-wrap{position:relative;display:block;overflow:hidden}
+.cr-thumb-wrap:hover .cr-play{opacity:1}
+.cr-play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.45);opacity:0;transition:opacity .16s;
+  font-size:36px;text-decoration:none;
+}
 .cr-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
 .cr-ph{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:#181818;font-size:26px}
+.cr-preview-btn{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  margin-top:10px;padding:6px 0;border-radius:8px;
+  background:rgba(255,229,0,.08);border:1px solid rgba(255,229,0,.2);
+  color:var(--yl);font-size:11px;font-weight:600;text-decoration:none;
+  transition:background .15s,border-color .15s;
+}
+.cr-preview-btn:hover{background:rgba(255,229,0,.18);border-color:rgba(255,229,0,.5)}
 .cr-body{padding:11px 12px 12px}
 .cr-nm{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
 .cr-cp{font-size:10px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:9px}
@@ -775,10 +802,18 @@ function renderAds(ads) {
   document.getElementById('ads-badge').textContent = sorted.length + ' criativos';
 
   grid.innerHTML = sorted.map(ad => {
-    const thumb = ad.thumbnail
+    const previewUrl = ad.preview_url || '';
+    const imgTag = ad.thumbnail
       ? `<img src="${ad.thumbnail}" class="cr-thumb" alt="${esc(ad.name)}" loading="lazy"
-             onerror="this.outerHTML='<div class=cr-ph>🎬</div>'">`
+             onerror="this.style.display='none'">`
       : `<div class="cr-ph">🎬</div>`;
+    // Wrap thumbnail in link+play overlay if preview URL is available
+    const thumb = previewUrl
+      ? `<a href="${previewUrl}" target="_blank" rel="noopener" class="cr-thumb-wrap">
+           ${imgTag}
+           <span class="cr-play">▶</span>
+         </a>`
+      : `<div class="cr-thumb-wrap">${imgTag}</div>`;
 
     const hookHtml = ad.hook_rate > 0 ? `
       <div class="cs">
@@ -825,6 +860,7 @@ function renderAds(ads) {
           ${formHtml}
         </div>
         ${vbarsHtml}
+        ${previewUrl ? `<a href="${previewUrl}" target="_blank" rel="noopener" class="cr-preview-btn">▶ Ver criativo</a>` : ''}
       </div>
     </div>`;
   }).join('');
