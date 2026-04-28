@@ -1,4 +1,4 @@
-name: Update DevSpace Dashboard
+name: Update 0 ao Emprego Dashboard
 on:
   schedule:
     - cron: '0 */8 * * *'   # a cada 8 horas (0h, 8h, 16h UTC)

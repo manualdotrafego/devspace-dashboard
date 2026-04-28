@@ -23,7 +23,8 @@ LEAD_PRIORITY = [
 WA_ACTION   = 'omni_initiated_checkout'  # Entrou Grupo do WA
 FORM_ACTION = 'add_to_wishlist'          # Clicou forms pág. obrigado
 
-CAMP_KEYWORD = '0 ao emprego'           # Filter: only campaigns containing this
+CAMP_KEYWORD  = '0 ao emprego'           # Filter: only campaigns containing this
+DISPLAY_NAME  = 'Desafio do 0 ao Emprego'  # Dashboard title
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 def get(url, params=None):
@@ -269,11 +270,23 @@ for d in ad_raw:
     })
 
     time.sleep(0.1)
-    cr = get(f"{BASE}/{aid}", {'fields': 'creative{thumbnail_url,video_id}'})
+    cr = get(f"{BASE}/{aid}", {
+        'fields': 'creative{thumbnail_url,video_id},effective_object_story_id'
+    })
     creative  = cr.get('creative', {})
     thumb_url = creative.get('thumbnail_url', '')
     video_id  = creative.get('video_id', '')
     row['video_id'] = video_id or ''
+
+    # Build preview URL (opens the actual creative)
+    story_id = cr.get('effective_object_story_id', '')
+    if video_id:
+        row['preview_url'] = f"https://www.facebook.com/watch?v={video_id}"
+    elif story_id and '_' in story_id:
+        parts = story_id.split('_', 1)
+        row['preview_url'] = f"https://www.facebook.com/permalink.php?story_fbid={parts[1]}&id={parts[0]}"
+    else:
+        row['preview_url'] = ''
 
     if not thumb_url and video_id:
         vid = get(f"{BASE}/{video_id}", {'fields': 'thumbnails'})
@@ -319,7 +332,7 @@ else:
 
 data = {
     'last_updated':   now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-    'account':        {'id': ACCT, 'name': acct.get('name', 'DevSpace'),
+    'account':        {'id': ACCT, 'name': DISPLAY_NAME,
                        'currency': acct.get('currency', 'BRL')},
     'date_range':     {'since': SINCE, 'until': UNTIL},
     'camp_filter':    CAMP_KEYWORD,
