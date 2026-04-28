@@ -152,8 +152,13 @@ for c in camp_status_raw:
     status_map[c['id']] = c.get('effective_status', '?')
 
 campaigns = []
+seen_camps = set()
 for d in camp_7d:
     cid = d.get('campaign_id', '')
+    if cid in seen_camps:
+        print(f"   ⚠ campanha duplicada ignorada: {cid}")
+        continue
+    seen_camps.add(cid)
     row = proc(d)
     row['id']     = cid
     row['name']   = d.get('campaign_name', '')
@@ -177,6 +182,7 @@ print(f"   {len(ad_7d)} ads com gasto")
 # ─── 5. Creative thumbnails ───────────────────────────────────────────────────
 print("5/6 Thumbnails...")
 ads = []
+seen_ads = set()
 for d in ad_7d:
     aid = d.get('ad_id', '')
     row = proc(d)
@@ -218,13 +224,36 @@ for d in ad_7d:
         except Exception as e:
             print(f"   ⚠ thumb {aid}: {e}")
 
-    ads.append(row)
+    if aid not in seen_ads:
+        seen_ads.add(aid)
+        ads.append(row)
+    else:
+        print(f"   ⚠ ad duplicado ignorado: {aid}")
 
 ads.sort(key=lambda x: x['spend'], reverse=True)
 print(f"   {sum(1 for a in ads if a['thumbnail'])} thumbnails baixadas")
 
 # ─── 6. Save JSON ─────────────────────────────────────────────────────────────
 print("6/6 Salvando JSON...")
+
+# Verificação de duplicidade
+camp_ids  = [c['id']   for c in campaigns]
+ad_ids    = [a['id']   for a in ads]
+day_dates = [d['date'] for d in daily]
+dupes = []
+if len(camp_ids) != len(set(camp_ids)):   dupes.append('campanhas')
+if len(ad_ids)   != len(set(ad_ids)):     dupes.append('ads')
+if len(day_dates)!= len(set(day_dates)):  dupes.append('dias')
+if dupes:
+    print(f"   ⚠ DUPLICIDADE DETECTADA em: {', '.join(dupes)}")
+else:
+    daily_sum = round(sum(d['spend'] for d in daily), 2)
+    delta = abs(daily_sum - summary['spend'])
+    if delta > 0.05:
+        print(f"   ⚠ divergência daily/summary: {delta:.2f}")
+    else:
+        print(f"   ✅ sem duplicidade | daily={daily_sum} == summary={summary['spend']}")
+
 data = {
     'last_updated':  now.strftime('%Y-%m-%dT%H:%M:%SZ'),
     'account':       {'id': ACCT, 'name': acct.get('name', 'DevSpace'),
