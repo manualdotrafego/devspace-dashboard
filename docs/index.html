@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevSpace · Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:         #0c0c0c;
+      --bg-card:    #111111;
+      --bg-hover:   #161616;
+      --border:     #1e1e1e;
+      --border-lt:  #2a2a2a;
+      --yellow:     #FFE500;
+      --yellow-dim: #FFE50022;
+      --yellow-mid: #FFE50066;
+      --text:       #ffffff;
+      --text-2:     #888888;
+      --text-3:     #444444;
+      --green:      #00E676;
+      --red:        #FF5252;
+      --r:          12px;
+      --r-sm:       8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── LOGO SVG ── */
+    .logo-svg { display: block; }
+
+    /* ── HEADER ── */
+    .hdr {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,12,12,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 12px; }
+    .hdr-name  { font-size: 15px; font-weight: 700; color: var(--yellow); letter-spacing: -.3px; }
+    .hdr-sub   { font-size: 12px; color: var(--text-3); margin-left: 2px; }
+    .hdr-right { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--text-2); }
+    .badge-live {
+      background: #00E67620; color: var(--green);
+      border: 1px solid #00E67640;
+      padding: 2px 9px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .pulse-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100%{ box-shadow: 0 0 0 0 #00E67688; }
+      50%    { box-shadow: 0 0 0 4px #00E67600; }
+    }
+
+    /* ── CONTAINER ── */
+    .wrap {
+      max-width: 1440px; margin: 0 auto;
+      padding: 28px 28px 0;
+    }
+
+    /* ── DAY PILLS ── */
+    .day-row {
+      display: flex; align-items: center; gap: 6px;
+      overflow-x: auto; padding-bottom: 2px;
+      margin-bottom: 24px;
+    }
+    .day-row::-webkit-scrollbar { height: 0; }
+    .day-lbl { font-size: 11px; color: var(--text-3); white-space: nowrap; margin-right: 4px; }
+    .pill {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-2); padding: 5px 14px; border-radius: 20px;
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      white-space: nowrap; transition: all .15s; outline: none;
+      font-family: inherit;
+    }
+    .pill:hover { border-color: var(--yellow); color: var(--yellow); }
+    .pill.on {
+      background: var(--yellow); border-color: var(--yellow);
+      color: #000; font-weight: 700;
+    }
+
+    /* ── KPI GRID ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6,1fr);
+      gap: 12px; margin-bottom: 24px;
+    }
+    @media(max-width:1200px){ .kpi-grid{ grid-template-columns:repeat(3,1fr); } }
+    @media(max-width:640px) { .kpi-grid{ grid-template-columns:repeat(2,1fr); } }
+
+    .kpi {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 18px 16px;
+      transition: border-color .2s;
+      position: relative; overflow: hidden;
+    }
+    .kpi::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background: var(--yellow); opacity:0; transition: opacity .2s;
+    }
+    .kpi:hover { border-color: var(--border-lt); }
+    .kpi:hover::before { opacity:1; }
+    .kpi-lbl {
+      font-size: 10px; color: var(--text-2);
+      text-transform: uppercase; letter-spacing: .08em;
+      font-weight: 500; margin-bottom: 10px;
+    }
+    .kpi-val {
+      font-size: 24px; font-weight: 800;
+      color: var(--yellow); line-height: 1.1;
+      margin-bottom: 4px; letter-spacing: -.5px;
+    }
+    .kpi-val.white { color: var(--text); }
+    .kpi-sub { font-size: 11px; color: var(--text-3); }
+
+    /* ── CARDS (chart, table, creatives) ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .card-title { font-size: 14px; font-weight: 600; }
+    .badge {
+      font-size: 11px; color: var(--text-2);
+      background: var(--border); padding: 3px 10px; border-radius: 20px;
+    }
+
+    /* ── CHART ── */
+    .chart-wrap { position:relative; height:230px; }
+
+    /* ── TABLE ── */
+    .tbl-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th {
+      text-align:left; font-size:10px; font-weight:600;
+      color:var(--text-2); text-transform:uppercase; letter-spacing:.06em;
+      padding:8px 12px; border-bottom:1px solid var(--border);
+      white-space:nowrap; cursor:pointer; user-select:none;
+    }
+    th:hover { color:var(--yellow); }
+    th.sort-asc::after  { content:' ↑'; color:var(--yellow); }
+    th.sort-desc::after { content:' ↓'; color:var(--yellow); }
+    td {
+      padding:11px 12px; border-bottom:1px solid var(--border);
+      vertical-align:middle;
+    }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:var(--bg-hover); }
+    .tr { text-align:right; }
+    .mono { font-family:'SF Mono','Fira Code',monospace; }
+    .yl { color:var(--yellow); }
+    .gr { color:var(--green); }
+    .dim { color:var(--text-2); }
+    .trunc { max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .sbadge {
+      display:inline-flex; align-items:center; gap:4px;
+      font-size:10px; font-weight:600; padding:2px 8px; border-radius:10px;
+    }
+    .s-active { background:#00E67618; color:var(--green); border:1px solid #00E67640; }
+    .s-paused { background:#44444418; color:var(--text-3); border:1px solid #44444440; }
+
+    /* ── CREATIVES ── */
+    .cr-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap:14px;
+    }
+    .cr-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--r); overflow:hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .cr-card:hover { border-color:var(--yellow); transform:translateY(-3px); }
+    .cr-thumb {
+      width:100%; aspect-ratio:9/16; object-fit:cover;
+      background:#1a1a1a; display:block;
+    }
+    .cr-placeholder {
+      width:100%; aspect-ratio:9/16;
+      background:linear-gradient(135deg,#111 0%,#1c1c1c 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-size:36px; color:var(--text-3);
+    }
+    .cr-body { padding:14px; }
+    .cr-name {
+      font-size:13px; font-weight:600; margin-bottom:3px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .cr-camp {
+      font-size:11px; color:var(--text-2); margin-bottom:12px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .cr-stats { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:10px; }
+    .cr-stat {
+      background:var(--border); border-radius:var(--r-sm); padding:8px;
+    }
+    .cr-stat-lbl { font-size:10px; color:var(--text-2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }
+    .cr-stat-val { font-size:15px; font-weight:700; }
+    .cr-stat-val.yl { color:var(--yellow); }
+    .cr-stat-val.gr { color:var(--green); }
+    .cr-stat-val.wh { color:var(--text); }
+
+    /* Video completion bars */
+    .vbars { margin-top:8px; }
+    .vbar-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+    .vbar-lbl { font-size:10px; color:var(--text-3); width:26px; flex-shrink:0; }
+    .vbar-bg { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .vbar-fill { height:100%; border-radius:2px; background:var(--yellow); transition:width 1s ease; }
+    .vbar-val { font-size:10px; color:var(--text-2); width:36px; text-align:right; flex-shrink:0; }
+
+    /* ── LOADING ── */
+    #loading {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      height:80vh; gap:16px;
+    }
+    .spinner {
+      width:32px; height:32px;
+      border:3px solid var(--border);
+      border-top-color:var(--yellow);
+      border-radius:50%;
+      animation:spin .7s linear infinite;
+    }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .loading-text { font-size:14px; color:var(--text-2); }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align:center; padding:28px;
+      color:var(--text-3); font-size:11px;
+      border-top:1px solid var(--border);
+      margin-top:8px;
+    }
+    .footer strong { color:var(--text-2); }
+
+    /* ── DIVIDER ── */
+    .divider { height:1px; background:var(--border); margin:4px 0 24px; }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <svg width="48" height="48" viewBox="0 0 56 56" fill="none" class="logo-svg" style="opacity:.6">
+    <path d="M7 42 L7 54 L38 54" stroke="#333" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="5,4 51,4 51,44 37,44 37,18 5,18" fill="#FFE500"/>
+  </svg>
+  <div class="spinner"></div>
+  <div class="loading-text">Carregando dashboard…</div>
+</div>
+
+<div id="app" style="display:none">
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-brand">
+      <svg width="30" height="30" viewBox="0 0 56 56" fill="none" class="logo-svg">
+        <path d="M7 42 L7 54 L38 54" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <polygon points="5,4 51,4 51,44 37,44 37,18 5,18" fill="#FFE500"/>
+      </svg>
+      <div>
+        <span class="hdr-name">DevSpace</span>
+        <span class="hdr-sub">· Dashboard de Performance</span>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <span id="hdr-range"></span>
+      <span class="badge-live"><span class="pulse-dot"></span> LIVE</span>
+      <span id="hdr-updated"></span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- DAY PILLS -->
+    <div class="day-row">
+      <span class="day-lbl">Período:</span>
+      <button class="pill on" data-d="all" onclick="selDay('all',this)">Últimos 7 dias</button>
+      <div id="day-pills" style="display:contents"></div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-lbl">💸 Gasto Total</div>
+        <div class="kpi-val" id="k-spend">—</div>
+        <div class="kpi-sub" id="k-spend-sub"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">🎯 Leads</div>
+        <div class="kpi-val white" id="k-leads">—</div>
+        <div class="kpi-sub" id="k-leads-sub"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">💰 CPL</div>
+        <div class="kpi-val" id="k-cpl">—</div>
+        <div class="kpi-sub">custo por lead</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">🔗 Connect Rate</div>
+        <div class="kpi-val white" id="k-ctr">—</div>
+        <div class="kpi-sub">cliques / impressões</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">📋 Conv. LP</div>
+        <div class="kpi-val white" id="k-lp">—</div>
+        <div class="kpi-sub">leads / cliques</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">📊 CPM</div>
+        <div class="kpi-val white" id="k-cpm">—</div>
+        <div class="kpi-sub">custo / mil imp.</div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">Evolução Diária</span>
+        <span class="badge" id="chart-badge"></span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <!-- CAMPAIGNS -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">Campanhas</span>
+        <span class="badge" id="camps-badge"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="srt('name')">Campanha</th>
+              <th class="tr" onclick="srt('spend')">Gasto</th>
+              <th class="tr" onclick="srt('leads')">Leads</th>
+              <th class="tr" onclick="srt('cpl')">CPL</th>
+              <th class="tr" onclick="srt('ctr')">Connect Rate</th>
+              <th class="tr" onclick="srt('lp_conv')">Conv. LP</th>
+              <th class="tr" onclick="srt('cpm')">CPM</th>
+              <th class="tr" onclick="srt('impressions')">Impressões</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="camps-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CREATIVES -->
+    <div style="margin-bottom:20px">
+      <div class="card-hdr" style="margin-bottom:14px">
+        <span class="card-title">Criativos</span>
+        <span class="badge" id="ads-badge"></span>
+      </div>
+      <div class="cr-grid" id="cr-grid"></div>
+    </div>
+  </div><!-- /wrap -->
+
+  <div class="footer" id="footer"></div>
+</div><!-- /app -->
+
+<script>
+let D = null, selD = 'all', srtK = 'spend', srtDir = -1, ch = null;
+const SYM = {BRL:'R$', EUR:'€', USD:'$'};
+
+async function init() {
+  try {
+    const r = await fetch('data.json?' + Date.now());
+    D = await r.json();
+    render();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    // Auto-refresh every 30 min
+    setInterval(async () => {
+      try {
+        const r2 = await fetch('data.json?' + Date.now());
+        const nd = await r2.json();
+        if (nd.last_updated !== D.last_updated) { D = nd; render(); }
+      } catch(_) {}
+    }, 30 * 60 * 1000);
+  } catch(e) {
+    document.getElementById('loading').innerHTML = `
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style="opacity:.3">
+        <polygon points="5,4 51,4 51,44 37,44 37,18 5,18" fill="#FFE500"/>
+      </svg>
+      <div style="color:#555;font-size:15px">Dados ainda sendo carregados…</div>
+      <div style="color:#333;font-size:12px;margin-top:6px">Aguarde a primeira execução do workflow</div>`;
+  }
+}
+
+const sym  = () => SYM[D.account.currency] || 'R$';
+const fmtC = v => sym() + ' ' + (v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN = v => (v||0).toLocaleString('pt-BR');
+const fmtP = v => (v||0).toFixed(1) + '%';
+
+function getMet(day) {
+  if (day === 'all') return D.summary;
+  return D.daily.find(d => d.date === day) || D.summary;
+}
+function getCMet(c, day) {
+  if (day === 'all') return c;
+  const d = (c.daily||[]).find(d => d.date === day);
+  return d ? {...c, ...d} : {...c, spend:0, leads:0, cpl:0, ctr:0, lp_conv:0, cpm:0, impressions:0};
+}
+
+function render() {
+  const dr = D.date_range;
+  document.getElementById('hdr-range').textContent = fd(dr.since) + ' → ' + fd(dr.until);
+  document.getElementById('hdr-updated').textContent = 'Atualizado ' + fdt(D.last_updated);
+  document.title = D.account.name + ' · Dashboard';
+  renderPills();
+  updateKPIs(getMet(selD));
+  renderChart();
+  renderCamps(D.campaigns);
+  renderAds(D.ads);
+  const next = new Date(new Date(D.last_updated).getTime() + 8*3600*1000);
+  document.getElementById('footer').innerHTML =
+    `Conta: <strong>${D.account.name}</strong> (${D.account.id}) &nbsp;·&nbsp;
+     Atualizado: <strong>${fdt(D.last_updated)}</strong> &nbsp;·&nbsp;
+     Próxima atualização: <strong>${fdt(next.toISOString())}</strong> &nbsp;·&nbsp;
+     Atualiza automaticamente a cada 8 horas via GitHub Actions`;
+}
+
+function renderPills() {
+  const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const c = document.getElementById('day-pills');
+  c.innerHTML = '';
+  (D.daily||[]).forEach(d => {
+    const dt = new Date(d.date + 'T12:00:00Z');
+    const lbl = days[dt.getUTCDay()] + ' ' + dt.getUTCDate().toString().padStart(2,'0') + '/' + (dt.getUTCMonth()+1).toString().padStart(2,'0');
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (selD === d.date ? ' on' : '');
+    btn.dataset.d = d.date;
+    btn.textContent = lbl;
+    btn.onclick = () => selDay(d.date, btn);
+    c.appendChild(btn);
+  });
+}
+
+function selDay(date, btn) {
+  selD = date;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  if (!D) return;
+  updateKPIs(getMet(date));
+  renderCamps(D.campaigns);
+  if (ch) highlightDay(date);
+}
+
+function updateKPIs(m) {
+  document.getElementById('k-spend').textContent     = fmtC(m.spend);
+  document.getElementById('k-leads').textContent     = fmtN(m.leads);
+  document.getElementById('k-cpl').textContent       = m.cpl > 0 ? fmtC(m.cpl) : '—';
+  document.getElementById('k-ctr').textContent       = fmtP(m.ctr);
+  document.getElementById('k-lp').textContent        = fmtP(m.lp_conv);
+  document.getElementById('k-cpm').textContent       = fmtC(m.cpm);
+  document.getElementById('k-spend-sub').textContent = fmtN(m.impressions) + ' impressões';
+  document.getElementById('k-leads-sub').textContent = fmtN(m.clicks) + ' cliques';
+  document.getElementById('chart-badge').textContent = D.date_range.since + ' → ' + D.date_range.until;
+}
+
+function renderChart() {
+  const ctx = document.getElementById('chart').getContext('2d');
+  const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const lbls = D.daily.map(d => {
+    const dt = new Date(d.date + 'T12:00:00Z');
+    return days[dt.getUTCDay()] + ' ' + dt.getUTCDate() + '/' + (dt.getUTCMonth()+1);
+  });
+  if (ch) ch.destroy();
+  ch = new Chart(ctx, {
+    data: {
+      labels: lbls,
+      datasets: [
+        {
+          type: 'bar', label: 'Gasto',
+          data: D.daily.map(d => d.spend),
+          backgroundColor: D.daily.map(() => 'rgba(255,229,0,.75)'),
+          borderColor: '#FFE500', borderWidth: 1,
+          borderRadius: 5, yAxisID: 'yS', order: 2,
+        },
+        {
+          type: 'line', label: 'Leads',
+          data: D.daily.map(d => d.leads),
+          borderColor: '#ffffff', backgroundColor: 'rgba(255,255,255,.08)',
+          borderWidth: 2.5, pointRadius: 5,
+          pointBackgroundColor: '#FFE500', pointBorderColor: '#000', pointBorderWidth: 2,
+          tension: .35, fill: true, yAxisID: 'yL', order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: {
+          labels: { color: '#666', font: { family: 'Inter', size: 12 }, boxWidth: 12 }
+        },
+        tooltip: {
+          backgroundColor: '#111', borderColor: '#1e1e1e', borderWidth: 1,
+          titleColor: '#fff', bodyColor: '#888', padding: 12,
+          callbacks: {
+            label: ctx => ctx.dataset.label === 'Gasto'
+              ? ' Gasto: ' + fmtC(ctx.parsed.y)
+              : ' Leads: ' + ctx.parsed.y
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#181818' }, ticks: { color: '#444', font: { family: 'Inter', size: 11 } } },
+        yS: {
+          type: 'linear', position: 'left',
+          grid: { color: '#181818' },
+          ticks: { color: '#FFE500', font: { family: 'Inter', size: 11 },
+            callback: v => sym() + ' ' + v.toFixed(0) }
+        },
+        yL: {
+          type: 'linear', position: 'right',
+          grid: { display: false },
+          ticks: { color: '#888', font: { family: 'Inter', size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+function highlightDay(date) {
+  const idx = D.daily.findIndex(d => d.date === date);
+  ch.data.datasets[0].backgroundColor = D.daily.map((_,i) =>
+    date === 'all' ? 'rgba(255,229,0,.75)' :
+    i === idx ? 'rgba(255,229,0,1)' : 'rgba(255,229,0,.2)'
+  );
+  ch.update();
+}
+
+function srt(key) {
+  if (srtK === key) srtDir *= -1; else { srtK = key; srtDir = -1; }
+  document.querySelectorAll('th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+  });
+  renderCamps(D.campaigns);
+}
+
+function renderCamps(camps) {
+  const tbody = document.getElementById('camps-body');
+  const rows  = camps.map(c => getCMet(c, selD)).filter(c => c.spend >= 0);
+  rows.sort((a,b) => {
+    const av = a[srtK] ?? 0, bv = b[srtK] ?? 0;
+    return typeof av === 'string' ? av.localeCompare(bv) * srtDir : (av-bv) * srtDir;
+  });
+  const visible = rows.filter(r => r.spend > 0);
+  document.getElementById('camps-badge').textContent = visible.length + ' campanhas';
+  tbody.innerHTML = visible.map(c => `
+    <tr>
+      <td class="trunc" title="${esc(c.name)}">${esc(c.name)}</td>
+      <td class="tr mono yl">${fmtC(c.spend)}</td>
+      <td class="tr mono">${fmtN(c.leads)}</td>
+      <td class="tr mono">${c.cpl > 0 ? fmtC(c.cpl) : '<span class="dim">—</span>'}</td>
+      <td class="tr mono">${fmtP(c.ctr)}</td>
+      <td class="tr mono">${fmtP(c.lp_conv)}</td>
+      <td class="tr mono dim">${fmtC(c.cpm)}</td>
+      <td class="tr mono dim">${fmtN(c.impressions)}</td>
+      <td><span class="sbadge ${c.status==='ACTIVE'?'s-active':'s-paused'}">
+        ${c.status==='ACTIVE'?'● Ativa':'⏸ Pausada'}
+      </span></td>
+    </tr>`).join('');
+}
+
+function renderAds(ads) {
+  const grid = document.getElementById('cr-grid');
+  const sorted = [...ads].sort((a,b) => (b.spend||0)-(a.spend||0));
+  document.getElementById('ads-badge').textContent = sorted.length + ' criativos';
+  grid.innerHTML = sorted.map(ad => {
+    const thumb = ad.thumbnail
+      ? `<img src="${ad.thumbnail}" class="cr-thumb" alt="${esc(ad.name)}" loading="lazy"
+             onerror="this.outerHTML='<div class=cr-placeholder>🎬</div>'">`
+      : `<div class="cr-placeholder">🎬</div>`;
+
+    const hookHtml = ad.hook_rate > 0 ? `
+      <div class="cr-stat">
+        <div class="cr-stat-lbl">Hook Rate</div>
+        <div class="cr-stat-val ${ad.hook_rate >= 25 ? 'gr' : 'yl'}">${fmtP(ad.hook_rate)}</div>
+      </div>` : '';
+
+    const vbarsHtml = ad.vp25 > 0 ? `
+      <div class="vbars">
+        ${[25,50,75,100].map(p => {
+          const v = ad['vp'+p] || 0;
+          return `<div class="vbar-row">
+            <span class="vbar-lbl">${p}%</span>
+            <div class="vbar-bg"><div class="vbar-fill" style="width:${Math.min(v,100)}%"></div></div>
+            <span class="vbar-val">${fmtP(v)}</span>
+          </div>`;
+        }).join('')}
+      </div>` : '';
+
+    return `<div class="cr-card">
+      ${thumb}
+      <div class="cr-body">
+        <div class="cr-name" title="${esc(ad.name)}">${esc(ad.name)}</div>
+        <div class="cr-camp">${esc(ad.campaign_name)}</div>
+        <div class="cr-stats">
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">Gasto</div>
+            <div class="cr-stat-val yl">${fmtC(ad.spend)}</div>
+          </div>
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">Leads</div>
+            <div class="cr-stat-val wh">${fmtN(ad.leads)}</div>
+          </div>
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">CPL</div>
+            <div class="cr-stat-val wh">${ad.cpl > 0 ? fmtC(ad.cpl) : '—'}</div>
+          </div>
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">CTR</div>
+            <div class="cr-stat-val wh">${fmtP(ad.ctr)}</div>
+          </div>
+          ${hookHtml}
+        </div>
+        ${vbarsHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function fd(s) {
+  const d = new Date(s + 'T12:00:00Z');
+  return d.getUTCDate().toString().padStart(2,'0') + '/' +
+         (d.getUTCMonth()+1).toString().padStart(2,'0') + '/' + d.getUTCFullYear();
+}
+function fdt(iso) {
+  return new Date(iso).toLocaleString('pt-BR',{
+    timeZone:'America/Sao_Paulo', day:'2-digit', month:'2-digit',
+    hour:'2-digit', minute:'2-digit'
+  });
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+init();
+</script>
+</body>
+</html>
