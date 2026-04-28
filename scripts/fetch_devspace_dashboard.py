@@ -271,20 +271,21 @@ for d in ad_raw:
 
     time.sleep(0.1)
     cr = get(f"{BASE}/{aid}", {
-        'fields': 'creative{thumbnail_url,video_id},effective_object_story_id'
+        'fields': 'creative{thumbnail_url,video_id,object_story_id}'
     })
-    creative  = cr.get('creative', {})
-    thumb_url = creative.get('thumbnail_url', '')
-    video_id  = creative.get('video_id', '')
+    creative   = cr.get('creative', {})
+    thumb_url  = creative.get('thumbnail_url', '')
+    video_id   = creative.get('video_id', '')
+    story_id   = creative.get('object_story_id', '')  # format: page_id_post_id
     row['video_id'] = video_id or ''
 
-    # Build preview URL (opens the actual creative)
-    story_id = cr.get('effective_object_story_id', '')
+    # Build preview URL — video link takes priority, else Facebook post permalink
     if video_id:
         row['preview_url'] = f"https://www.facebook.com/watch?v={video_id}"
     elif story_id and '_' in story_id:
         parts = story_id.split('_', 1)
-        row['preview_url'] = f"https://www.facebook.com/permalink.php?story_fbid={parts[1]}&id={parts[0]}"
+        row['preview_url'] = (f"https://www.facebook.com/permalink.php"
+                              f"?story_fbid={parts[1]}&id={parts[0]}")
     else:
         row['preview_url'] = ''
 
