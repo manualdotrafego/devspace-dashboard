@@ -40,6 +40,10 @@ def extract_leads(actions):
     return sum(float(a.get('value', 0)) for a in (actions or [])
                if a.get('action_type', '') in LEAD_TYPES)
 
+def extract_action(actions, atype):
+    return sum(float(a.get('value', 0)) for a in (actions or [])
+               if a.get('action_type') == atype)
+
 def extract_video_views(actions):
     return sum(float(a.get('value', 0)) for a in (actions or [])
                if a.get('action_type') == 'video_view')
@@ -55,29 +59,36 @@ def proc(d):
     impr   = int(d.get('impressions', 0))
     clicks = int(d.get('clicks', 0))
     reach  = int(d.get('reach', 0))
-    acts   = d.get('actions', [])
-    leads  = extract_leads(acts)
-    vviews = extract_video_views(acts)
-    p25    = extract_arr(d.get('video_p25_watched_actions', []))
-    p50    = extract_arr(d.get('video_p50_watched_actions', []))
-    p75    = extract_arr(d.get('video_p75_watched_actions', []))
-    p100   = extract_arr(d.get('video_p100_watched_actions', []))
+    acts    = d.get('actions', [])
+    leads   = extract_leads(acts)
+    vviews  = extract_video_views(acts)
+    contact = extract_action(acts, 'contact')          # → Entrou Grupo do Whatsapp
+    wishlist= extract_action(acts, 'add_to_wishlist')  # → Clicou no forms da pág. obrigado
+    p25     = extract_arr(d.get('video_p25_watched_actions', []))
+    p50     = extract_arr(d.get('video_p50_watched_actions', []))
+    p75     = extract_arr(d.get('video_p75_watched_actions', []))
+    p100    = extract_arr(d.get('video_p100_watched_actions', []))
     return {
-        'spend':    round(spend, 2),
+        'spend':      round(spend, 2),
         'impressions': impr,
-        'clicks':   clicks,
-        'reach':    reach,
-        'leads':    int(leads),
-        'ctr':      round(float(d.get('ctr', 0)), 2),
-        'cpc':      round(float(d.get('cpc', 0)), 2),
-        'cpm':      round(float(d.get('cpm', 0)), 2),
-        'cpl':      round(safe_div(spend, leads), 2),
-        'lp_conv':  round(safe_div(leads, clicks, 100), 1),
-        'hook_rate':round(safe_div(vviews, impr, 100), 1),
-        'vp25':     round(safe_div(p25, impr, 100), 1),
-        'vp50':     round(safe_div(p50, impr, 100), 1),
-        'vp75':     round(safe_div(p75, impr, 100), 1),
-        'vp100':    round(safe_div(p100, impr, 100), 1),
+        'clicks':     clicks,
+        'reach':      reach,
+        'leads':      int(leads),
+        'ctr':        round(float(d.get('ctr', 0)), 2),
+        'cpc':        round(float(d.get('cpc', 0)), 2),
+        'cpm':        round(float(d.get('cpm', 0)), 2),
+        'cpl':        round(safe_div(spend, leads), 2),
+        'lp_conv':    round(safe_div(leads, clicks, 100), 1),
+        'hook_rate':  round(safe_div(vviews, impr, 100), 1),
+        'vp25':       round(safe_div(p25, impr, 100), 1),
+        'vp50':       round(safe_div(p50, impr, 100), 1),
+        'vp75':       round(safe_div(p75, impr, 100), 1),
+        'vp100':      round(safe_div(p100, impr, 100), 1),
+        # Métricas extras com labels customizados
+        'wa_group':   int(contact),                             # Entrou Grupo WA
+        'cp_wa':      round(safe_div(spend, contact), 2),       # Custo por entrada no grupo
+        'form_thanks':int(wishlist),                            # Clicou forms obrigado
+        'cp_form':    round(safe_div(spend, wishlist), 2),      # Custo por clique no forms
     }
 
 INS_FIELDS = ('spend,impressions,clicks,reach,ctr,cpc,cpm,actions,'
