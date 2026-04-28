@@ -101,10 +101,20 @@
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(6,1fr);
+      gap: 12px; margin-bottom: 12px;
+    }
+    .kpi-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
       gap: 12px; margin-bottom: 24px;
     }
-    @media(max-width:1200px){ .kpi-grid{ grid-template-columns:repeat(3,1fr); } }
-    @media(max-width:640px) { .kpi-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:1200px){ .kpi-grid{ grid-template-columns:repeat(3,1fr); } .kpi-grid-2{ grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:640px) { .kpi-grid{ grid-template-columns:repeat(2,1fr); } .kpi-grid-2{ grid-template-columns:repeat(2,1fr); } }
+    .kpi.wa  { --accent: #25D366; }
+    .kpi.wa::before { background: #25D366; }
+    .kpi.wa .kpi-val { color: #25D366; }
+    .kpi.form::before { background: #7C4DFF; }
+    .kpi.form .kpi-val { color: #B39DDB; }
 
     .kpi {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -332,6 +342,30 @@
       </div>
     </div>
 
+    <!-- KPI SEGUNDA LINHA — Métricas extras -->
+    <div class="kpi-grid-2">
+      <div class="kpi wa">
+        <div class="kpi-lbl">💬 Entrou Grupo do Whatsapp</div>
+        <div class="kpi-val" id="k-wa">—</div>
+        <div class="kpi-sub" id="k-wa-sub">ação: contato</div>
+      </div>
+      <div class="kpi wa">
+        <div class="kpi-lbl">💸 Custo p/ Entrada WA</div>
+        <div class="kpi-val" id="k-cpwa">—</div>
+        <div class="kpi-sub">gasto ÷ entradas grupo</div>
+      </div>
+      <div class="kpi form">
+        <div class="kpi-lbl">📝 Clicou no Forms Obrigado</div>
+        <div class="kpi-val" id="k-form">—</div>
+        <div class="kpi-sub" id="k-form-sub">ação: wishlist</div>
+      </div>
+      <div class="kpi form">
+        <div class="kpi-lbl">💸 Custo p/ Forms Obrigado</div>
+        <div class="kpi-val" id="k-cpform">—</div>
+        <div class="kpi-sub">gasto ÷ cliques forms</div>
+      </div>
+    </div>
+
     <!-- CHART -->
     <div class="card">
       <div class="card-hdr">
@@ -361,6 +395,8 @@
               <th class="tr" onclick="srt('lp_conv')">Conv. LP</th>
               <th class="tr" onclick="srt('cpm')">CPM</th>
               <th class="tr" onclick="srt('impressions')">Impressões</th>
+              <th class="tr" onclick="srt('wa_group')" style="color:#25D366">💬 Entrou WA</th>
+              <th class="tr" onclick="srt('form_thanks')" style="color:#B39DDB">📝 Forms Obrigado</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -480,6 +516,12 @@ function updateKPIs(m) {
   document.getElementById('k-spend-sub').textContent = fmtN(m.impressions) + ' impressões';
   document.getElementById('k-leads-sub').textContent = fmtN(m.clicks) + ' cliques';
   document.getElementById('chart-badge').textContent = D.date_range.since + ' → ' + D.date_range.until;
+  document.getElementById('k-wa').textContent        = fmtN(m.wa_group || 0);
+  document.getElementById('k-wa-sub').textContent    = fmtN(m.wa_group || 0) + ' entradas';
+  document.getElementById('k-cpwa').textContent      = (m.cp_wa || 0) > 0 ? fmtC(m.cp_wa) : '—';
+  document.getElementById('k-form').textContent      = fmtN(m.form_thanks || 0);
+  document.getElementById('k-form-sub').textContent  = fmtN(m.form_thanks || 0) + ' cliques';
+  document.getElementById('k-cpform').textContent    = (m.cp_form || 0) > 0 ? fmtC(m.cp_form) : '—';
 }
 
 function renderChart() {
@@ -582,6 +624,8 @@ function renderCamps(camps) {
       <td class="tr mono">${fmtP(c.lp_conv)}</td>
       <td class="tr mono dim">${fmtC(c.cpm)}</td>
       <td class="tr mono dim">${fmtN(c.impressions)}</td>
+      <td class="tr mono" style="color:#25D366">${fmtN(c.wa_group||0)}</td>
+      <td class="tr mono" style="color:#B39DDB">${fmtN(c.form_thanks||0)}</td>
       <td><span class="sbadge ${c.status==='ACTIVE'?'s-active':'s-paused'}">
         ${c.status==='ACTIVE'?'● Ativa':'⏸ Pausada'}
       </span></td>
@@ -638,6 +682,16 @@ function renderAds(ads) {
             <div class="cr-stat-lbl">CTR</div>
             <div class="cr-stat-val wh">${fmtP(ad.ctr)}</div>
           </div>
+          ${(ad.wa_group||0) > 0 ? `
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">💬 Entrou WA</div>
+            <div class="cr-stat-val" style="color:#25D366">${fmtN(ad.wa_group)}</div>
+          </div>` : ''}
+          ${(ad.form_thanks||0) > 0 ? `
+          <div class="cr-stat">
+            <div class="cr-stat-lbl">📝 Forms Obrigado</div>
+            <div class="cr-stat-val" style="color:#B39DDB">${fmtN(ad.form_thanks)}</div>
+          </div>` : ''}
           ${hookHtml}
         </div>
         ${vbarsHtml}
