@@ -14,14 +14,21 @@ SINCE = (now - timedelta(days=6)).strftime("%Y-%m-%d")
 print(f"DevSpace Dashboard — {SINCE} → {UNTIL}")
 os.makedirs("docs/thumbnails", exist_ok=True)
 
-# ── FIX: use ONLY onsite_conversion.lead_grouped  ─────────────────────────────
-# Using both 'lead' AND 'onsite_conversion.lead_grouped' double-counts
-# because they describe the same events. Meta Ads Manager shows
-# onsite_conversion.lead_grouped as "Leads".
-LEAD_TYPES = {
-    'onsite_conversion.lead_grouped',
-    'offsite_conversion.fb_pixel_lead',
-}
+# ── Lead extraction: priority-based to avoid double-counting ──────────────────
+# Multiple action types represent the same leads (lead, onsite_web_lead,
+# offsite_conversion.fb_pixel_lead, onsite_conversion.lead_grouped).
+# We pick the first non-zero value in priority order.
+LEAD_PRIORITY = [
+    'onsite_conversion.lead_grouped',   # Ads Manager standard (OUTCOME_LEADS)
+    'lead',                             # Universal native form leads
+    'offsite_conversion.fb_pixel_lead', # Pixel-based leads (fallback)
+    'onsite_web_lead',                  # Outcome leads specific
+]
+
+# WA group entry is tracked via InitiateCheckout pixel event
+# Forms "página de obrigado" is tracked via AddToWishlist pixel event
+WA_ACTION   = 'omni_initiated_checkout'   # Entrou Grupo do WA (= 90)
+FORM_ACTION = 'add_to_wishlist'           # Clicou forms pág. obrigado (= 23)
 
 def get(url, params=None):
     p = dict(params or {}); p['access_token'] = TOKEN
@@ -42,8 +49,13 @@ def paginate(url, params=None, max_pages=20):
     return results
 
 def extract_leads(actions):
-    return sum(float(a.get('value', 0)) for a in (actions or [])
-               if a.get('action_type', '') in LEAD_TYPES)
+    """Pick the first non-zero lead count from LEAD_PRIORITY to avoid double-counting."""
+    acts = actions or []
+    for atype in LEAD_PRIORITY:
+        val = sum(float(a.get('value', 0)) for a in acts if a.get('action_type') == atype)
+        if val > 0:
+            return val
+    return 0
 
 def extract_action(actions, atype):
     return sum(float(a.get('value', 0)) for a in (actions or [])
@@ -59,7 +71,7 @@ def extract_arr(arr):
 def safe_div(a, b, mult=1):
     return (a / b) * mult if b > 0 else 0
 
-def proc(d, wa_action='contact'):
+def proc(d):
     spend  = float(d.get('spend', 0))
     impr   = int(d.get('impressions', 0))
     clicks = int(d.get('clicks', 0))
@@ -67,8 +79,8 @@ def proc(d, wa_action='contact'):
     acts    = d.get('actions', [])
     leads   = extract_leads(acts)
     vviews  = extract_video_views(acts)
-    contact = extract_action(acts, wa_action)
-    wishlist= extract_action(acts, 'add_to_wishlist')
+    contact = extract_action(acts, WA_ACTION)
+    wishlist= extract_action(acts, FORM_ACTION)
     p25     = extract_arr(d.get('video_p25_watched_actions', []))
     p50     = extract_arr(d.get('video_p50_watched_actions', []))
     p75     = extract_arr(d.get('video_p75_watched_actions', []))
@@ -118,38 +130,6 @@ raw_sum = get(f"{BASE}/{ACCT}/insights", {
     'level': 'account',
 }).get('data', [{}])
 
-# ── DIAGNOSTICS: print every action type returned by the API ──────────────────
-all_acts = (raw_sum[0] if raw_sum else {}).get('actions', [])
-if all_acts:
-    print("   [DIAG] Todos action_types retornados pelo API (summary):")
-    for a in sorted(all_acts, key=lambda x: -float(x.get('value', 0))):
-        print(f"     {a['action_type']:60s}  value={a.get('value','?')}")
-else:
-    print("   [DIAG] Nenhuma action retornada no summary.")
-
-# ── Build WA action name: look for best match ─────────────────────────────────
-# Priority: onsite_conversion.messaging_* > contact > any with 'whatsapp'
-WA_CANDIDATES = [
-    'onsite_conversion.messaging_conversation_started_7d',
-    'onsite_conversion.messaging_first_reply',
-    'contact',
-    'onsite_conversion.contact',
-]
-act_types_available = {a['action_type'] for a in all_acts}
-wa_action = 'contact'  # default
-for candidate in WA_CANDIDATES:
-    if candidate in act_types_available:
-        wa_action = candidate
-        break
-print(f"   [DIAG] WA action escolhida: {wa_action}")
-
-# Also check in daily rows for any messaging action types
-for dr in raw_daily:
-    for a in dr.get('actions', []):
-        if 'messaging' in a['action_type'] or 'whatsapp' in a['action_type'].lower():
-            print(f"   [DIAG] Found in daily: {a['action_type']} = {a.get('value','?')}")
-            wa_action = a['action_type']
-
 # ── Build daily array (fill all 7 days, 0 for days with no spend) ─────────────
 all_dates = []
 for i in range(7):
@@ -160,7 +140,7 @@ daily_by_date = {d.get('date_start', ''): d for d in raw_daily}
 daily = []
 for date in all_dates:
     if date in daily_by_date:
-        row = proc(daily_by_date[date], wa_action)
+        row = proc(daily_by_date[date])
         row['date'] = date
     else:
         row = {'date': date, 'spend': 0, 'impressions': 0, 'clicks': 0,
@@ -170,7 +150,7 @@ for date in all_dates:
                'wa_group': 0, 'cp_wa': 0, 'form_thanks': 0, 'cp_form': 0}
     daily.append(row)
 
-summary = proc(raw_sum[0] if raw_sum else {}, wa_action)
+summary = proc(raw_sum[0] if raw_sum else {})
 print(f"   Gasto 7d: R$ {summary['spend']} | Leads: {summary['leads']} | WA: {summary['wa_group']} | Forms: {summary['form_thanks']}")
 
 # ─── 3. Campaign insights ─────────────────────────────────────────────────────
@@ -195,7 +175,7 @@ camp_daily_map = defaultdict(dict)
 for d in camp_daily_raw:
     cid  = d.get('campaign_id', '')
     date = d.get('date_start', '')
-    row  = proc(d, wa_action); row['date'] = date
+    row  = proc(d); row['date'] = date
     camp_daily_map[cid][date] = row
 
 # Get statuses
@@ -214,7 +194,7 @@ for d in camp_7d:
         print(f"   ⚠ campanha duplicada ignorada: {cid}")
         continue
     seen_camps.add(cid)
-    row = proc(d, wa_action)
+    row = proc(d)
     row['id']     = cid
     row['name']   = d.get('campaign_name', '')
     row['status'] = status_map.get(cid, '?')
@@ -253,7 +233,7 @@ for d in ad_7d:
         print(f"   ⚠ ad duplicado ignorado: {aid}")
         continue
     seen_ads.add(aid)
-    row = proc(d, wa_action)
+    row = proc(d)
     row.update({
         'id':            aid,
         'name':          d.get('ad_name', ''),
@@ -317,7 +297,6 @@ data = {
     'account':       {'id': ACCT, 'name': acct.get('name', 'DevSpace'),
                       'currency': acct.get('currency', 'BRL')},
     'date_range':    {'since': SINCE, 'until': UNTIL},
-    'wa_action':     wa_action,
     'summary':       summary,
     'daily':         daily,
     'campaigns':     campaigns,
