@@ -316,7 +316,7 @@ tr:hover td{background:rgba(255,229,0,.025)}
 
   <!-- Row 1 — Gauges + Chart -->
   <div class="row1">
-    <!-- CTR gauge -->
+    <!-- Connect Rate gauge = Page Views / Link Clicks -->
     <div class="gcrd">
       <div class="g-lbl">Connect Rate</div>
       <div class="g-wrap">
@@ -328,7 +328,7 @@ tr:hover td{background:rgba(255,229,0,.025)}
         </svg>
         <div class="g-ctr">
           <span class="g-num" id="gn-ctr" style="color:#FFE500">—</span>
-          <span class="g-unit">CTR</span>
+          <span class="g-unit">Views/Link Click</span>
         </div>
       </div>
       <div class="g-foot" id="gf-ctr">—</div>
@@ -390,7 +390,7 @@ tr:hover td{background:rgba(255,229,0,.025)}
     <div class="kcrd mu">
       <div class="k-lbl">🎯 Leads</div>
       <div class="k-val" id="k-leads">—</div>
-      <div class="k-sub" id="k-leads-sub">—</div>
+      <div class="k-sub" id="k-leads-sub" title="Cliques no link (não todos os cliques)">—</div>
     </div>
     <div class="kcrd mu">
       <div class="k-lbl">📊 CPL</div>
@@ -466,7 +466,8 @@ tr:hover td{background:rgba(255,229,0,.025)}
             <th class="tr" onclick="srt('spend')">Gasto</th>
             <th class="tr" onclick="srt('leads')">Leads</th>
             <th class="tr" onclick="srt('cpl')">CPL</th>
-            <th class="tr" onclick="srt('ctr')">Connect Rate</th>
+            <th class="tr" onclick="srt('link_clicks')">Cliques Link</th>
+            <th class="tr" onclick="srt('connect_rate')">Connect Rate</th>
             <th class="tr" onclick="srt('lp_conv')">Conv. LP</th>
             <th class="tr" onclick="srt('cpm')">CPM</th>
             <th class="tr" onclick="srt('impressions')">Impressões</th>
@@ -567,7 +568,8 @@ function render() {
     `Conta: <strong>${D.account.name}</strong> (${D.account.id}) &nbsp;·&nbsp;
      Atualizado: <strong>${fdt(D.last_updated)}</strong> &nbsp;·&nbsp;
      Próxima: <strong>${fdt(next.toISOString())}</strong> &nbsp;·&nbsp;
-     Atualiza a cada 8 horas via GitHub Actions`;
+     Atualiza a cada 6 horas via GitHub Actions &nbsp;·&nbsp;
+     Connect Rate = Page Views / Cliques no Link`;
 }
 
 /* ── Day pills ────────────────────────────────────────── */
@@ -615,19 +617,19 @@ function updateKPIs(m) {
   document.getElementById('k-cpl').textContent       = m.cpl > 0 ? fmtC(m.cpl) : '—';
   document.getElementById('k-cpm').textContent       = fmtC(m.cpm);
   document.getElementById('k-spend-sub').textContent = fmtN(m.impressions) + ' impressões';
-  document.getElementById('k-leads-sub').textContent = fmtN(m.clicks || 0) + ' cliques';
+  document.getElementById('k-leads-sub').textContent = fmtN(m.link_clicks || 0) + ' cliques no link';
 
-  // Gauges  (max thresholds: CTR 8%, LP conv 50%, hook 60%)
-  const ctr  = m.ctr        || 0;
-  const lp   = m.lp_conv    || 0;
-  const hook = m.hook_rate  || 0;
-  setGauge('ctr',  ctr,  8);
+  // Gauges — Connect Rate = Page Views / Link Clicks, LP Conv = Leads / Link Clicks, Hook = Views / Impr
+  const cr   = m.connect_rate || 0;
+  const lp   = m.lp_conv      || 0;
+  const hook = m.hook_rate    || 0;
+  setGauge('ctr',  cr,   100);
   setGauge('lp',   lp,   50);
   setGauge('hook', hook, 60);
-  document.getElementById('gn-ctr').textContent  = fmtP(ctr);
+  document.getElementById('gn-ctr').textContent  = fmtP(cr);
   document.getElementById('gn-lp').textContent   = fmtP(lp);
   document.getElementById('gn-hook').textContent = fmtP(hook);
-  document.getElementById('gf-ctr').textContent  = fmtN(m.clicks || 0) + ' cliques';
+  document.getElementById('gf-ctr').textContent  = fmtN(m.link_clicks || 0) + ' cliques no link';
   document.getElementById('gf-lp').textContent   = fmtN(m.leads || 0) + ' leads';
   document.getElementById('gf-hook').textContent = fmtN(m.impressions || 0) + ' impr.';
 
@@ -783,7 +785,8 @@ function renderCamps(camps) {
       <td class="tr mono yl">${fmtC(c.spend)}</td>
       <td class="tr mono">${fmtN(c.leads)}</td>
       <td class="tr mono">${c.cpl > 0 ? fmtC(c.cpl) : '<span class="dim">—</span>'}</td>
-      <td class="tr mono">${fmtP(c.ctr)}</td>
+      <td class="tr mono">${fmtN(c.link_clicks || 0)}</td>
+      <td class="tr mono">${fmtP(c.connect_rate || 0)}</td>
       <td class="tr mono">${fmtP(c.lp_conv)}</td>
       <td class="tr mono dim">${fmtC(c.cpm)}</td>
       <td class="tr mono dim">${fmtN(c.impressions)}</td>
@@ -854,7 +857,8 @@ function renderAds(ads) {
           <div class="cs"><div class="cs-l">Gasto</div><div class="cs-v yl">${fmtC(ad.spend)}</div></div>
           <div class="cs"><div class="cs-l">Leads</div><div class="cs-v wh">${fmtN(ad.leads)}</div></div>
           <div class="cs"><div class="cs-l">CPL</div><div class="cs-v wh">${ad.cpl > 0 ? fmtC(ad.cpl) : '—'}</div></div>
-          <div class="cs"><div class="cs-l">CTR</div><div class="cs-v wh">${fmtP(ad.ctr)}</div></div>
+          <div class="cs"><div class="cs-l">Link Clicks</div><div class="cs-v wh">${fmtN(ad.link_clicks || 0)}</div></div>
+          <div class="cs"><div class="cs-l">Connect Rate</div><div class="cs-v wh">${fmtP(ad.connect_rate || 0)}</div></div>
           ${hookHtml}
           ${waHtml}
           ${formHtml}

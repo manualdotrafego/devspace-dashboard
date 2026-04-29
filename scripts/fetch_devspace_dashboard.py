@@ -75,38 +75,43 @@ def proc(d):
     acts   = d.get('actions', [])
     leads  = extract_leads(acts)
     vviews = extract_video_views(acts)
-    contact  = extract_action(acts, WA_ACTION)
-    wishlist = extract_action(acts, FORM_ACTION)
+    contact     = extract_action(acts, WA_ACTION)
+    wishlist    = extract_action(acts, FORM_ACTION)
+    link_clicks = int(extract_action(acts, 'link_click'))
+    lp_views    = int(extract_action(acts, 'landing_page_view'))
     p25  = extract_arr(d.get('video_p25_watched_actions',  []))
     p50  = extract_arr(d.get('video_p50_watched_actions',  []))
     p75  = extract_arr(d.get('video_p75_watched_actions',  []))
     p100 = extract_arr(d.get('video_p100_watched_actions', []))
     return {
-        'spend':       round(spend, 2),
-        'impressions': impr,
-        'clicks':      clicks,
-        'reach':       reach,
-        'leads':       int(leads),
-        'ctr':         round(float(d.get('ctr', 0)), 2),
-        'cpc':         round(float(d.get('cpc', 0)), 2),
-        'cpm':         round(float(d.get('cpm', 0)), 2),
-        'cpl':         round(safe_div(spend, leads), 2),
-        'lp_conv':     round(safe_div(leads, clicks, 100), 1),
-        'hook_rate':   round(safe_div(vviews, impr, 100), 1),
-        'vp25':        round(safe_div(p25,  impr, 100), 1),
-        'vp50':        round(safe_div(p50,  impr, 100), 1),
-        'vp75':        round(safe_div(p75,  impr, 100), 1),
-        'vp100':       round(safe_div(p100, impr, 100), 1),
-        'wa_group':    int(contact),
-        'cp_wa':       round(safe_div(spend, contact), 2),
-        'form_thanks': int(wishlist),
-        'cp_form':     round(safe_div(spend, wishlist), 2),
+        'spend':        round(spend, 2),
+        'impressions':  impr,
+        'clicks':       clicks,
+        'link_clicks':  link_clicks,                                          # cliques no link
+        'lp_views':     lp_views,                                             # page views
+        'reach':        reach,
+        'leads':        int(leads),
+        'cpm':          round(float(d.get('cpm', 0)), 2),
+        'cpc':          round(safe_div(spend, link_clicks), 2),               # custo por clique no link
+        'cpl':          round(safe_div(spend, leads), 2),
+        'connect_rate': round(safe_div(lp_views, link_clicks, 100), 1),       # Page Views / Link Clicks
+        'lp_conv':      round(safe_div(leads, link_clicks, 100), 1),          # Leads / Link Clicks
+        'hook_rate':    round(safe_div(vviews, impr, 100), 1),
+        'vp25':         round(safe_div(p25,  impr, 100), 1),
+        'vp50':         round(safe_div(p50,  impr, 100), 1),
+        'vp75':         round(safe_div(p75,  impr, 100), 1),
+        'vp100':        round(safe_div(p100, impr, 100), 1),
+        'wa_group':     int(contact),
+        'cp_wa':        round(safe_div(spend, contact), 2),
+        'form_thanks':  int(wishlist),
+        'cp_form':      round(safe_div(spend, wishlist), 2),
     }
 
 def empty_day(date_str):
     return {'date': date_str, 'spend': 0, 'impressions': 0, 'clicks': 0,
-            'reach': 0, 'leads': 0, 'ctr': 0, 'cpc': 0, 'cpm': 0,
-            'cpl': 0, 'lp_conv': 0, 'hook_rate': 0,
+            'link_clicks': 0, 'lp_views': 0, 'reach': 0, 'leads': 0,
+            'cpm': 0, 'cpc': 0, 'cpl': 0, 'connect_rate': 0,
+            'lp_conv': 0, 'hook_rate': 0,
             'vp25': 0, 'vp50': 0, 'vp75': 0, 'vp100': 0,
             'wa_group': 0, 'cp_wa': 0, 'form_thanks': 0, 'cp_form': 0}
 
