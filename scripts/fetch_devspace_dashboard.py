@@ -245,13 +245,25 @@ print(f"   {len(campaigns)} campanhas")
 # ─── 4. Ad insights ───────────────────────────────────────────────────────────
 print("4/6 Ad insights...")
 ad_raw = paginate(f"{BASE}/{ACCT}/insights", {
-    'fields': 'ad_id,ad_name,campaign_id,campaign_name,adset_name,' + INS_FIELDS,
+    'fields': 'ad_id,ad_name,campaign_id,campaign_name,adset_id,adset_name,' + INS_FIELDS,
     'time_range': json.dumps({'since': SINCE, 'until': UNTIL}),
     'level': 'ad',
     'filtering': CAMP_FILTER,
     'limit': 200,
 })
 print(f"   {len(ad_raw)} ads com gasto")
+
+# Batch-fetch adset effective_status (paused adset → creative is OFF)
+adset_ids = list({d.get('adset_id','') for d in ad_raw if d.get('adset_id')})
+adset_status_map = {}
+if adset_ids:
+    for i in range(0, len(adset_ids), 50):
+        chunk = adset_ids[i:i+50]
+        r = get(BASE, {'ids': ','.join(chunk), 'fields': 'effective_status'})
+        for asid, val in (r.items() if isinstance(r, dict) else []):
+            if isinstance(val, dict):
+                adset_status_map[asid] = val.get('effective_status', 'UNKNOWN')
+    print(f"   {len(adset_status_map)} adsets verificados")
 
 # ─── 5. Creative thumbnails ───────────────────────────────────────────────────
 print("5/6 Thumbnails...")
@@ -269,17 +281,26 @@ for d in ad_raw:
         'name':          d.get('ad_name', ''),
         'campaign_id':   d.get('campaign_id', ''),
         'campaign_name': d.get('campaign_name', ''),
+        'adset_id':      d.get('adset_id', ''),
         'adset_name':    d.get('adset_name', ''),
+        'ad_on':         False,   # filled below after fetching status
         'thumbnail':     '',
         'video_id':      '',
     })
 
     time.sleep(0.1)
     cr = get(f"{BASE}/{aid}", {
-        'fields': ('creative{thumbnail_url,video_id,image_url,'
+        'fields': ('effective_status,'
+                   'creative{thumbnail_url,video_id,image_url,'
                    'object_story_id,effective_object_story_id,'
                    'instagram_permalink_url}')
     })
+    # ON = ad itself is ACTIVE *and* its adset is ACTIVE
+    ad_eff    = cr.get('effective_status', 'UNKNOWN')
+    adset_id  = d.get('adset_id', '')
+    adset_eff = adset_status_map.get(adset_id, 'UNKNOWN')
+    row['ad_on'] = (ad_eff == 'ACTIVE' and adset_eff == 'ACTIVE')
+
     creative      = cr.get('creative', {})
     thumb_url     = creative.get('thumbnail_url', '') or creative.get('image_url', '')
     video_id      = creative.get('video_id', '')

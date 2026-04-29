@@ -208,7 +208,16 @@ tr:hover td{background:rgba(255,229,0,.025)}
   overflow:hidden;transition:transform .14s,border-color .14s;
 }
 .crcrd:hover{transform:translateY(-3px);border-color:rgba(255,229,0,.3);box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.crcrd.is-off{opacity:.6}
 .cr-thumb-wrap{position:relative;display:block;overflow:hidden}
+/* ON / OFF badge */
+.cr-sbadge{
+  position:absolute;top:7px;left:7px;z-index:3;
+  font-size:9px;font-weight:800;letter-spacing:.06em;
+  padding:3px 8px;border-radius:20px;pointer-events:none;
+}
+.cr-sbadge.on{background:rgba(37,211,102,.88);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.cr-sbadge.off{background:rgba(30,30,30,.82);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.12)}
 .cr-thumb-wrap:hover .cr-play{opacity:1}
 .cr-play{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -806,6 +815,8 @@ function renderAds(ads) {
 
   grid.innerHTML = sorted.map(ad => {
     const previewUrl = ad.preview_url || '';
+    const isOn = ad.ad_on === true;
+    const statusBadge = `<span class="cr-sbadge ${isOn ? 'on' : 'off'}">${isOn ? '● ON' : '⏸ OFF'}</span>`;
     const imgTag = ad.thumbnail
       ? `<img src="${ad.thumbnail}" class="cr-thumb" alt="${esc(ad.name)}" loading="lazy"
              onerror="this.style.display='none'">`
@@ -815,8 +826,9 @@ function renderAds(ads) {
       ? `<a href="${previewUrl}" target="_blank" rel="noopener" class="cr-thumb-wrap">
            ${imgTag}
            <span class="cr-play">▶</span>
+           ${statusBadge}
          </a>`
-      : `<div class="cr-thumb-wrap">${imgTag}</div>`;
+      : `<div class="cr-thumb-wrap">${imgTag}${statusBadge}</div>`;
 
     const hookHtml = ad.hook_rate > 0 ? `
       <div class="cs">
@@ -848,7 +860,7 @@ function renderAds(ads) {
         }).join('')}
       </div>` : '';
 
-    return `<div class="crcrd">
+    return `<div class="crcrd${isOn ? '' : ' is-off'}">
       ${thumb}
       <div class="cr-body">
         <div class="cr-nm" title="${esc(ad.name)}">${esc(ad.name)}</div>
