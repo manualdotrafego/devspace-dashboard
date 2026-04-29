@@ -276,17 +276,24 @@ for d in ad_raw:
 
     time.sleep(0.1)
     cr = get(f"{BASE}/{aid}", {
-        'fields': 'creative{thumbnail_url,video_id,object_story_id}'
+        'fields': ('creative{thumbnail_url,video_id,image_url,'
+                   'object_story_id,effective_object_story_id,'
+                   'instagram_permalink_url}')
     })
-    creative   = cr.get('creative', {})
-    thumb_url  = creative.get('thumbnail_url', '')
-    video_id   = creative.get('video_id', '')
-    story_id   = creative.get('object_story_id', '')  # format: page_id_post_id
+    creative      = cr.get('creative', {})
+    thumb_url     = creative.get('thumbnail_url', '') or creative.get('image_url', '')
+    video_id      = creative.get('video_id', '')
+    # effective_object_story_id is more reliable for static images
+    story_id      = (creative.get('effective_object_story_id', '')
+                     or creative.get('object_story_id', ''))
+    insta_url     = creative.get('instagram_permalink_url', '')
     row['video_id'] = video_id or ''
 
-    # Build preview URL — video link takes priority, else Facebook post permalink
+    # Build preview URL: video > instagram permalink > facebook post permalink
     if video_id:
         row['preview_url'] = f"https://www.facebook.com/watch?v={video_id}"
+    elif insta_url:
+        row['preview_url'] = insta_url
     elif story_id and '_' in story_id:
         parts = story_id.split('_', 1)
         row['preview_url'] = (f"https://www.facebook.com/permalink.php"
@@ -294,6 +301,7 @@ for d in ad_raw:
     else:
         row['preview_url'] = ''
 
+    # For video: fallback thumbnail from video object
     if not thumb_url and video_id:
         vid = get(f"{BASE}/{video_id}", {'fields': 'thumbnails'})
         thumbs = vid.get('thumbnails', {}).get('data', [])
