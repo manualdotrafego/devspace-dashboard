@@ -253,6 +253,17 @@ tr:hover td{background:rgba(255,229,0,.025)}
 .cv-fill{height:100%;background:var(--yl);border-radius:2px;transition:width .5s}
 .cv-v{font-size:9px;color:var(--mu);width:28px;text-align:right;font-variant-numeric:tabular-nums}
 
+/* ── Creative Report ──────────────────────────────────── */
+.rep-wrap{margin-bottom:22px}
+.rep-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rcrd{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;display:flex;flex-direction:column;
+}
+.rcnv{position:relative;flex:1;min-height:280px}
+.rcnv canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+@media(max-width:900px){.rep-grid{grid-template-columns:1fr}}
+
 /* ── Footer ───────────────────────────────────────────── */
 .footer{font-size:11px;color:var(--mu);text-align:center;padding:6px 0 18px}
 .footer strong{color:rgba(255,255,255,.55)}
@@ -499,6 +510,52 @@ tr:hover td{background:rgba(255,229,0,.025)}
     <div class="cr-grid" id="cr-grid"></div>
   </div>
 
+  <!-- Report de Criativos -->
+  <div class="rep-wrap">
+    <div class="cr-hdr">
+      <span class="cr-ttl">📊 Report de Performance — Criativos</span>
+      <span class="bsm bsm-yl" id="rep-badge">—</span>
+    </div>
+    <div class="rep-grid">
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>💰 Gasto por Criativo</span><span class="bsm bsm-yl">Top 10</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-spend"></canvas></div>
+      </div>
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>🎯 Leads por Criativo</span><span class="bsm bsm-yl">Top 10</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-leads"></canvas></div>
+      </div>
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>📊 CPL por Criativo</span><span class="bsm bsm-wh">menor = melhor · Top 10</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-cpl"></canvas></div>
+      </div>
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>🔗 Connect Rate</span><span class="bsm bsm-wh">Views / Link Clique · Top 10</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-cr"></canvas></div>
+      </div>
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>🎣 Hook Rate</span><span class="bsm bsm-wh">Vídeos · Top 10</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-hook"></canvas></div>
+      </div>
+      <div class="rcrd">
+        <div class="card-ttl" style="margin-bottom:10px">
+          <span>🫧 Gasto × CPL</span><span class="bsm bsm-wh">bolha = leads</span>
+        </div>
+        <div class="rcnv"><canvas id="rep-bubble"></canvas></div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer" id="footer">—</div>
 
 </main>
@@ -572,6 +629,7 @@ function render() {
   renderChart();
   renderCamps(D.campaigns);
   renderAds(D.ads);
+  renderReport(D.ads);
 
   document.getElementById('footer').innerHTML =
     `Conta: <strong>${D.account.name}</strong> (${D.account.id}) &nbsp;·&nbsp;
@@ -880,6 +938,193 @@ function renderAds(ads) {
       </div>
     </div>`;
   }).join('');
+}
+
+/* ── Creative Report ──────────────────────────────────── */
+function renderReport(ads) {
+  const active = (ads || []).filter(a => (a.spend || 0) > 0);
+  const TOP = 10;
+  document.getElementById('rep-badge').textContent = active.length + ' criativos';
+
+  // Short name helper
+  function sn(n) { return n.length > 24 ? n.slice(0, 22) + '…' : n; }
+
+  // Color ramp: green → yellow → orange (best → worst for desc order)
+  function ramp(arr, rev) {
+    return arr.map((_, i) => {
+      const t = arr.length <= 1 ? 0 : i / (arr.length - 1);
+      const p = rev ? t : 1 - t; // p=1 → best (green), p=0 → worst (red)
+      if (p > 0.6) return 'rgba(37,211,102,.78)';
+      if (p > 0.3) return 'rgba(255,229,0,.78)';
+      return 'rgba(255,107,53,.78)';
+    });
+  }
+
+  // Build or replace a Chart.js instance
+  function mkChart(id, cfg) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const ex = Chart.getChart(el);
+    if (ex) ex.destroy();
+    new Chart(el, cfg);
+  }
+
+  // Shared options for horizontal bar charts
+  function hbarOpts(fmtFn) {
+    return {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1c1c1c',
+          borderColor: 'rgba(255,229,0,.25)', borderWidth: 1,
+          titleColor: '#fff', bodyColor: 'rgba(255,255,255,.65)',
+          callbacks: { label: c => '  ' + fmtFn(c.parsed.x) }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: 'rgba(255,255,255,.3)', font: { size: 10 },
+                   callback: v => fmtFn(v) },
+          grid: { color: 'rgba(255,255,255,.05)' }
+        },
+        y: {
+          ticks: { color: 'rgba(255,255,255,.55)', font: { size: 10 } },
+          grid: { display: false }
+        }
+      }
+    };
+  }
+
+  // ── 1. Gasto ──────────────────────────────────────────
+  const bySpend = [...active].sort((a,b) => b.spend - a.spend).slice(0, TOP);
+  mkChart('rep-spend', {
+    type: 'bar',
+    data: {
+      labels: bySpend.map(a => sn(a.name)),
+      datasets: [{ data: bySpend.map(a => a.spend),
+                   backgroundColor: ramp(bySpend, false),
+                   borderRadius: 4, barThickness: 18 }]
+    },
+    options: hbarOpts(v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2,maximumFractionDigits:2}))
+  });
+
+  // ── 2. Leads ──────────────────────────────────────────
+  const byLeads = [...active].sort((a,b) => b.leads - a.leads).slice(0, TOP);
+  mkChart('rep-leads', {
+    type: 'bar',
+    data: {
+      labels: byLeads.map(a => sn(a.name)),
+      datasets: [{ data: byLeads.map(a => a.leads),
+                   backgroundColor: ramp(byLeads, false),
+                   borderRadius: 4, barThickness: 18 }]
+    },
+    options: hbarOpts(v => v + ' leads')
+  });
+
+  // ── 3. CPL (asc = menor é melhor) ─────────────────────
+  const byCpl = [...active].filter(a => a.cpl > 0).sort((a,b) => a.cpl - b.cpl).slice(0, TOP);
+  mkChart('rep-cpl', {
+    type: 'bar',
+    data: {
+      labels: byCpl.map(a => sn(a.name)),
+      datasets: [{ data: byCpl.map(a => a.cpl),
+                   backgroundColor: ramp(byCpl, true), // rev: cheapest = green
+                   borderRadius: 4, barThickness: 18 }]
+    },
+    options: hbarOpts(v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2,maximumFractionDigits:2}))
+  });
+
+  // ── 4. Connect Rate ───────────────────────────────────
+  const byCr = [...active].filter(a => a.connect_rate > 0)
+                           .sort((a,b) => b.connect_rate - a.connect_rate).slice(0, TOP);
+  mkChart('rep-cr', {
+    type: 'bar',
+    data: {
+      labels: byCr.map(a => sn(a.name)),
+      datasets: [{ data: byCr.map(a => a.connect_rate),
+                   backgroundColor: ramp(byCr, false),
+                   borderRadius: 4, barThickness: 18 }]
+    },
+    options: hbarOpts(v => v.toFixed(1) + '%')
+  });
+
+  // ── 5. Hook Rate (vídeos) ─────────────────────────────
+  const byHook = [...active].filter(a => a.hook_rate > 0)
+                             .sort((a,b) => b.hook_rate - a.hook_rate).slice(0, TOP);
+  mkChart('rep-hook', {
+    type: 'bar',
+    data: {
+      labels: byHook.length ? byHook.map(a => sn(a.name)) : ['Sem dados'],
+      datasets: [{ data: byHook.length ? byHook.map(a => a.hook_rate) : [0],
+                   backgroundColor: byHook.length ? ramp(byHook, false) : ['rgba(255,255,255,.1)'],
+                   borderRadius: 4, barThickness: 18 }]
+    },
+    options: hbarOpts(v => v.toFixed(1) + '%')
+  });
+
+  // ── 6. Bubble: Gasto × CPL, bolha = leads ─────────────
+  const bubbleData = active.filter(a => a.cpl > 0 && a.spend > 0).map(a => ({
+    x: a.spend,
+    y: a.cpl,
+    r: Math.max(4, Math.min(22, Math.sqrt((a.leads || 1)) * 3)),
+    _name: sn(a.name),
+    _leads: a.leads,
+    _on: a.ad_on,
+  }));
+  mkChart('rep-bubble', {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        data: bubbleData,
+        backgroundColor: bubbleData.map(b => b._on
+          ? 'rgba(37,211,102,.55)' : 'rgba(255,107,53,.45)'),
+        borderColor: bubbleData.map(b => b._on
+          ? 'rgba(37,211,102,.9)' : 'rgba(255,107,53,.8)'),
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1c1c1c',
+          borderColor: 'rgba(255,229,0,.25)', borderWidth: 1,
+          titleColor: '#fff', bodyColor: 'rgba(255,255,255,.65)',
+          callbacks: {
+            title: items => items[0]?.raw?._name || '',
+            label: item => {
+              const r = item.raw;
+              return [
+                `  Gasto: R$ ${r.x.toLocaleString('pt-BR',{minimumFractionDigits:2})}`,
+                `  CPL:   R$ ${r.y.toLocaleString('pt-BR',{minimumFractionDigits:2})}`,
+                `  Leads: ${r._leads}`,
+                `  Status: ${r._on ? '● ON' : '⏸ OFF'}`,
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Gasto (R$)', color: 'rgba(255,255,255,.3)', font:{size:10} },
+          ticks: { color: 'rgba(255,255,255,.3)', font:{size:10},
+                   callback: v => 'R$' + v },
+          grid: { color: 'rgba(255,255,255,.05)' }
+        },
+        y: {
+          title: { display: true, text: 'CPL (R$)', color: 'rgba(255,255,255,.3)', font:{size:10} },
+          ticks: { color: 'rgba(255,255,255,.3)', font:{size:10},
+                   callback: v => 'R$' + v },
+          grid: { color: 'rgba(255,255,255,.05)' }
+        }
+      }
+    }
+  });
 }
 
 init();
