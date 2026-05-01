@@ -264,6 +264,42 @@ tr:hover td{background:rgba(255,229,0,.025)}
 .rcnv canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
 @media(max-width:900px){.rep-grid{grid-template-columns:1fr}}
 
+/* ── Scale Plan ───────────────────────────────────────── */
+.scale-wrap{margin-bottom:22px}
+.scale-chart-crd{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.scale-chart-crd .rcnv{min-height:260px;position:relative}
+.scale-chart-crd .rcnv canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+/* projection table */
+.scale-tbl-crd{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.scale-tbl{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+.scale-tbl th{padding:9px 14px;text-align:right;font-size:9px;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--mu);background:rgba(255,255,255,.02);
+  border-bottom:1px solid var(--border)}
+.scale-tbl th:first-child{text-align:left}
+.scale-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);
+  text-align:right;font-variant-numeric:tabular-nums}
+.scale-tbl td:first-child{text-align:left;font-weight:600}
+.scale-tbl tr:last-child td{border-bottom:none}
+.scale-tbl tr.sc-cur td{background:rgba(255,229,0,.06)}
+.scale-tbl tr.sc-cur td:first-child{color:var(--yl)}
+/* action items */
+.action-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.actn{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
+  transition:border-color .15s;
+}
+.actn:hover{border-color:rgba(255,229,0,.28)}
+.actn-ico{font-size:22px;flex-shrink:0;line-height:1;margin-top:1px}
+.actn-ttl{font-size:12px;font-weight:700;margin-bottom:5px;line-height:1.3}
+.actn-desc{font-size:11px;color:var(--mu);line-height:1.55}
+.actn-desc strong{color:rgba(255,255,255,.75)}
+.actn-prio{display:inline-block;margin-top:8px;font-size:9px;font-weight:700;
+  padding:2px 8px;border-radius:10px;letter-spacing:.04em}
+.prio-hi{background:rgba(255,80,80,.15);color:#ff5050}
+.prio-md{background:rgba(255,229,0,.12);color:var(--yl)}
+.prio-lo{background:rgba(255,255,255,.07);color:var(--mu)}
+
 /* ── Footer ───────────────────────────────────────────── */
 .footer{font-size:11px;color:var(--mu);text-align:center;padding:6px 0 18px}
 .footer strong{color:rgba(255,255,255,.55)}
@@ -556,6 +592,42 @@ tr:hover td{background:rgba(255,229,0,.025)}
     </div>
   </div>
 
+  <!-- ── Scale Plan ──────────────────────────────────── -->
+  <div class="scale-wrap">
+    <div class="cr-hdr">
+      <span class="cr-ttl">📈 Plano de Escala — Orçamento × CPL × Leads</span>
+      <span class="bsm bsm-yl">baseado nos dados atuais</span>
+    </div>
+
+    <!-- Projection chart -->
+    <div class="scale-chart-crd">
+      <div class="card-ttl" style="margin-bottom:12px">
+        <span>Projeção de Investimento × CPL</span>
+        <span class="bsm bsm-wh">3 cenários de crescimento</span>
+      </div>
+      <div class="rcnv"><canvas id="scale-chart"></canvas></div>
+    </div>
+
+    <!-- Projection table -->
+    <div class="scale-tbl-crd">
+      <div class="tbl-hdr">
+        <span class="tbl-ttl">Cenários de Escala</span>
+        <span class="bsm bsm-wh" style="font-size:9px">
+          🟢 Otimista &nbsp;·&nbsp; 🟡 Realista &nbsp;·&nbsp; 🔴 Conservador
+        </span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="scale-tbl" id="scale-tbl"></table>
+      </div>
+    </div>
+
+    <!-- Action items -->
+    <div class="cr-hdr" style="margin-top:6px;margin-bottom:10px">
+      <span class="cr-ttl">⚡ Plano de Ação para Escalar sem Subir o CPL</span>
+    </div>
+    <div class="action-grid" id="action-grid"></div>
+  </div>
+
   <div class="footer" id="footer">—</div>
 
 </main>
@@ -630,6 +702,7 @@ function render() {
   renderCamps(D.campaigns);
   renderAds(D.ads);
   renderReport(D.ads);
+  renderScalePlan();
 
   document.getElementById('footer').innerHTML =
     `Conta: <strong>${D.account.name}</strong> (${D.account.id}) &nbsp;·&nbsp;
@@ -1125,6 +1198,208 @@ function renderReport(ads) {
       }
     }
   });
+}
+
+/* ── Scale Plan ───────────────────────────────────────── */
+function renderScalePlan() {
+  const m      = D.summary;
+  const ads    = (D.ads    || []).filter(a => a.spend > 0);
+  const camps  = (D.campaigns || []);
+
+  const curSpend = m.spend    || 0;
+  const curLeads = m.leads    || 0;
+  const curCpl   = curLeads > 0 ? curSpend / curLeads : 0;
+  const curCr    = m.connect_rate || 0;
+  const curHook  = m.hook_rate    || 0;
+
+  if (!curCpl || !curSpend) return;
+
+  // Budget scenarios
+  const mults  = [1, 1.5, 2, 3, 5, 10];
+  const labs   = ['Atual', '1.5×', '2×', '3×', '5×', '10×'];
+
+  // CPL growth per budget doubling (logarithmic model)
+  // Otimista: +5%/doubling | Realista: +13%/doubling | Conservador: +28%/doubling
+  function cplAt(mult, pct) {
+    if (mult <= 1) return curCpl;
+    return curCpl * Math.pow(1 + pct / 100, Math.log2(mult));
+  }
+  const opt    = mults.map(x => cplAt(x, 5));
+  const real   = mults.map(x => cplAt(x, 13));
+  const cons   = mults.map(x => cplAt(x, 28));
+  const spends = mults.map(x => curSpend * x);
+  const leadsR = mults.map((x, i) => Math.round(spends[i] / real[i]));
+  const leadsO = mults.map((x, i) => Math.round(spends[i] / opt[i]));
+
+  // ── Chart ─────────────────────────────────────────────
+  const scEl = document.getElementById('scale-chart');
+  if (scEl) {
+    const ex = Chart.getChart(scEl); if (ex) ex.destroy();
+    new Chart(scEl, {
+      data: {
+        labels: labs,
+        datasets: [
+          { type:'bar', label:'Leads (realista)',
+            data: leadsR, backgroundColor:'rgba(77,255,248,.25)',
+            borderColor:'rgba(77,255,248,.55)', borderWidth:1,
+            borderRadius:4, yAxisID:'y2', order:4 },
+          { type:'line', label:'CPL Otimista',
+            data: opt, borderColor:'rgba(37,211,102,.85)',
+            backgroundColor:'transparent', pointBackgroundColor:'rgba(37,211,102,.85)',
+            pointRadius:4, tension:.35, yAxisID:'y', order:1 },
+          { type:'line', label:'CPL Realista',
+            data: real, borderColor:'rgba(255,229,0,.9)',
+            backgroundColor:'transparent', pointBackgroundColor:'rgba(255,229,0,.9)',
+            pointRadius:5, pointHoverRadius:7, tension:.35, yAxisID:'y', order:2,
+            borderWidth:2 },
+          { type:'line', label:'CPL Conservador',
+            data: cons, borderColor:'rgba(255,80,80,.75)',
+            backgroundColor:'transparent', pointBackgroundColor:'rgba(255,80,80,.75)',
+            pointRadius:4, tension:.35, yAxisID:'y', order:3,
+            borderDash:[5,4] },
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:'index', intersect:false },
+        plugins: {
+          legend:{ display:true, labels:{ color:'rgba(255,255,255,.4)',
+            boxWidth:10, font:{size:10}, padding:14 } },
+          tooltip:{
+            backgroundColor:'#1c1c1c', borderColor:'rgba(255,229,0,.25)', borderWidth:1,
+            titleColor:'#fff', bodyColor:'rgba(255,255,255,.6)',
+            callbacks:{ label: c => c.dataset.yAxisID === 'y2'
+              ? `  Leads: ${c.parsed.y}`
+              : `  ${c.dataset.label}: R$ ${c.parsed.y.toFixed(2)}` }
+          }
+        },
+        scales:{
+          x:{ ticks:{ color:'rgba(255,255,255,.45)', font:{size:12}, padding:4 },
+              grid:{ color:'rgba(255,255,255,.05)' } },
+          y:{ position:'left', title:{ display:true, text:'CPL (R$)',
+                color:'rgba(255,255,255,.25)', font:{size:10} },
+              ticks:{ color:'rgba(255,229,0,.55)', font:{size:10},
+                      callback: v => 'R$'+v.toFixed(0) },
+              grid:{ color:'rgba(255,255,255,.05)' } },
+          y2:{ position:'right', title:{ display:true, text:'Leads',
+                color:'rgba(255,255,255,.25)', font:{size:10} },
+               ticks:{ color:'rgba(77,255,248,.5)', font:{size:10} },
+               grid:{ display:false }, min:0 }
+        }
+      }
+    });
+  }
+
+  // ── Table ─────────────────────────────────────────────
+  const tbl = document.getElementById('scale-tbl');
+  if (tbl) {
+    const fc = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const fn = v => Number(v).toLocaleString('pt-BR');
+    tbl.innerHTML = `
+      <thead><tr>
+        <th>Cenário</th>
+        <th class="tr">💰 Investimento</th>
+        <th class="tr" style="color:rgba(37,211,102,.8)">🟢 CPL Otimista</th>
+        <th class="tr" style="color:rgba(255,229,0,.85)">🟡 CPL Realista</th>
+        <th class="tr" style="color:rgba(255,80,80,.8)">🔴 CPL Conservador</th>
+        <th class="tr" style="color:rgba(77,255,248,.8)">🎯 Leads (realista)</th>
+        <th class="tr" style="color:rgba(37,211,102,.7)">🎯 Leads (otimista)</th>
+      </tr></thead>
+      <tbody>
+        ${mults.map((_, i) => `
+          <tr${i===0?' class="sc-cur"':''}>
+            <td>${labs[i]}${i===0?' ← atual':''}</td>
+            <td class="tr mono">${fc(spends[i])}</td>
+            <td class="tr mono" style="color:rgba(37,211,102,.8)">${fc(opt[i])}</td>
+            <td class="tr mono" style="color:rgba(255,229,0,.85)">${fc(real[i])}</td>
+            <td class="tr mono" style="color:rgba(255,80,80,.8)">${fc(cons[i])}</td>
+            <td class="tr mono" style="color:rgba(77,255,248,.8)">${fn(leadsR[i])}</td>
+            <td class="tr mono" style="color:rgba(37,211,102,.7)">${fn(leadsO[i])}</td>
+          </tr>`).join('')}
+      </tbody>`;
+  }
+
+  // ── Action items ──────────────────────────────────────
+  const withLeads = ads.filter(a => a.leads > 0 && a.cpl > 0);
+  const topAds    = [...withLeads].sort((a,b) => a.cpl - b.cpl).slice(0, 3);
+  const worstAds  = [...withLeads].sort((a,b) => b.cpl - a.cpl)
+                                   .filter(a => a.cpl > curCpl * 1.35).slice(0, 2);
+
+  const fc2 = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  const items = [];
+
+  if (topAds.length) items.push({
+    ico:'🔝', prio:'hi',
+    ttl:'Concentre orçamento nos criativos top',
+    desc: topAds.map(a =>
+      `<strong>${a.name.slice(0,22)}</strong> (CPL ${fc2(a.cpl)})`
+    ).join(', ') + ' têm o menor custo por lead. Priorize esses conjuntos antes de abrir novos.'
+  });
+
+  if (worstAds.length) items.push({
+    ico:'⏸', prio:'hi',
+    ttl:'Pause criativos com CPL acima da média',
+    desc: worstAds.map(a =>
+      `<strong>${a.name.slice(0,22)}</strong> (CPL ${fc2(a.cpl)})`
+    ).join(', ') +
+    ` — ${((worstAds[0].cpl/curCpl-1)*100).toFixed(0)}%+ acima do CPL médio (${fc2(curCpl)}). Pausar libera orçamento para criativos eficientes.`
+  });
+
+  items.push({
+    ico:'📈', prio:'hi',
+    ttl:'Escale o orçamento de forma gradual (+20-30%/semana)',
+    desc:`Aumentos abruptos forçam o algoritmo a sair do aprendizado e elevam o CPL temporariamente. Suba <strong>20-30% por semana</strong> nos conjuntos ativos e aguarde estabilizar antes do próximo aumento.`
+  });
+
+  if (curCr < 45) items.push({
+    ico:'🔗', prio: curCr < 28 ? 'hi' : 'md',
+    ttl:'Otimize a Landing Page (Connect Rate baixo)',
+    desc:`Connect Rate de <strong>${curCr.toFixed(1)}%</strong> indica que muitos cliques não chegam ao conteúdo. Melhore: velocidade de carregamento, headline, CTA e compatibilidade mobile. <strong>Meta: acima de 50%.</strong>`
+  });
+
+  if (curHook > 0 && curHook < 22) items.push({
+    ico:'🎣', prio:'md',
+    ttl:'Melhore o Hook Rate dos vídeos',
+    desc:`Hook Rate de <strong>${curHook.toFixed(1)}%</strong> — os primeiros 3 segundos não estão prendendo atenção suficiente. Teste hooks com: pergunta direta à dor, número impactante ou situação de identificação imediata.`
+  });
+
+  items.push({
+    ico:'🧪', prio:'md',
+    ttl:'Crie volume criativo antes de escalar muito',
+    desc:`Para escalar 3× sem subir CPL você precisa de <strong>diversidade criativa</strong>. Meta: 3-5 novos criativos por semana com ângulos distintos — dor, resultado, prova social, autoridade.`
+  });
+
+  items.push({
+    ico:'🎯', prio:'md',
+    ttl:`Expanda com públicos semelhantes (LAL)`,
+    desc:`Com <strong>${curLeads}+ leads</strong> acumulados, crie LALs de 1% a partir dos conversores. Públicos semelhantes permitem escalar para novos usuários mantendo relevância e CPL controlado.`
+  });
+
+  items.push({
+    ico:'👁️', prio:'lo',
+    ttl:'Monitore frequência ao escalar',
+    desc:`Mais orçamento na mesma audiência sobe a frequência e cansa o criativo. Se a frequência ultrapassar <strong>2.5-3×</strong>, expanda os públicos ou renove os criativos — sinal claro de fadiga.`
+  });
+
+  items.push({
+    ico:'🔄', prio:'lo',
+    ttl:'Mantenha sempre criativos em teste (A/B)',
+    desc:`Reserve <strong>10-20% do orçamento</strong> para testar novos criativos continuamente. Escala sustentável exige fluxo constante de novos ativos que entrem para substituir os que fadigam.`
+  });
+
+  const prioLbl = { hi:'🔴 Alta prioridade', md:'🟡 Média prioridade', lo:'⚪ Atenção' };
+  const prioClass = { hi:'prio-hi', md:'prio-md', lo:'prio-lo' };
+
+  document.getElementById('action-grid').innerHTML = items.map(it => `
+    <div class="actn">
+      <span class="actn-ico">${it.ico}</span>
+      <div>
+        <div class="actn-ttl">${it.ttl}</div>
+        <div class="actn-desc">${it.desc}</div>
+        <span class="actn-prio ${prioClass[it.prio]}">${prioLbl[it.prio]}</span>
+      </div>
+    </div>`).join('');
 }
 
 init();
