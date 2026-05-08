@@ -2,10 +2,10 @@ name: Atualizar Orcamento Conjunto
 on:
   workflow_dispatch:
     inputs:
-      adset_id:
-        description: 'ID do Conjunto'
+      camp_id:
+        description: 'ID da Campanha (CBO)'
         required: true
-        default: '120248610894970581'
+        default: '120248610894960581'
       add_brl:
         description: 'Valor a adicionar em reais (ex: 40)'
         required: true
@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install requests
-      - name: Update adset daily budget
+      - name: Update campaign daily budget
         env:
           META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
-          ADSET_ID: ${{ github.event.inputs.adset_id }}
+          CAMP_ID: ${{ github.event.inputs.camp_id }}
           ADD_BRL: ${{ github.event.inputs.add_brl }}
         run: python scripts/update_budget.py
