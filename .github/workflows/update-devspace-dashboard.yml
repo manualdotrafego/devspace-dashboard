@@ -15,22 +15,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install requests
-      - name: Update AD SET 2.1 budget +R$40
-        env:
-          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
-        run: |
-          python3 -c "
-import requests, os, json
-TOKEN=os.environ['META_ACCESS_TOKEN']; BASE='https://graph.facebook.com/v19.0'
-ADSET_ID='120248610894970581'
-r=requests.get(f'{BASE}/{ADSET_ID}',params={'fields':'id,name,daily_budget,effective_status','access_token':TOKEN})
-data=r.json(); print('GET:',json.dumps(data,indent=2))
-if 'error' in data: print('ERR:',data['error']['message']); exit(0)
-cur=int(data.get('daily_budget',0)); nb=cur+4000
-print(f'Budget: R${cur/100:.2f} -> R${nb/100:.2f}')
-u=requests.post(f'{BASE}/{ADSET_ID}',data={'daily_budget':nb,'access_token':TOKEN})
-print('POST:',u.text)
-"
       - name: Fetch Meta data
         env:
           META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
