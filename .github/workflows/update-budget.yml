@@ -1,0 +1,27 @@
+name: Atualizar Orcamento Conjunto
+on:
+  workflow_dispatch:
+    inputs:
+      adset_id:
+        description: 'ID do Conjunto'
+        required: true
+        default: '120248610894970581'
+      add_brl:
+        description: 'Valor a adicionar em reais (ex: 40)'
+        required: true
+        default: '40'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Update adset daily budget
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          ADSET_ID: ${{ github.event.inputs.adset_id }}
+          ADD_BRL: ${{ github.event.inputs.add_brl }}
+        run: python scripts/update_budget.py
