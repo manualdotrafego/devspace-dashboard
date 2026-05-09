@@ -1,30 +1,31 @@
-import requests, os, json
+import requests, os, json, sys
 
 TOKEN    = os.environ['META_ACCESS_TOKEN']
 BASE     = 'https://graph.facebook.com/v19.0'
-ADSET_ID = '120247963788170581'
-CAMP_ID  = '120247963737730581'
+CAMP_ID  = os.environ.get('CAMP_ID', '120248610894960581')
+ADD_BRL  = float(os.environ.get('ADD_BRL', '10'))
+ADD_CENTS = int(ADD_BRL * 100)
 
-# Get adset budget info
-r = requests.get(f'{BASE}/{ADSET_ID}', params={
-    'fields': 'id,name,status,effective_status,daily_budget,lifetime_budget,bid_amount',
+print(f"[+] Campanha {CAMP_ID} (+R${ADD_BRL:.2f})")
+
+r = requests.get(f'{BASE}/{CAMP_ID}', params={
+    'fields': 'id,name,daily_budget,effective_status',
     'access_token': TOKEN
 }, timeout=30)
-print('[ADSET]', json.dumps(r.json(), indent=2, ensure_ascii=False))
+data = r.json()
+print('[GET]', json.dumps(data, indent=2, ensure_ascii=False))
 
-# Get campaign budget (CBO)
-r2 = requests.get(f'{BASE}/{CAMP_ID}', params={
-    'fields': 'id,name,daily_budget,lifetime_budget,budget_remaining',
-    'access_token': TOKEN
-}, timeout=30)
-print('[CAMPAIGN]', json.dumps(r2.json(), indent=2, ensure_ascii=False))
+if 'error' in data:
+    print('ERRO:', data['error']['message']); sys.exit(1)
 
-# Pause the adset
-print('\n[~] Pausando AD SET 1.5...')
-u = requests.post(f'{BASE}/{ADSET_ID}', data={
-    'status': 'PAUSED',
+current = int(data.get('daily_budget', 0))
+new_budget = current + ADD_CENTS
+print(f'R${current/100:.2f} -> R${new_budget/100:.2f}')
+
+u = requests.post(f'{BASE}/{CAMP_ID}', data={
+    'daily_budget': new_budget,
     'access_token': TOKEN
 }, timeout=30)
 print('[POST]', u.text)
 if 'success' in u.text:
-    print('OK: Conjunto pausado!')
+    print(f'OK: Campanha atualizada para R${new_budget/100:.2f}/dia')
