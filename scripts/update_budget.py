@@ -1,36 +1,30 @@
-import requests, os, json, sys
+import requests, os, json
 
 TOKEN    = os.environ['META_ACCESS_TOKEN']
 BASE     = 'https://graph.facebook.com/v19.0'
-CAMP_ID  = os.environ.get('CAMP_ID', '120248610894960581')
-ADD_BRL  = float(os.environ.get('ADD_BRL', '40'))
-ADD_CENTS = int(ADD_BRL * 100)
+ADSET_ID = '120247963788170581'
+CAMP_ID  = '120247963737730581'
 
-print(f"[+] Atualizando campanha {CAMP_ID} (+R${ADD_BRL:.2f})")
-
-r = requests.get(f'{BASE}/{CAMP_ID}', params={
-    'fields': 'id,name,daily_budget,lifetime_budget,effective_status',
+# Get adset budget info
+r = requests.get(f'{BASE}/{ADSET_ID}', params={
+    'fields': 'id,name,status,effective_status,daily_budget,lifetime_budget,bid_amount',
     'access_token': TOKEN
 }, timeout=30)
-data = r.json()
-print("[GET]", json.dumps(data, indent=2, ensure_ascii=False))
+print('[ADSET]', json.dumps(r.json(), indent=2, ensure_ascii=False))
 
-if 'error' in data:
-    print("ERRO:", data['error']['message'])
-    sys.exit(1)
-
-current_cents = int(data.get('daily_budget') or 0)
-new_cents     = current_cents + ADD_CENTS
-
-print(f"[~] Orcamento: R${current_cents/100:.2f} -> R${new_cents/100:.2f}")
-
-u = requests.post(f'{BASE}/{CAMP_ID}', data={
-    'daily_budget': new_cents,
+# Get campaign budget (CBO)
+r2 = requests.get(f'{BASE}/{CAMP_ID}', params={
+    'fields': 'id,name,daily_budget,lifetime_budget,budget_remaining',
     'access_token': TOKEN
 }, timeout=30)
-print("[POST]", u.text)
+print('[CAMPAIGN]', json.dumps(r2.json(), indent=2, ensure_ascii=False))
 
-if u.ok and 'success' in u.text:
-    print(f"OK: Campanha atualizada para R${new_cents/100:.2f}/dia")
-else:
-    print("Verifique resposta acima")
+# Pause the adset
+print('\n[~] Pausando AD SET 1.5...')
+u = requests.post(f'{BASE}/{ADSET_ID}', data={
+    'status': 'PAUSED',
+    'access_token': TOKEN
+}, timeout=30)
+print('[POST]', u.text)
+if 'success' in u.text:
+    print('OK: Conjunto pausado!')
