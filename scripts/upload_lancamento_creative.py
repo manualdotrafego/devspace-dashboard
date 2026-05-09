@@ -15,7 +15,7 @@ VIDEO_IDS = {
     "IMG_5326": "2057045791912745",
 }
 
-# Get source adset creative for page_id and link
+# Get source adset creative for page_id, link, image_hash
 r = requests.get(f"{BASE}/{WEBNAR_CAMP}/adsets", params={
     'fields': 'id,name,effective_status,daily_budget',
     'limit': 50, 'access_token': TOKEN
@@ -26,17 +26,18 @@ if not active:
     active = adsets
 active.sort(key=lambda x: int(x.get('daily_budget') or 999999))
 source = active[0]
-print(f"Adset fonte: {source['name']} ({source['id']})")
+print(f"Fonte: {source['name']} ({source['id']})")
 
 ads_r = requests.get(f"{BASE}/{source['id']}/ads", params={
     'fields': 'id,creative', 'limit': 10, 'access_token': TOKEN
 }, timeout=30)
 existing_ads = ads_r.json().get('data', [])
 
-page_id = "110278364765662"  # fallback: known page
+page_id = "110278364765662"
 cta_type = "SEE_DETAILS"
 link_url = "https://go.joaomafra.pt/"
 message = "Sua chance de mudar tudo está aqui!\nO que você vai fazer com ela?"
+image_hash = None
 
 if existing_ads:
     cr_id = existing_ads[0].get('creative', {}).get('id')
@@ -51,27 +52,33 @@ if existing_ads:
         link_url = vd.get('call_to_action', {}).get('value', {}).get('link', link_url)
         cta_type = vd.get('call_to_action', {}).get('type', cta_type)
         message = vd.get('message', message)
-        print(f"page_id={page_id}, link={link_url}, cta={cta_type}")
-        # NOTE: intentionally NOT using instagram_user_id to avoid dev-mode app error
+        image_hash = vd.get('image_hash')  # <-- reuse thumbnail from source
+        print(f"page_id={page_id}, link={link_url}, cta={cta_type}, image_hash={image_hash}")
+        # instagram_user_id intentionally OMITTED to avoid dev-mode app error
 
-# Create 6 ads — no instagram_user_id in story spec
+# Create 6 ads
 print(f"\n=== Criando 6 anuncios no adset {NEW_ADSET_ID} ===")
 created = []
 for name, video_id in VIDEO_IDS.items():
     print(f"\n  [{name}] video_id={video_id}")
 
-    story_spec = {
-        'page_id': page_id,
-        'video_data': {
-            'video_id': video_id,
-            'message': message,
-            'call_to_action': {
-                'type': cta_type,
-                'value': {'link': link_url}
-            }
+    vdata = {
+        'video_id': video_id,
+        'message': message,
+        'call_to_action': {
+            'type': cta_type,
+            'value': {'link': link_url}
         }
     }
-    # NO instagram_user_id — avoids dev-mode app restriction
+    if image_hash:
+        vdata['image_hash'] = image_hash
+        print(f"  Using image_hash={image_hash}")
+
+    story_spec = {
+        'page_id': page_id,
+        'video_data': vdata
+        # NO instagram_user_id
+    }
 
     cr_r = requests.post(f"{BASE}/{ACCT}/adcreatives", data={
         'access_token': TOKEN,
