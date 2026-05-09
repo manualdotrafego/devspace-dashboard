@@ -4,6 +4,7 @@ TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
 ACCT  = "act_615338413578534"
 WEBNAR_CAMP = "120248546729160002"
+NEW_ADSET_ID = "120251175301650002"  # already created
 
 VIDEO_IDS = {
     "IMG_5319": "1386873113201033",
@@ -14,151 +15,128 @@ VIDEO_IDS = {
     "IMG_5326": "2057045791912745",
 }
 
-# 1. Get adsets in WEBNAR campaign
-print("=== Conjuntos do [NOVA CAPTACAO] - [WEBNAR] ===")
+# Get source adset info to extract creative
+print("=== Buscando adsets do WEBNAR ===")
 r = requests.get(f"{BASE}/{WEBNAR_CAMP}/adsets", params={
-    'fields': 'id,name,status,effective_status,daily_budget,lifetime_budget,targeting,optimization_goal,billing_event,bid_amount,bid_strategy,start_time,end_time,promoted_object',
+    'fields': 'id,name,effective_status,daily_budget',
     'limit': 50, 'access_token': TOKEN
 }, timeout=30)
 adsets = r.json().get('data', [])
-print(f"Total adsets: {len(adsets)}")
-for a in adsets:
-    db = int(a.get('daily_budget') or 0)
-    lb = int(a.get('lifetime_budget') or 0)
-    print(f"  [{a.get('effective_status')}] {a['name'][:55]} | daily=R${db/100:.2f} | id={a['id']}")
-
-# Sort by daily_budget ascending (lowest first), prefer active
 active = [a for a in adsets if a.get('effective_status') == 'ACTIVE']
 if not active:
     active = adsets
 active.sort(key=lambda x: int(x.get('daily_budget') or 999999))
 source = active[0]
-print(f"\nFONTE PARA DUPLICAR: {source['name']} (id={source['id']})")
-print(json.dumps(source, indent=2, ensure_ascii=False))
+print(f"Adset fonte: {source['name']} ({source['id']})")
 
-# 2. Get existing ads to grab page_id and creative details
-print("\n=== Ads existentes no conjunto fonte ===")
+# Get ads and creative from source adset
 ads_r = requests.get(f"{BASE}/{source['id']}/ads", params={
     'fields': 'id,name,status,creative',
     'limit': 10, 'access_token': TOKEN
 }, timeout=30)
 existing_ads = ads_r.json().get('data', [])
-print(f"Ads: {len(existing_ads)}")
 
 page_id = None
-cta_type = "LEARN_MORE"
-link_url = None
-message = None
+cta_type = "SEE_DETAILS"
+link_url = "https://go.joaomafra.pt/"
+message = ""
 instagram_user_id = None
+image_hash = None
 
 if existing_ads:
-    first_ad = existing_ads[0]
-    cr_id = first_ad.get('creative', {}).get('id')
+    cr_id = existing_ads[0].get('creative', {}).get('id')
     if cr_id:
         cr_r = requests.get(f"{BASE}/{cr_id}", params={
-            'fields': 'object_story_spec,asset_feed_spec,body,title,call_to_action_type,link_url',
+            'fields': 'object_story_spec',
             'access_token': TOKEN
         }, timeout=30)
         cr_data = cr_r.json()
-        print("Creative:", json.dumps(cr_data, indent=2, ensure_ascii=False))
-        
         oss = cr_data.get('object_story_spec', {})
         video_data = oss.get('video_data', {})
         page_id = oss.get('page_id')
         instagram_user_id = oss.get('instagram_user_id')
-        link_url = video_data.get('call_to_action', {}).get('value', {}).get('link', '')
-        cta_type = video_data.get('call_to_action', {}).get('type', 'LEARN_MORE')
-        message = video_data.get('message', '')
-        print(f"\npage_id={page_id}, ig={instagram_user_id}, link={link_url}, cta={cta_type}")
+        link_url = video_data.get('call_to_action', {}).get('value', {}).get('link', link_url)
+        cta_type = video_data.get('call_to_action', {}).get('type', cta_type)
+        message = video_data.get('message', message)
+        image_hash = video_data.get('image_hash')
+        print(f"page_id={page_id}, ig={instagram_user_id}, link={link_url}")
+        print(f"cta={cta_type}, image_hash={image_hash}")
 
-# 3. Create duplicate adset — include promoted_object (pixel) to satisfy CBO requirement
-print("\n=== Criando novo conjunto (duplicata) ===")
-new_adset_data = {
-    'access_token': TOKEN,
-    'campaign_id': WEBNAR_CAMP,
-    'name': source['name'] + ' — Copia Webnar',
-    'status': 'PAUSED',
-    'optimization_goal': source.get('optimization_goal', 'LEAD_GENERATION'),
-    'billing_event': source.get('billing_event', 'IMPRESSIONS'),
-    'targeting': json.dumps(source.get('targeting', {})),
-}
+# For each video: get thumbnail from Meta API if image_hash missing
+def get_video_thumbnail(video_id):
+    r = requests.get(f"{BASE}/{video_id}", params={
+        'fields': 'thumbnails',
+        'access_token': TOKEN
+    }, timeout=30)
+    data = r.json()
+    thumbs = data.get('thumbnails', {}).get('data', [])
+    if thumbs:
+        # Return first thumbnail URI
+        return thumbs[0].get('uri', '')
+    return None
 
-# Include promoted_object (pixel) — required when CBO/budget sharing is active
-po = source.get('promoted_object', {})
-if po.get('pixel_id'):
-    new_adset_data['promoted_object'] = json.dumps({
-        'pixel_id': po['pixel_id'],
-        'custom_event_type': po.get('custom_event_type', 'LEAD')
-    })
-    print(f"promoted_object: pixel_id={po['pixel_id']}, event={po.get('custom_event_type')}")
-
-if source.get('daily_budget') and int(source.get('daily_budget', 0)) > 0:
-    new_adset_data['daily_budget'] = source['daily_budget']
-elif source.get('lifetime_budget') and int(source.get('lifetime_budget', 0)) > 0:
-    new_adset_data['lifetime_budget'] = source['lifetime_budget']
-    if source.get('end_time'):
-        new_adset_data['end_time'] = source['end_time']
-
-if source.get('bid_amount'):
-    new_adset_data['bid_amount'] = source['bid_amount']
-if source.get('bid_strategy'):
-    new_adset_data['bid_strategy'] = source['bid_strategy']
-
-print("Payload adset:", {k: v for k, v in new_adset_data.items() if k != 'access_token'})
-
-new_as_r = requests.post(f"{BASE}/{ACCT}/adsets", data=new_adset_data, timeout=30)
-new_as = new_as_r.json()
-print("Resposta adset:", json.dumps(new_as, indent=2))
-new_adset_id = new_as.get('id')
-
-if not new_adset_id:
-    print("ERRO criando adset!"); exit(1)
-
-if not page_id:
-    print("ERRO: page_id nao encontrado."); exit(1)
-
-# 4. Create 6 ads
-print(f"\n=== Criando 6 anuncios no adset {new_adset_id} ===")
+# Create 6 ads using the existing adset
+print(f"\n=== Criando 6 anuncios no adset {NEW_ADSET_ID} ===")
+created = []
 for name, video_id in VIDEO_IDS.items():
     print(f"\n  [{name}] video_id={video_id}")
     
+    # Build video_data
+    vdata = {
+        'video_id': video_id,
+        'message': message or 'Sua chance de mudar tudo está aqui!\nO que você vai fazer com ela?',
+        'call_to_action': {
+            'type': cta_type,
+            'value': {'link': link_url}
+        }
+    }
+    
+    # Use image_hash from source creative as thumbnail (same page, valid)
+    if image_hash:
+        vdata['image_hash'] = image_hash
+    else:
+        # Fallback: get thumbnail from video
+        thumb_url = get_video_thumbnail(video_id)
+        if thumb_url:
+            vdata['image_url'] = thumb_url
+            print(f"  thumb_url={thumb_url[:60]}")
+    
     story_spec = {
         'page_id': page_id,
-        'video_data': {
-            'video_id': video_id,
-            'message': message or 'Consultor, mentor que quer escalar para mais de 10k mes?',
-            'call_to_action': {
-                'type': cta_type or 'LEARN_MORE',
-                'value': {'link': link_url or 'https://go.joaomafra.pt/'}
-            }
-        }
+        'video_data': vdata
     }
     if instagram_user_id:
         story_spec['instagram_user_id'] = instagram_user_id
 
-    cr_r = requests.post(f"{BASE}/{ACCT}/adcreatives", data={
+    cr_payload = {
         'access_token': TOKEN,
-        'name': f"creative-{name}",
+        'name': f"creative-webnar-{name}",
         'object_story_spec': json.dumps(story_spec),
-    }, timeout=30)
+    }
+    cr_r = requests.post(f"{BASE}/{ACCT}/adcreatives", data=cr_payload, timeout=30)
     cr_data = cr_r.json()
-    print(f"  Creative: {cr_data}")
+    print(f"  Creative resp: {cr_data}")
     cr_id = cr_data.get('id')
     
     if not cr_id:
-        print(f"  ERRO criando creative para {name}"); continue
+        print(f"  ERRO criando creative {name} — pulando")
+        continue
     
     ad_r = requests.post(f"{BASE}/{ACCT}/ads", data={
         'access_token': TOKEN,
         'name': f"webnar-{name}",
-        'adset_id': new_adset_id,
+        'adset_id': NEW_ADSET_ID,
         'creative': json.dumps({'creative_id': cr_id}),
         'status': 'PAUSED',
     }, timeout=30)
     ad_data = ad_r.json()
-    print(f"  Ad: {ad_data}")
+    print(f"  Ad resp: {ad_data}")
+    if ad_data.get('id'):
+        created.append({'name': name, 'ad_id': ad_data['id'], 'creative_id': cr_id})
     time.sleep(1)
 
-print("\n=== CONCLUIDO ===")
-print(f"Novo conjunto: {new_adset_id}")
-print("Ative o conjunto quando estiver pronto para veicular")
+print(f"\n=== CONCLUIDO ===")
+print(f"Adset: {NEW_ADSET_ID}")
+print(f"Anuncios criados: {len(created)}/6")
+for c in created:
+    print(f"  {c['name']} → ad_id={c['ad_id']}")
