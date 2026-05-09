@@ -49,9 +49,9 @@ page_id = None
 cta_type = "LEARN_MORE"
 link_url = None
 message = None
+instagram_user_id = None
 
 if existing_ads:
-    # Get first ad creative details
     first_ad = existing_ads[0]
     cr_id = first_ad.get('creative', {}).get('id')
     if cr_id:
@@ -62,16 +62,16 @@ if existing_ads:
         cr_data = cr_r.json()
         print("Creative:", json.dumps(cr_data, indent=2, ensure_ascii=False))
         
-        # Extract page_id and link
         oss = cr_data.get('object_story_spec', {})
         video_data = oss.get('video_data', {})
         page_id = oss.get('page_id')
+        instagram_user_id = oss.get('instagram_user_id')
         link_url = video_data.get('call_to_action', {}).get('value', {}).get('link', '')
         cta_type = video_data.get('call_to_action', {}).get('type', 'LEARN_MORE')
         message = video_data.get('message', '')
-        print(f"\npage_id={page_id}, link={link_url}, cta={cta_type}")
+        print(f"\npage_id={page_id}, ig={instagram_user_id}, link={link_url}, cta={cta_type}")
 
-# 3. Create duplicate adset
+# 3. Create duplicate adset — include promoted_object (pixel) to satisfy CBO requirement
 print("\n=== Criando novo conjunto (duplicata) ===")
 new_adset_data = {
     'access_token': TOKEN,
@@ -82,34 +82,46 @@ new_adset_data = {
     'billing_event': source.get('billing_event', 'IMPRESSIONS'),
     'targeting': json.dumps(source.get('targeting', {})),
 }
-if source.get('daily_budget'):
+
+# Include promoted_object (pixel) — required when CBO/budget sharing is active
+po = source.get('promoted_object', {})
+if po.get('pixel_id'):
+    new_adset_data['promoted_object'] = json.dumps({
+        'pixel_id': po['pixel_id'],
+        'custom_event_type': po.get('custom_event_type', 'LEAD')
+    })
+    print(f"promoted_object: pixel_id={po['pixel_id']}, event={po.get('custom_event_type')}")
+
+if source.get('daily_budget') and int(source.get('daily_budget', 0)) > 0:
     new_adset_data['daily_budget'] = source['daily_budget']
-if source.get('lifetime_budget') and int(source.get('lifetime_budget',0)) > 0:
+elif source.get('lifetime_budget') and int(source.get('lifetime_budget', 0)) > 0:
     new_adset_data['lifetime_budget'] = source['lifetime_budget']
+    if source.get('end_time'):
+        new_adset_data['end_time'] = source['end_time']
+
 if source.get('bid_amount'):
     new_adset_data['bid_amount'] = source['bid_amount']
 if source.get('bid_strategy'):
     new_adset_data['bid_strategy'] = source['bid_strategy']
-if source.get('end_time'):
-    new_adset_data['end_time'] = source['end_time']
+
+print("Payload adset:", {k: v for k, v in new_adset_data.items() if k != 'access_token'})
 
 new_as_r = requests.post(f"{BASE}/{ACCT}/adsets", data=new_adset_data, timeout=30)
 new_as = new_as_r.json()
-print("Adset criado:", json.dumps(new_as, indent=2))
+print("Resposta adset:", json.dumps(new_as, indent=2))
 new_adset_id = new_as.get('id')
 
 if not new_adset_id:
     print("ERRO criando adset!"); exit(1)
 
 if not page_id:
-    print("ERRO: page_id nao encontrado. Verifique o creative acima."); exit(1)
+    print("ERRO: page_id nao encontrado."); exit(1)
 
 # 4. Create 6 ads
 print(f"\n=== Criando 6 anuncios no adset {new_adset_id} ===")
 for name, video_id in VIDEO_IDS.items():
     print(f"\n  [{name}] video_id={video_id}")
     
-    # Create creative
     story_spec = {
         'page_id': page_id,
         'video_data': {
@@ -117,10 +129,13 @@ for name, video_id in VIDEO_IDS.items():
             'message': message or 'Consultor, mentor que quer escalar para mais de 10k mes?',
             'call_to_action': {
                 'type': cta_type or 'LEARN_MORE',
-                'value': {'link': link_url or 'https://wa.me/'}
+                'value': {'link': link_url or 'https://go.joaomafra.pt/'}
             }
         }
     }
+    if instagram_user_id:
+        story_spec['instagram_user_id'] = instagram_user_id
+
     cr_r = requests.post(f"{BASE}/{ACCT}/adcreatives", data={
         'access_token': TOKEN,
         'name': f"creative-{name}",
@@ -133,7 +148,6 @@ for name, video_id in VIDEO_IDS.items():
     if not cr_id:
         print(f"  ERRO criando creative para {name}"); continue
     
-    # Create ad
     ad_r = requests.post(f"{BASE}/{ACCT}/ads", data={
         'access_token': TOKEN,
         'name': f"webnar-{name}",
@@ -147,4 +161,4 @@ for name, video_id in VIDEO_IDS.items():
 
 print("\n=== CONCLUIDO ===")
 print(f"Novo conjunto: {new_adset_id}")
-print(f"Ative o conjunto quando estiver pronto para veicular")
+print("Ative o conjunto quando estiver pronto para veicular")
