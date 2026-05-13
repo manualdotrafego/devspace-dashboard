@@ -1,58 +1,35 @@
-import requests, os, json, time
+import requests, os, json
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-QUENTE_CAMP = "120248610894960581"
-FRIO_CAMP   = "120247963737730581"
+ACCT  = "act_592324092832640"  # DevSpace
+IMG_URL = "https://github.com/manualdotrafego/devspace-dashboard/releases/download/joao-mafra-webnar-v1/Falta.5.dias.Trafego.Story.png"
 
-# === 1. QUENTE (CBO) -> R$100/dia ===
-print("=== QUENTE [CBO] -> R$100/dia ===")
-# Current
-r = requests.get(f"{BASE}/{QUENTE_CAMP}", params={
-    'fields':'id,name,daily_budget','access_token':TOKEN}, timeout=30).json()
-print(f"Atual: R${int(r.get('daily_budget',0))/100:.2f}/dia")
-p = requests.post(f"{BASE}/{QUENTE_CAMP}", data={
-    'daily_budget': '10000',  # R$100
+# Download image and upload bytes to Meta
+print(f"=== Baixando imagem ===")
+r = requests.get(IMG_URL, timeout=60)
+print(f"Status download: {r.status_code} | size: {len(r.content)/1024:.1f} KB")
+
+if r.status_code != 200:
+    print("ERRO no download"); exit(1)
+
+import base64
+img_b64 = base64.b64encode(r.content).decode()
+
+print(f"\n=== Subindo no ad account {ACCT} ===")
+up = requests.post(f"{BASE}/{ACCT}/adimages", data={
+    'bytes': img_b64,
     'access_token': TOKEN
-}, timeout=30).json()
-print(f"POST resp: {p}")
-v = requests.get(f"{BASE}/{QUENTE_CAMP}", params={
-    'fields':'daily_budget','access_token':TOKEN}, timeout=30).json()
-print(f"Novo: R${int(v.get('daily_budget',0))/100:.2f}/dia")
+}, timeout=120)
+resp = up.json()
+print(json.dumps(resp, indent=2))
 
-# === 2. FRIO (ABO) -> distribuir R$100 nos 10 conjuntos ativos (R$10 cada) ===
-print(f"\n=== FRIO (ABO) -> R$10/dia cada conjunto ativo (total R$100) ===")
-as_r = requests.get(f"{BASE}/{FRIO_CAMP}/adsets", params={
-    'fields': 'id,name,effective_status,daily_budget',
-    'limit': 100, 'access_token': TOKEN
-}, timeout=30)
-adsets = as_r.json().get('data', [])
-active = [a for a in adsets if a.get('effective_status') == 'ACTIVE']
-print(f"Conjuntos ativos: {len(active)}")
-
-success = 0
-total_new = 0
-for a in active:
-    cur = int(a.get('daily_budget', 0))/100
-    if cur == 10:
-        print(f"  [SKIP] {a['name'][:55]} ja R$10")
-        total_new += 10
-        success += 1
-        continue
-    print(f"  Atualizando {a['name'][:55]}: R${cur:.0f} -> R$10")
-    pr = requests.post(f"{BASE}/{a['id']}", data={
-        'daily_budget': '1000',  # R$10
-        'access_token': TOKEN
-    }, timeout=30).json()
-    if pr.get('success') or pr.get('id'):
-        success += 1
-        total_new += 10
-        print(f"     OK")
-    else:
-        print(f"     ERRO: {pr}")
-    time.sleep(0.3)
-
-print(f"\n=== Resumo ===")
-print(f"QUENTE: R$100/dia (CBO)")
-print(f"FRIO:   R${total_new}/dia ({success} conjuntos x R$10)")
-print(f"TOTAL DEVSPACE: R${100+total_new}/dia")
+# Image hash
+if 'images' in resp:
+    for filename, info in resp['images'].items():
+        print(f"\n=== UPLOAD OK ===")
+        print(f"  filename: {filename}")
+        print(f"  hash:     {info.get('hash')}")
+        print(f"  url:      {info.get('url')}")
+        print(f"  width:    {info.get('width')}")
+        print(f"  height:   {info.get('height')}")
