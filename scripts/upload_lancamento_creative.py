@@ -1,41 +1,41 @@
-import requests, os, json, time
+import requests, os, json, base64
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-CAMP  = "120248546729160002"
+ACCT  = "act_592324092832640"  # DevSpace
+BASE_URL = "https://github.com/manualdotrafego/devspace-dashboard/releases/download/joao-mafra-webnar-v1/"
 
-r = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields': 'id,name,effective_status', 'limit': 100, 'access_token': TOKEN
-}, timeout=30)
-adsets = r.json().get('data', [])
+IMAGES = [
+    ("3 dias", "Faltam.3.dias.Trafego.Story.png"),
+    ("4 dias", "Falta.4.dias.Trafego.Story.png"),
+]
 
-def find(pat):
-    for a in adsets:
-        if pat in a['name']:
-            return a
-    return None
+results = []
+for label, filename in IMAGES:
+    print(f"\n=== {label} — {filename} ===")
+    url = BASE_URL + filename
+    r = requests.get(url, timeout=60)
+    print(f"  download: {r.status_code} ({len(r.content)/1024:.0f} KB)")
+    if r.status_code != 200:
+        print(f"  ERRO download"); continue
+    
+    img_b64 = base64.b64encode(r.content).decode()
+    up = requests.post(f"{BASE}/{ACCT}/adimages", data={
+        'bytes': img_b64,
+        'access_token': TOKEN
+    }, timeout=120)
+    resp = up.json()
+    
+    if 'images' in resp:
+        for fn, info in resp['images'].items():
+            print(f"  OK")
+            print(f"    hash:   {info.get('hash')}")
+            print(f"    dim:    {info.get('width')}x{info.get('height')}")
+            results.append({'label': label, 'filename': filename, 'hash': info.get('hash')})
+    else:
+        print(f"  ERRO: {resp}")
 
-print("=== PAUSAR [1.12] e [1.17] ===")
-for pat in ['[AD SET 1.12]', '[AD SET 1.17]']:
-    a = find(pat)
-    if not a:
-        print(f"  NAO encontrado: {pat}"); continue
-    print(f"  {a['name']} (status atual: {a.get('effective_status')})")
-    pr = requests.post(f"{BASE}/{a['id']}", data={
-        'status': 'PAUSED', 'access_token': TOKEN
-    }, timeout=30).json()
-    print(f"     -> {pr}")
-    time.sleep(0.3)
-
-# Final state
-print("\n=== ATIVOS APOS PAUSE ===")
-r2 = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields': 'id,name,effective_status,daily_budget', 'limit': 100, 'access_token': TOKEN
-}, timeout=30)
-total = 0
-for a in r2.json().get('data', []):
-    if a.get('effective_status') == 'ACTIVE':
-        db = int(a.get('daily_budget') or 0)/100
-        total += db
-        print(f"  €{db:>5.2f}/d  | {a['name']}")
-print(f"\n  TOTAL ATIVO: €{total:.2f}/dia")
+print(f"\n=== RESUMO FINAL ===")
+print(f"Conta: {ACCT} (DevSpace)")
+for r in results:
+    print(f"  {r['label']:8} -> hash: {r['hash']}")
