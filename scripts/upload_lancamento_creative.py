@@ -1,41 +1,51 @@
-import requests, os, json, base64
+import requests, os, json, time
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-ACCT  = "act_592324092832640"  # DevSpace
-BASE_URL = "https://github.com/manualdotrafego/devspace-dashboard/releases/download/joao-mafra-webnar-v1/"
+CAMP  = "120247963737730581"  # VALIDACAO CRIATIVO
 
-IMAGES = [
-    ("3 dias", "Faltam.3.dias.Trafego.Story.png"),
-    ("4 dias", "Falta.4.dias.Trafego.Story.png"),
+# Find target adsets
+r = requests.get(f"{BASE}/{CAMP}/adsets", params={
+    'fields': 'id,name,effective_status,daily_budget', 
+    'limit': 100, 'access_token': TOKEN
+}, timeout=30)
+adsets = r.json().get('data', [])
+
+# (pat, new_budget_cents, label)
+UPDATES = [
+    ('[AD SET 1.3]',  '20000', 'R$200'),
+    ('[AD SET 1.8]',  '20000', 'R$200'),
+    ('[AD SET 1.9]',  '20000', 'R$200'),
+    ('[AD SET 1.10]', '20000', 'R$200'),
+    ('[AD SET 1.21]', '40000', 'R$400'),
 ]
 
-results = []
-for label, filename in IMAGES:
-    print(f"\n=== {label} — {filename} ===")
-    url = BASE_URL + filename
-    r = requests.get(url, timeout=60)
-    print(f"  download: {r.status_code} ({len(r.content)/1024:.0f} KB)")
-    if r.status_code != 200:
-        print(f"  ERRO download"); continue
-    
-    img_b64 = base64.b64encode(r.content).decode()
-    up = requests.post(f"{BASE}/{ACCT}/adimages", data={
-        'bytes': img_b64,
-        'access_token': TOKEN
-    }, timeout=120)
-    resp = up.json()
-    
-    if 'images' in resp:
-        for fn, info in resp['images'].items():
-            print(f"  OK")
-            print(f"    hash:   {info.get('hash')}")
-            print(f"    dim:    {info.get('width')}x{info.get('height')}")
-            results.append({'label': label, 'filename': filename, 'hash': info.get('hash')})
-    else:
-        print(f"  ERRO: {resp}")
+print("=== ATUALIZAR ORCAMENTOS ===\n")
+for pat, new_budget, label in UPDATES:
+    a = next((x for x in adsets if x['name'].startswith(pat)), None)
+    if not a:
+        print(f"  NAO ENCONTRADO: {pat}"); continue
+    cur = int(a.get('daily_budget') or 0)/100
+    print(f"  {a['name']}")
+    print(f"     Status: {a.get('effective_status')} | Atual: R${cur:.2f}/d -> Novo: {label}/d")
+    pr = requests.post(f"{BASE}/{a['id']}", data={
+        'daily_budget': new_budget, 'access_token': TOKEN
+    }, timeout=30).json()
+    print(f"     POST -> {pr}")
+    time.sleep(0.4)
 
-print(f"\n=== RESUMO FINAL ===")
-print(f"Conta: {ACCT} (DevSpace)")
-for r in results:
-    print(f"  {r['label']:8} -> hash: {r['hash']}")
+# Final state
+print("\n=== ATIVOS APOS UPDATE ===")
+r2 = requests.get(f"{BASE}/{CAMP}/adsets", params={
+    'fields': 'id,name,effective_status,daily_budget', 
+    'limit': 100, 'access_token': TOKEN
+}, timeout=30)
+total = 0
+for a in sorted(r2.json().get('data', []), key=lambda x: -int(x.get('daily_budget',0))):
+    if a.get('effective_status') == 'ACTIVE':
+        db = int(a.get('daily_budget') or 0)/100
+        total += db
+        print(f"  R${db:>7.2f}/d  | {a['name']}")
+print(f"\n  TOTAL FRIO: R${total:.2f}/dia")
+print(f"  + QUENTE (CBO): R$100/dia")
+print(f"  TOTAL DEVSPACE: R${total+100:.2f}/dia")
