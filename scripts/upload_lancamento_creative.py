@@ -2,33 +2,46 @@ import requests, os, time
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-CAMP  = "120248546729160002"  # WEBNAR Mafra
+ACCT  = "act_592324092832640"  # DevSpace
 
-r = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields':'id,name,effective_status,daily_budget','limit':100,'access_token':TOKEN
+# Get all active campaigns with "captacao" in name
+r = requests.get(f"{BASE}/{ACCT}/campaigns", params={
+    'fields': 'id,name,effective_status,daily_budget',
+    'limit': 100,
+    'effective_status': '["ACTIVE"]',
+    'access_token': TOKEN
 }, timeout=30)
-adsets = r.json().get('data',[])
+camps = r.json().get('data', [])
 
-print("=== PAUSAR [1.14] e [1.16] ===\n")
-for pat in ['[AD SET 1.14]','[AD SET 1.16]']:
-    a = next((x for x in adsets if x['name'].startswith(pat)), None)
-    if not a:
-        print(f"  NAO ENCONTRADO: {pat}"); continue
-    print(f"  {a['name']} (status atual: {a.get('effective_status')})")
-    pr = requests.post(f"{BASE}/{a['id']}", data={
-        'status':'PAUSED','access_token':TOKEN
+# Filter case-insensitive "captacao" (with or without diacritic)
+import unicodedata
+def norm(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn').lower()
+
+targets = [c for c in camps if 'captacao' in norm(c.get('name',''))]
+
+print(f"=== ATIVAS NA DEVSPACE: {len(camps)} | COM 'CAPTAÇÃO': {len(targets)} ===\n")
+
+for c in targets:
+    print(f"  Pausando: {c['name']}")
+    print(f"     id: {c['id']}")
+    pr = requests.post(f"{BASE}/{c['id']}", data={
+        'status': 'PAUSED', 'access_token': TOKEN
     }, timeout=30).json()
     print(f"     POST -> {pr}")
     time.sleep(0.3)
 
-print("\n=== ATIVOS APOS PAUSE ===")
-r2 = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields':'id,name,effective_status,daily_budget','limit':100,'access_token':TOKEN
+# Verify
+print("\n=== ESTADO FINAL DAS CAMPANHAS ===")
+r2 = requests.get(f"{BASE}/{ACCT}/campaigns", params={
+    'fields': 'id,name,effective_status,daily_budget',
+    'limit': 100, 'access_token': TOKEN
 }, timeout=30)
-total=0
-for a in r2.json().get('data',[]):
-    if a.get('effective_status') == 'ACTIVE':
-        db = int(a.get('daily_budget') or 0)/100
-        total += db
-        print(f"  EUR {db:>5.2f}/d  | {a['name']}")
-print(f"\n  TOTAL ATIVO: EUR {total:.2f}/dia")
+total_active = 0
+for c in r2.json().get('data', []):
+    status = c.get('effective_status','')
+    db = int(c.get('daily_budget') or 0)/100
+    marker = "🟢" if status == 'ACTIVE' else "⏸️" if status == 'PAUSED' else "❓"
+    if status == 'ACTIVE': total_active += 1
+    print(f"  {marker} [{status:8}] R${db:>7.2f}/d | {c['name']}")
+print(f"\nCampanhas ativas restantes: {total_active}")
