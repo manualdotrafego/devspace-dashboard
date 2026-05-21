@@ -1,37 +1,36 @@
-import requests, os, time
+import requests, os
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-ACCT  = "act_615338413578534"
+CAMP  = "120249001823230002"  # [EVENTO PRESENCIAL] - [VALIDACAO]
 
-TO_PAUSE = [
-    ("120248546729160002", "[NOVA CAPTAÇÃO] - [WEBNAR]"),
-    ("120249001823230002", "[EVENTO PRESENCIAL] - [VALIDAÇÃO]"),
-]
-KEEP = ("120249814173860002", "[TRÁFEGO INSTAGRAM] - [VISITA]")
+r = requests.get(f"{BASE}/{CAMP}", params={
+    'fields':'name,status,effective_status','access_token':TOKEN
+}, timeout=30).json()
+print(f"Campanha: {r.get('name')}")
+print(f"Status atual: {r.get('effective_status')}")
 
-print("=== PAUSAR WEBNAR + PRESENCIAL ===\n")
-for cid, name in TO_PAUSE:
-    print(f"  Pausando: {name}")
-    pr = requests.post(f"{BASE}/{cid}", data={
-        'status':'PAUSED', 'access_token':TOKEN
-    }, timeout=30).json()
-    print(f"     POST -> {pr}")
-    time.sleep(0.4)
+pr = requests.post(f"{BASE}/{CAMP}", data={
+    'status':'ACTIVE','access_token':TOKEN
+}, timeout=30).json()
+print(f"POST ativar -> {pr}")
 
-print(f"\n=== VERIFICACAO FINAL ===")
-r = requests.get(f"{BASE}/{ACCT}/campaigns", params={
-    'fields':'id,name,status,effective_status',
-    'limit':200, 'access_token':TOKEN
+v = requests.get(f"{BASE}/{CAMP}", params={
+    'fields':'name,status,effective_status','access_token':TOKEN
+}, timeout=30).json()
+print(f"Status apos: status={v.get('status')} | effective={v.get('effective_status')}")
+
+# adsets
+print("\n=== CONJUNTOS ===")
+as_r = requests.get(f"{BASE}/{CAMP}/adsets", params={
+    'fields':'id,name,effective_status,daily_budget','limit':100,'access_token':TOKEN
 }, timeout=30)
-active = [c for c in r.json().get('data',[]) if c.get('effective_status')=='ACTIVE']
-print(f"Campanhas ATIVAS restantes: {len(active)}")
-for c in active:
-    print(f"  🟢 {c['name']}  (id={c['id']})")
-
-# Confirm the 2 are paused
-print(f"\nStatus das pausadas:")
-for cid, name in TO_PAUSE:
-    v = requests.get(f"{BASE}/{cid}", params={
-        'fields':'status,effective_status','access_token':TOKEN
-    }, timeout=30).json()
-    print(f"  ⏸️ {name}: status={v.get('status')} effective={v.get('effective_status')}")
+total = 0
+for a in as_r.json().get('data', []):
+    st = a.get('effective_status','')
+    db = int(a.get('daily_budget') or 0)/100
+    if st == 'ACTIVE':
+        total += db
+        print(f"  ATIVO  €{db:>6.2f}/d | {a['name']}")
+    else:
+        print(f"  [{st}] €{db:>6.2f}/d | {a['name']}")
+print(f"\nTotal ativo: €{total:.2f}/dia")
