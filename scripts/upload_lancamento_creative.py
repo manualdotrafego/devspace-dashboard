@@ -1,37 +1,58 @@
-import requests, os, time
+import requests, os, json, time
+
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-CAMP  = "120248546729160002"
+ACCT  = "act_615338413578534"  # Joao Mafra Lancamento
+BASE_URL = "https://github.com/manualdotrafego/devspace-dashboard/releases/download/joao-mafra-webnar-v1/"
 
-TARGETS = [
-    ("120248912638000002", "[AD SET 1.7 alterado dia 12] - [SÓ VIDEO]"),
-    ("120248547611860002", "[AD SET 1.4] - [E_AD01 NOVO]"),
+VIDEOS = [
+    ("IMG_6623", "IMG_6623.MP4"),
+    ("IMG_6627", "IMG_6627.MP4"),
+    ("IMG_6628", "IMG_6628.MP4"),
+    ("IMG_6629", "IMG_6629.MP4"),
+    ("IMG_6630", "IMG_6630.MP4"),
 ]
 
-print("=== PAUSAR [1.7 alt] e [1.4] ===\n")
-paused = 0
-for cid, name in TARGETS:
-    print(f"  Pausando: {name}")
-    pr = requests.post(f"{BASE}/{cid}", data={
-        'status':'PAUSED','access_token':TOKEN
-    }, timeout=30).json()
-    print(f"     POST -> {pr}")
-    if pr.get('success'):
-        paused += 1
-    time.sleep(0.3)
+results = []
+for label, fname in VIDEOS:
+    url = BASE_URL + fname
+    print(f"\n=== {label} -> file_url upload ===")
+    print(f"  url: {url[:90]}...")
+    
+    up = requests.post(f"{BASE}/{ACCT}/advideos", data={
+        'file_url': url,
+        'name': label,
+        'access_token': TOKEN
+    }, timeout=600)
+    resp = up.json()
+    print(f"  resp: {json.dumps(resp, indent=2)}")
+    if 'id' in resp:
+        vid = resp['id']
+        # Wait for processing
+        print(f"  aguardando processamento...")
+        for i in range(60):
+            time.sleep(5)
+            st = requests.get(f"{BASE}/{vid}", params={
+                'fields': 'status',
+                'access_token': TOKEN
+            }, timeout=30).json()
+            phase = st.get('status',{}).get('video_status','?')
+            print(f"     [{i+1}] video_status={phase}")
+            if phase == 'ready':
+                print(f"     OK pronto!")
+                results.append({'label': label, 'video_id': vid, 'status':'ready'})
+                break
+            if phase == 'error':
+                print(f"     FAILED: {st}")
+                results.append({'label': label, 'video_id': vid, 'status':'error'})
+                break
+        else:
+            results.append({'label': label, 'video_id': vid, 'status':'timeout'})
+    else:
+        results.append({'label': label, 'video_id': None, 'status': 'failed', 'err': resp})
+    time.sleep(1)
 
-print(f"\n=== {paused}/{len(TARGETS)} pausados ===")
-
-# Final state
-print("\n=== ATIVOS RESTANTES ===")
-r = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields':'id,name,effective_status,daily_budget',
-    'limit':100,'access_token':TOKEN
-}, timeout=30)
-total = 0
-for a in sorted(r.json().get('data',[]), key=lambda x: -int(x.get('daily_budget',0))):
-    if a.get('effective_status') == 'ACTIVE':
-        db = int(a.get('daily_budget') or 0)/100
-        total += db
-        print(f"  ATIVO €{db:>5.2f}/d | {a['name']}")
-print(f"\nTotal ativo: €{total:.2f}/dia")
+print(f"\n=== RESUMO ===")
+print(f"Conta: {ACCT} (Joao Mafra Lancamento)")
+for r in results:
+    print(f"  {r['label']} -> video_id: {r['video_id']} [{r['status']}]")
