@@ -1,50 +1,53 @@
-import requests, os, time
+import requests, os, json
+from datetime import date, timedelta
+
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
 CAMP  = "120248546729160002"
 
-# 5 conjuntos com CPL caro (€6+) esta semana
-TARGETS = [
-    ('[AD SET 1.8]',  'SÓ VIDEO',          '€6,11'),
-    ('[AD SET 1.12]', 'vd-teste',          '€6,43'),
-    ('[AD SET 1.6]',  'ESTÁTICO MODELADO', '€10,60'),
-    ('[AD SET 1.17]', 'vd-teste',          '€10,83'),
-    ('[AD SET 1.9]',  'SÓ VIDEO',          '€12,09'),
-]
-
 r = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields':'id,name,effective_status,daily_budget',
+    'fields':'id,name,daily_budget,effective_status,created_time',
     'limit':100,'access_token':TOKEN
 }, timeout=30)
 adsets = r.json().get('data', [])
 
-print("=== PAUSAR 5 CONJUNTOS COM CPL CARO ===\n")
-paused = 0
-for pat, desc, cpl in TARGETS:
+targets = ['[AD SET 1.7', '[AD SET 1.4]']  # match 1.7 alt and 1.4 (use [ to avoid 1.10,1.17 etc)
+today = date.today()
+since = (today - timedelta(days=14)).isoformat()
+until = today.isoformat()
+
+for pat in targets:
     a = next((x for x in adsets if x['name'].startswith(pat)), None)
     if not a:
-        print(f"  NAO ENCONTRADO: {pat}"); continue
-    print(f"  Pausando: {a['name'][:55]}  (CPL {cpl})")
-    pr = requests.post(f"{BASE}/{a['id']}", data={
-        'status':'PAUSED','access_token':TOKEN
-    }, timeout=30).json()
-    print(f"     POST -> {pr}")
-    if pr.get('success'):
-        paused += 1
-    time.sleep(0.3)
-
-print(f"\n=== {paused}/{len(TARGETS)} pausados ===")
-
-# Final state
-print("\n=== CONJUNTOS ATIVOS RESTANTES ===")
-r2 = requests.get(f"{BASE}/{CAMP}/adsets", params={
-    'fields':'id,name,effective_status,daily_budget',
-    'limit':100,'access_token':TOKEN
-}, timeout=30)
-total = 0
-for a in sorted(r2.json().get('data',[]), key=lambda x: -int(x.get('daily_budget',0))):
-    if a.get('effective_status') == 'ACTIVE':
-        db = int(a.get('daily_budget') or 0)/100
-        total += db
-        print(f"  ATIVO €{db:>5.2f}/d | {a['name']}")
-print(f"\nTotal ativo: €{total:.2f}/dia")
+        print(f"NAO ACHEI: {pat}"); continue
+    aid = a['id']
+    db = int(a.get('daily_budget') or 0)/100
+    print(f"\n=== {a['name']} ===")
+    print(f"  id={aid} | budget atual: €{db:.2f}/d | criado: {a.get('created_time')}")
+    
+    # Daily breakdown
+    ins_r = requests.get(f"{BASE}/{aid}/insights", params={
+        'fields':'spend,impressions,actions',
+        'time_range': json.dumps({'since':since,'until':until}),
+        'time_increment': 1,
+        'access_token':TOKEN
+    }, timeout=30)
+    days = ins_r.json().get('data', [])
+    if not days:
+        print(f"  sem dados nos ultimos 14 dias"); continue
+    
+    print(f"\n  Data         Gasto    Leads   CPL")
+    print(f"  ----------   ------   -----   -----")
+    total_sp = 0; total_lds = 0
+    for d in days:
+        sp = float(d.get('spend',0))
+        lds = 0
+        for act in d.get('actions',[]):
+            if act.get('action_type') in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
+                lds = max(lds, int(act.get('value',0)))
+        cpl_s = f"€{sp/lds:.2f}" if lds > 0 else "—"
+        print(f"  {d.get('date_start')}   €{sp:>5.2f}   {lds:>5}   {cpl_s}")
+        total_sp += sp; total_lds += lds
+    print(f"  ----------   ------   -----   -----")
+    cpl_t = f"€{total_sp/total_lds:.2f}" if total_lds > 0 else "—"
+    print(f"  TOTAL        €{total_sp:>5.2f}   {total_lds:>5}   {cpl_t}")
