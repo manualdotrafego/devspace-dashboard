@@ -9,16 +9,12 @@ today = date.today()
 since = (today - timedelta(days=7)).isoformat()
 until = today.isoformat()
 
-# 1. Get Page Access Token for Joao Mafra (110278364765662)
 pg_r = requests.get(f"{BASE}/110278364765662", params={
     'access_token':TOKEN, 'fields':'access_token'
 }, timeout=30).json()
 PAGE_TOKEN = pg_r.get('access_token')
-print(f"## PAGE_TOKEN: {'OK' if PAGE_TOKEN else 'MISSING'}")
-if not PAGE_TOKEN:
-    print(f"## ERROR: {pg_r}"); exit(1)
 
-# 2. Get all ads with post_ids from WEBNAR campaign
+# Get all ads with post_ids
 as_r = requests.get(f"{BASE}/{CAMP}/adsets", params={
     'fields':'id,name','limit':100,'access_token':TOKEN
 }, timeout=30)
@@ -48,54 +44,48 @@ for ads_obj in adsets:
             if act.get('action_type') in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
                 lds = max(lds, int(act.get('value',0)))
         if eosi not in posts:
-            posts[eosi] = {'ad_names':[], 'leads':lds, 'spend':sp}
-        posts[eosi]['ad_names'].append(ad['name'])
+            posts[eosi] = {'ad_name':ad['name'], 'adset':asname, 'leads':lds, 'spend':sp}
 
-print(f"## POSTS_FOUND: {len(posts)}")
-print(f"## PERIODO: {since} -> {until}")
+print("## CSVSTART")
+print("post_id|ad_name|adset|leads|spend|comments|likes|shares|reach|reactions_love|reactions_haha|reactions_wow|reactions_sorry|reactions_anger|post_url")
 
-# 3. Fetch comments for each post using PAGE TOKEN
-total_comments = 0
-for eosi, meta in posts.items():
-    print(f"\n## POST: {eosi}")
-    print(f"## META: ads={meta['ad_names'][:2]} | leads={meta['leads']} | spend={meta['spend']:.2f}")
+# Get engagement counts using summary=true (works with pages_read_engagement)
+for eosi, m in posts.items():
+    # Comments summary
+    cr = requests.get(f"{BASE}/{eosi}/comments", params={
+        'summary':'true','filter':'stream','limit':0,'access_token':PAGE_TOKEN
+    }, timeout=20).json()
+    comments_count = cr.get('summary',{}).get('total_count', 0)
     
-    url = f"{BASE}/{eosi}/comments"
-    params = {
-        'fields':'id,message,created_time,like_count,from{id,name},comment_count,is_hidden,is_private',
-        'order':'reverse_chronological',
-        'limit':100,
-        'filter':'stream',
-        'access_token':PAGE_TOKEN
-    }
+    # Likes/reactions
+    lr = requests.get(f"{BASE}/{eosi}/reactions", params={
+        'summary':'true','limit':0,'access_token':PAGE_TOKEN
+    }, timeout=20).json()
+    likes_count = lr.get('summary',{}).get('total_count', 0)
     
-    post_total = 0
-    page_count = 0
-    while url and page_count < 20:
-        try:
-            r = requests.get(url, params=params, timeout=30)
-            data = r.json()
-            if 'error' in data:
-                print(f"##  ERROR: {data['error'].get('message','')[:120]}")
-                break
-            comments = data.get('data', [])
-            for c in comments:
-                msg = c.get('message','').replace('\n',' ').replace('\r','').replace('|','/')
-                from_name = c.get('from',{}).get('name','Anonymous').replace('|','/')
-                created = c.get('created_time','')
-                likes = c.get('like_count',0)
-                replies = c.get('comment_count',0)
-                hidden = c.get('is_hidden', False)
-                priv = c.get('is_private', False)
-                print(f"##C|{eosi}|{from_name}|{created}|{likes}|{replies}|{hidden}|{priv}|{msg[:400]}")
-                post_total += 1
-            url = data.get('paging',{}).get('next','')
-            params = {}
-            page_count += 1
-        except Exception as e:
-            print(f"##  EXCEPTION: {e}")
-            break
-    print(f"##  comments_total={post_total}")
-    total_comments += post_total
+    # Reactions by type
+    reactions = {}
+    for rt in ['LOVE','HAHA','WOW','SORRY','ANGER']:
+        rr = requests.get(f"{BASE}/{eosi}/reactions", params={
+            'summary':'true','type':rt,'limit':0,'access_token':PAGE_TOKEN
+        }, timeout=15).json()
+        reactions[rt] = rr.get('summary',{}).get('total_count', 0)
+    
+    # Try shares (via insights or direct)
+    shares = 0
+    try:
+        pr = requests.get(f"{BASE}/{eosi}", params={
+            'fields':'shares,full_picture','access_token':PAGE_TOKEN
+        }, timeout=20).json()
+        shares = pr.get('shares',{}).get('count', 0)
+    except: pass
+    
+    page_id, post_id = eosi.split('_', 1)
+    url = f"https://www.facebook.com/{page_id}/posts/{post_id}"
+    clean = lambda s: str(s).replace('|','/').replace('\n',' ')
+    print(f"{eosi}|{clean(m['ad_name'])}|{clean(m['adset'])}|{m['leads']}|{m['spend']:.2f}|"
+          f"{comments_count}|{likes_count}|{shares}|0|"
+          f"{reactions.get('LOVE',0)}|{reactions.get('HAHA',0)}|{reactions.get('WOW',0)}|"
+          f"{reactions.get('SORRY',0)}|{reactions.get('ANGER',0)}|{url}")
 
-print(f"\n## GRAND_TOTAL: {total_comments} comentarios")
+print("## CSVEND")
