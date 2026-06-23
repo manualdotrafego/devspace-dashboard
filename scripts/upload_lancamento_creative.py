@@ -1,48 +1,59 @@
 import requests, os, json
-from datetime import date
+from datetime import date, timedelta
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
 CAMP  = "120248546729160002"
 
-# Campaign metadata
-r = requests.get(f"{BASE}/{CAMP}", params={
-    'fields':'id,name,status,effective_status,created_time,updated_time,start_time,stop_time,objective',
-    'access_token':TOKEN
-}, timeout=30).json()
-print(f"Campanha: {r.get('name')}")
-print(f"  ID:       {r.get('id')}")
-print(f"  Status:   {r.get('effective_status')}")
-print(f"  Objetivo: {r.get('objective')}")
-print(f"  Criada:   {r.get('created_time')}")
-print(f"  Iniciada: {r.get('start_time')}")
-print(f"  Atualiz:  {r.get('updated_time')}")
-print(f"  Encerra:  {r.get('stop_time','sem data fim')}")
+# Start: 26/mar/2026
+start = date(2026, 3, 26)
+today = date.today()
 
-# First insights data point (effective start = first day with spend)
-r2 = requests.get(f"{BASE}/{CAMP}/insights", params={
-    'fields':'spend,date_start,date_stop',
-    'date_preset':'maximum',
-    'access_token':TOKEN
-}, timeout=30).json()
-data = r2.get('data', [])
-if data:
-    d = data[0]
-    print(f"\n  Primeira entrega: {d.get('date_start')}")
-    print(f"  Ult dia entrega:  {d.get('date_stop')}")
-    print(f"  Gasto lifetime:   EUR{float(d.get('spend',0)):.2f}")
+def get_metrics(actions, action_values=None):
+    leads = lc = 0
+    for act in actions or []:
+        t = act.get('action_type','')
+        v = int(act.get('value',0))
+        if t in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
+            leads = max(leads, v)
+        elif t == 'link_click': lc = v
+    return leads, lc
 
-# Get first day with actual spend (time_increment=1)
-r3 = requests.get(f"{BASE}/{CAMP}/insights", params={
-    'fields':'spend',
-    'date_preset':'maximum',
-    'time_increment':1,
-    'access_token':TOKEN
-}, timeout=30).json()
-days = r3.get('data', [])
-days_with_spend = [d for d in days if float(d.get('spend',0)) > 0]
-if days_with_spend:
-    first_day = days_with_spend[0]
-    print(f"\n  Primeiro dia com gasto: {first_day.get('date_start')} (EUR{float(first_day.get('spend',0)):.2f})")
-    total_days = (date.fromisoformat(days_with_spend[-1].get('date_start')) - date.fromisoformat(first_day.get('date_start'))).days + 1
-    print(f"  Dias ativos: {len(days_with_spend)} dias com entrega de {total_days} dias corridos")
+print("## CSVSTART")
+print("cycle|since|until|days|spend|impressions|reach|clicks|link_clicks|leads|cpm|cpc_all|cpc_link|ctr|cvr_link_to_lead|cpl")
+
+# Generate 7-day cycles
+cur = start
+i = 0
+while cur <= today:
+    i += 1
+    end = min(cur + timedelta(days=6), today)
+    n_days = (end - cur).days + 1
+    
+    r = requests.get(f"{BASE}/{CAMP}/insights", params={
+        'fields':'spend,impressions,clicks,reach,actions,ctr,cpc,cpm',
+        'time_range': json.dumps({'since': cur.isoformat(), 'until': end.isoformat()}),
+        'access_token':TOKEN
+    }, timeout=30)
+    data = r.json().get('data', [])
+    if not data:
+        print(f"{i}|{cur}|{end}|{n_days}|0|0|0|0|0|0|0|0|0|0|0|0")
+    else:
+        d = data[0]
+        spend = float(d.get('spend', 0))
+        imps = int(d.get('impressions', 0))
+        reach = int(d.get('reach', 0))
+        clicks = int(d.get('clicks', 0))
+        ctr = float(d.get('ctr', 0))
+        cpc_all = float(d.get('cpc', 0))
+        cpm = float(d.get('cpm', 0))
+        leads, lc = get_metrics(d.get('actions', []))
+        cpc_link = spend/lc if lc > 0 else 0
+        cvr = (leads/lc*100) if lc > 0 else 0
+        cpl = spend/leads if leads > 0 else 0
+        print(f"{i}|{cur}|{end}|{n_days}|{spend:.2f}|{imps}|{reach}|{clicks}|{lc}|{leads}|"
+              f"{cpm:.2f}|{cpc_all:.2f}|{cpc_link:.2f}|{ctr:.2f}|{cvr:.2f}|{cpl:.2f}")
+    
+    cur = end + timedelta(days=1)
+
+print("## CSVEND")
