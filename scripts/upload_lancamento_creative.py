@@ -20,10 +20,9 @@ def get_leads(actions):
         elif t == 'landing_page_view': lpv = v
     return leads, lc, lpv
 
-# 1. Get all adsets
 print(f"## PERIODO: {since} -> {until}")
 print("## CSVSTART")
-print("ad_id|ad_name|adset_name|status|spend|impressions|link_clicks|leads|cpl|ctr|cpc|preview_url")
+print("ad_id|ad_name|adset_name|status|spend|impressions|link_clicks|leads|cpl|ctr|cpc|post_url")
 
 as_r = requests.get(f"{BASE}/{CAMP}/adsets", params={
     'fields':'id,name','limit':100,'access_token':TOKEN
@@ -33,16 +32,14 @@ adsets = as_r.json().get('data', [])
 for ads_obj in adsets:
     asid = ads_obj['id']
     asname = ads_obj['name']
-    # get all ads in adset
     ads_r = requests.get(f"{BASE}/{asid}/ads", params={
-        'fields':'id,name,status,effective_status,creative{id,thumbnail_url,object_story_id}',
+        'fields':'id,name,status,effective_status,creative{id,effective_object_story_id,object_story_id,instagram_permalink_url,object_type}',
         'limit':100,'access_token':TOKEN
     }, timeout=30)
     ads = ads_r.json().get('data', [])
     
     for ad in ads:
         aid = ad['id']
-        # insights for ad
         ins_r = requests.get(f"{BASE}/{aid}/insights", params={
             'fields':'spend,impressions,actions,ctr,cpc',
             'time_range': json.dumps({'since':since,'until':until}),
@@ -58,29 +55,26 @@ for ads_obj in adsets:
         imps = int(d.get('impressions',0))
         ctr = float(d.get('ctr',0))
         cpc = float(d.get('cpc',0))
-        # preview url
-        preview_url = ""
-        try:
-            cr_id = ad.get('creative',{}).get('id')
-            if cr_id:
-                pv_r = requests.get(f"{BASE}/{aid}/previews", params={
-                    'ad_format': 'INSTAGRAM_STORY',
-                    'access_token':TOKEN
-                }, timeout=20)
-                pv_data = pv_r.json().get('data', [])
-                if pv_data:
-                    body = pv_data[0].get('body','')
-                    # extract iframe src
-                    if 'src=' in body:
-                        s = body.split('src="')[1].split('"')[0]
-                        preview_url = s.replace('&amp;', '&')
-        except Exception as e:
-            preview_url = f"ERR:{e}"
         
-        # clean for csv
+        # Build post URL (Facebook public post with comments)
+        post_url = ""
+        cr = ad.get('creative', {})
+        eosi = cr.get('effective_object_story_id') or cr.get('object_story_id', '')
+        ig_url = cr.get('instagram_permalink_url', '')
+        
+        if eosi and '_' in eosi:
+            page_id, post_id = eosi.split('_', 1)
+            post_url = f"https://www.facebook.com/{page_id}/posts/{post_id}"
+        elif ig_url:
+            post_url = ig_url
+        
+        # Fallback: also include IG link if exists in addition
+        if not post_url and ig_url:
+            post_url = ig_url
+        
         clean = lambda s: str(s).replace('|','/').replace('\n',' ').replace('\r','')
         cpl_s = f"{cpl:.2f}" if leads > 0 else "0"
         print(f"{aid}|{clean(ad['name'])}|{clean(asname)}|{ad.get('effective_status','')}|"
-              f"{sp:.2f}|{imps}|{lc}|{leads}|{cpl_s}|{ctr:.2f}|{cpc:.2f}|{preview_url}")
+              f"{sp:.2f}|{imps}|{lc}|{leads}|{cpl_s}|{ctr:.2f}|{cpc:.2f}|{post_url}")
 
 print("## CSVEND")
