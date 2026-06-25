@@ -5,44 +5,40 @@ BASE  = "https://graph.facebook.com/v19.0"
 CAMP  = "120248546729160002"
 
 r = requests.get(f"{BASE}/{CAMP}/insights", params={
-    'fields':'spend,impressions,clicks,reach,actions,ctr,cpc,cpm',
+    'fields':'spend,impressions,clicks,actions',
     'time_range': json.dumps({'since':'2026-06-17','until':'2026-06-23'}),
     'access_token':TOKEN
 }, timeout=30)
-data = r.json().get('data', [])
-d = data[0] if data else {}
+d = r.json().get('data', [{}])[0]
 
-spend = float(d.get('spend',0))
-imps = int(d.get('impressions',0))
-clicks = int(d.get('clicks',0))
-reach = int(d.get('reach',0))
-ctr = float(d.get('ctr',0))
-cpc_all = float(d.get('cpc',0))
-cpm = float(d.get('cpm',0))
+# Extract ALL action types to see the full funnel
+print("## ALL_ACTIONS")
+for act in d.get('actions', []):
+    print(f"  {act.get('action_type')}: {act.get('value')}")
 
-leads = lc = 0
-for act in d.get('actions',[]):
+# Key funnel metrics
+clicks_all = int(d.get('clicks', 0))
+link_clicks = lp_views = leads = 0
+for act in d.get('actions', []):
     t = act.get('action_type','')
-    v = int(act.get('value',0))
-    if t in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
+    v = int(act.get('value', 0))
+    if t == 'link_click': link_clicks = v
+    elif t == 'landing_page_view': lp_views = v
+    elif t in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
         leads = max(leads, v)
-    elif t == 'link_click': lc = v
 
-cpc_link = spend/lc if lc > 0 else 0
-cvr = (leads/lc*100) if lc > 0 else 0
-cpl = spend/leads if leads > 0 else 0
-
-print("## REALDATA")
-print(f"spend={spend:.2f}")
-print(f"impressions={imps}")
-print(f"clicks={clicks}")
-print(f"link_clicks={lc}")
-print(f"reach={reach}")
+print("\n## FUNNEL")
+print(f"clicks_all={clicks_all}")
+print(f"link_clicks={link_clicks}")
+print(f"lp_views={lp_views}")
 print(f"leads={leads}")
-print(f"cpm={cpm:.2f}")
-print(f"cpc_all={cpc_all:.2f}")
-print(f"cpc_link={cpc_link:.2f}")
-print(f"ctr={ctr:.2f}")
-print(f"cvr={cvr:.2f}")
-print(f"cpl={cpl:.2f}")
+# rates
+print(f"\n## RATES")
+print(f"click_to_lp={lp_views/link_clicks*100 if link_clicks else 0:.1f}")
+print(f"lp_to_lead={leads/lp_views*100 if lp_views else 0:.1f}")
+print(f"click_to_lead={leads/link_clicks*100 if link_clicks else 0:.1f}")
+# perda absoluta
+print(f"\n## PERDAS")
+print(f"perdidos_click_to_lp={link_clicks - lp_views}")
+print(f"perdidos_lp_to_lead={lp_views - leads}")
 print("## END")
