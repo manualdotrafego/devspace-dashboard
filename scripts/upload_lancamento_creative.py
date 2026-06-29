@@ -1,13 +1,11 @@
 import requests, os, json
-from datetime import date
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
 CAMP  = "120248546729160002"
 
-today = date.today()
 since = "2026-06-24"
-until = today.isoformat()
+until = "2026-06-29"
 
 r = requests.get(f"{BASE}/{CAMP}/insights", params={
     'fields':'spend,impressions,clicks,reach,actions,ctr,cpc,cpm',
@@ -35,9 +33,8 @@ for act in d.get('actions',[]):
 cpc_link = spend/lc if lc > 0 else 0
 cvr = (leads/lc*100) if lc > 0 else 0
 cpl = spend/leads if leads > 0 else 0
-n_days = (date.fromisoformat(until) - date.fromisoformat(since)).days + 1
 
-print(f"## CICLO 14 (parcial): {since} -> {until} ({n_days} dias)")
+print(f"## CICLO 14 (parcial): {since} -> {until} (6 de 7 dias)")
 print(f"VALOR_USADO={spend:.2f}")
 print(f"IMPRESSOES={imps}")
 print(f"CLIQUES={clicks}")
