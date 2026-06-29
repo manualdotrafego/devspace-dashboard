@@ -1,48 +1,30 @@
-import requests, os, json
-
+import requests, os, unicodedata
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
-CAMP  = "120248546729160002"
+ACCT  = "act_615338413578534"
 
-since = "2026-06-24"
-until = "2026-06-29"
+def norm(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn').lower()
 
-r = requests.get(f"{BASE}/{CAMP}/insights", params={
-    'fields':'spend,impressions,clicks,reach,actions,ctr,cpc,cpm',
-    'time_range': json.dumps({'since':since,'until':until}),
-    'access_token':TOKEN
+r = requests.get(f"{BASE}/{ACCT}/campaigns", params={
+    'fields':'id,name,status,effective_status,daily_budget,created_time,start_time',
+    'limit':200,'access_token':TOKEN
 }, timeout=30)
-data = r.json().get('data', [])
-d = data[0] if data else {}
+camps = r.json().get('data', [])
 
-spend = float(d.get('spend',0))
-imps = int(d.get('impressions',0))
-clicks = int(d.get('clicks',0))
-ctr = float(d.get('ctr',0))
-cpm = float(d.get('cpm',0))
+print("=== CAMPANHAS COM 'WEBNAR/WEBINAR' OU CAPTACAO ===\n")
+for c in camps:
+    nm = norm(c.get('name',''))
+    if 'webnar' in nm or 'webinar' in nm or 'captac' in nm or 'capta' in nm:
+        st = c.get('effective_status','')
+        db = int(c.get('daily_budget') or 0)/100
+        mark = "🟢 ATIVA" if st=='ACTIVE' else f"⏸️ {st}"
+        print(f"{mark} | {c['name']}")
+        print(f"   id={c['id']} | budget=€{db:.2f}/d | criada={c.get('created_time','')[:10]} | iniciada={c.get('start_time','')[:10]}")
+        print()
 
-leads = lc = lpv = 0
-for act in d.get('actions',[]):
-    t = act.get('action_type','')
-    v = int(act.get('value',0))
-    if t in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
-        leads = max(leads, v)
-    elif t == 'link_click': lc = v
-    elif t == 'landing_page_view': lpv = v
-
-cpc_link = spend/lc if lc > 0 else 0
-cvr = (leads/lc*100) if lc > 0 else 0
-cpl = spend/leads if leads > 0 else 0
-
-print(f"## CICLO 14 (parcial): {since} -> {until} (6 de 7 dias)")
-print(f"VALOR_USADO={spend:.2f}")
-print(f"IMPRESSOES={imps}")
-print(f"CLIQUES={clicks}")
-print(f"CPM={cpm:.2f}")
-print(f"CTR={ctr:.2f}")
-print(f"CPC_LINK={cpc_link:.2f}")
-print(f"LINK_CLICKS={lc}")
-print(f"LP_VIEWS={lpv}")
-print(f"LEADS={leads}")
-print(f"PCT_CONV={cvr:.2f}")
-print(f"CPL={cpl:.2f}")
+print("\n=== TODAS AS ATIVAS NA CONTA ===")
+for c in camps:
+    if c.get('effective_status') == 'ACTIVE':
+        db = int(c.get('daily_budget') or 0)/100
+        print(f"  🟢 €{db:>6.2f}/d | {c['name']} (id={c['id']})")
