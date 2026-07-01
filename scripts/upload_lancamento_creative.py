@@ -1,28 +1,46 @@
 import requests, os, json
+from datetime import date
 
 TOKEN = os.environ['META_ACCESS_TOKEN']
 BASE  = "https://graph.facebook.com/v19.0"
 CAMPS = ["120248546729160002", "120254908221730002"]
+since = "2026-06-24"; until = date.today().isoformat()
 
-print("## THUMBSTART")
-seen = set()
+def get(actions):
+    leads=lc=lpv=0
+    for a in actions or []:
+        t=a.get('action_type',''); v=int(a.get('value',0))
+        if t in ('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'): leads=max(leads,v)
+        elif t=='link_click': lc=v
+        elif t=='landing_page_view': lpv=v
+    return leads,lc,lpv
+
+tot={'spend':0,'imp':0,'clk':0,'lc':0,'leads':0,'lpv':0}
+print(f"## CICLO 14: {since} -> {until}")
 for cid in CAMPS:
-    as_r = requests.get(f"{BASE}/{cid}/adsets", params={'fields':'id','limit':100,'access_token':TOKEN}, timeout=30)
-    for ao in as_r.json().get('data', []):
-        ads = requests.get(f"{BASE}/{ao['id']}/ads", params={
-            'fields':'name,creative{thumbnail_url,image_url,effective_object_story_id}',
-            'limit':100,'access_token':TOKEN
-        }, timeout=30).json().get('data', [])
-        for ad in ads:
-            nm = ad.get('name','').strip()
-            if nm in seen: continue
-            cr = ad.get('creative',{})
-            thumb = cr.get('thumbnail_url','') or cr.get('image_url','')
-            eosi = cr.get('effective_object_story_id','')
-            url = ""
-            if eosi and '_' in eosi:
-                pg,po = eosi.split('_',1); url=f"https://www.facebook.com/{pg}/posts/{po}"
-            if thumb:
-                seen.add(nm)
-                print(f"##T|{nm}|{thumb}|{url}")
-print("## THUMBEND")
+    nm=requests.get(f"{BASE}/{cid}",params={'fields':'name','access_token':TOKEN},timeout=30).json().get('name','')
+    r=requests.get(f"{BASE}/{cid}/insights",params={
+        'fields':'spend,impressions,clicks,actions','time_range':json.dumps({'since':since,'until':until}),
+        'access_token':TOKEN},timeout=30).json().get('data',[])
+    if not r: 
+        print(f"  {nm}: sem dados"); continue
+    d=r[0]; sp=float(d.get('spend',0)); imp=int(d.get('impressions',0)); clk=int(d.get('clicks',0))
+    leads,lc,lpv=get(d.get('actions',[]))
+    print(f"  {nm}: EUR{sp:.2f} | {leads} leads")
+    tot['spend']+=sp; tot['imp']+=imp; tot['clk']+=clk; tot['lc']+=lc; tot['leads']+=leads; tot['lpv']+=lpv
+
+cpm=tot['spend']/tot['imp']*1000 if tot['imp'] else 0
+ctr=tot['clk']/tot['imp']*100 if tot['imp'] else 0
+cpc=tot['spend']/tot['lc'] if tot['lc'] else 0
+conv=tot['leads']/tot['lc']*100 if tot['lc'] else 0
+cpl=tot['spend']/tot['leads'] if tot['leads'] else 0
+print(f"\n## COMBINADO CICLO 14")
+print(f"VALOR_USADO={tot['spend']:.2f}")
+print(f"IMPRESSOES={tot['imp']}")
+print(f"CLIQUES={tot['clk']}")
+print(f"CPM={cpm:.2f}")
+print(f"CTR={ctr:.2f}")
+print(f"CPC_LINK={cpc:.2f}")
+print(f"LEADS={tot['leads']}")
+print(f"PCT_CONV={conv:.2f}")
+print(f"CPL={cpl:.2f}")
