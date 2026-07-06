@@ -1,45 +1,34 @@
 import requests, os, json
+from datetime import date
 TOKEN=os.environ['META_ACCESS_TOKEN']; BASE="https://graph.facebook.com/v19.0"
-ACCT="act_615338413578534"
-
-def get(actions):
-    l=0
-    for a in actions or []:
-        t=a.get('action_type','')
-        if t in('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'):
-            l=max(l,int(a.get('value',0)))
-    return l
-
-PERIODOS=[("ABRIL","2026-04-01","2026-04-30"),
-          ("MAIO","2026-05-01","2026-05-31"),
-          ("JUNHO","2026-06-01","2026-06-30"),
-          ("JULHO (parcial ate 03)","2026-07-01","2026-07-03")]
-
-tot_sp=0; tot_ld=0
-for nome,since,until in PERIODOS:
-    d=requests.get(f"{BASE}/{ACCT}/insights",params={
-        'fields':'spend,impressions,actions',
-        'time_range':json.dumps({'since':since,'until':until}),
-        'access_token':TOKEN},timeout=30).json().get('data',[])
-    if not d:
-        print(f"{nome}: sem dados"); continue
-    d=d[0]; sp=float(d.get('spend',0)); ld=get(d.get('actions',[]))
-    cpl=sp/ld if ld else 0
-    print(f"{nome}|{sp:.2f}|{ld}|{cpl:.2f}")
-    tot_sp+=sp; tot_ld+=ld
-
-print(f"TOTAL|{tot_sp:.2f}|{tot_ld}|{tot_sp/tot_ld if tot_ld else 0:.2f}")
-
-# breakdown por campanha no periodo todo
-print("\n## POR CAMPANHA (abr-jul):")
-r=requests.get(f"{BASE}/{ACCT}/insights",params={
-    'fields':'spend,actions,campaign_name','level':'campaign','limit':100,
-    'time_range':json.dumps({'since':'2026-04-01','until':'2026-07-03'}),
-    'access_token':TOKEN},timeout=30).json().get('data',[])
+since="2026-07-01"; until=date.today().isoformat()
+CAMPS=[("120248546729160002","NOVA CAPTACAO"),
+       ("120254908221730002","CBO ESCALA"),
+       ("120255355949960002","TESTE MAFRA")]
+def get(a):
+    l=lc=0
+    for x in a or []:
+        t=x.get('action_type',''); v=int(x.get('value',0))
+        if t in('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'): l=max(l,v)
+        elif t=='link_click': lc=v
+    return l,lc
+print(f"## {since} -> {until}")
 rows=[]
-for d in r:
-    sp=float(d.get('spend',0)); ld=get(d.get('actions',[]))
-    if sp>0: rows.append((sp,ld,d.get('campaign_name','')))
-rows.sort(reverse=True)
-for sp,ld,nm in rows:
-    print(f"C|{nm[:48]}|{sp:.2f}|{ld}")
+for cid,cn in CAMPS:
+    r=requests.get(f"{BASE}/{cid}/insights",params={
+        'level':'ad','fields':'ad_name,spend,impressions,clicks,actions,cpm,ctr',
+        'time_range':json.dumps({'since':since,'until':until}),'limit':100,
+        'access_token':TOKEN},timeout=60).json()
+    for d in r.get('data',[]):
+        sp=float(d.get('spend',0))
+        if sp==0: continue
+        l,lc=get(d.get('actions',[]))
+        imp=int(d.get('impressions',0)); clk=int(d.get('clicks',0))
+        ctr=float(d.get('ctr',0)); cpm=float(d.get('cpm',0))
+        cpc=sp/lc if lc else 0; cpl=sp/l if l else 0
+        conv=l/lc*100 if lc else 0
+        rows.append((l,cpl,sp,d.get('ad_name',''),cn,imp,clk,ctr,cpc,cpm,conv))
+rows.sort(key=lambda x:(-x[0], x[1] if x[1] else 9999))
+for l,cpl,sp,nm,cn,imp,clk,ctr,cpc,cpm,conv in rows:
+    cpl_s=f"{cpl:.2f}" if l else "-"
+    print(f"R|{nm}|{cn}|{sp:.2f}|{l}|{cpl_s}|{ctr:.2f}|{cpc:.2f}|{cpm:.2f}|{conv:.1f}|{imp}|{clk}")
