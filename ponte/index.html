@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página Ponte — Demo Funcional</title>
+<!-- ═══════════════════════════════════════════════════════════
+     PIXEL DO META — igual ao da LP atual
+     Em produção: fbq('init','1162185078924102')
+     ═══════════════════════════════════════════════════════════ -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#0a1a14;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;gap:32px;flex-wrap:wrap}
+
+/* ---------- O CARD QUE O LEAD VÊ ---------- */
+.card{background:#0e2018;border:1px solid #1d3a2c;border-radius:20px;padding:40px 32px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.badge{display:inline-block;background:rgba(212,168,75,.15);color:#d4a84b;font-size:12px;font-weight:700;padding:6px 14px;border-radius:30px;margin-bottom:18px;letter-spacing:.5px}
+h1{font-size:24px;line-height:1.25;margin-bottom:10px}
+h1 span{color:#d4a84b}
+.sub{color:#9db8aa;font-size:14px;margin-bottom:26px;line-height:1.5}
+label{display:block;text-align:left;font-size:12px;font-weight:700;color:#9db8aa;margin-bottom:6px;letter-spacing:.5px}
+.phone-row{display:flex;gap:8px;margin-bottom:14px}
+select{background:#0a1a14;border:1px solid #2a4a38;color:#fff;border-radius:10px;padding:14px 10px;font-size:15px}
+input[type=tel]{flex:1;background:#0a1a14;border:1px solid #2a4a38;color:#fff;border-radius:10px;padding:14px 16px;font-size:16px;outline:none;transition:.2s}
+input[type=tel]:focus{border-color:#d4a84b}
+button{width:100%;background:linear-gradient(135deg,#e0b355,#c49a3d);color:#0a1a14;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.6px;border:none;border-radius:12px;padding:17px;cursor:pointer;transition:.15s;margin-top:4px}
+button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,168,75,.35)}
+.fine{font-size:11px;color:#5f7a6c;margin-top:14px}
+.fine b{color:#9db8aa}
+
+/* ---------- PAINEL DIDÁTICO (só neste exemplo) ---------- */
+.panel{background:#101010;border:1px dashed #444;border-radius:14px;padding:22px;max-width:480px;width:100%;font-size:12px}
+.panel h2{font-size:13px;color:#FFE500;margin-bottom:12px;letter-spacing:.5px}
+.panel .step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;opacity:.35;transition:.3s}
+.panel .step.on{opacity:1}
+.panel .n{background:#FFE500;color:#000;font-weight:800;min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px}
+.panel code{display:block;background:#000;border-radius:8px;padding:10px;margin-top:6px;color:#7fd98a;font-family:monospace;font-size:11px;white-space:pre-wrap;word-break:break-all}
+.panel .muted{color:#888}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ O QUE O LEAD VÊ ══════════════ -->
+<div class="card">
+  <div class="badge">🔴 VAGAS LIMITADAS — QUARTA ÀS 20H</div>
+  <h1>Garante a tua vaga na <span>Masterclass Gratuita</span></h1>
+  <p class="sub">Coloca o teu WhatsApp para entrar no grupo exclusivo e receber o link da aula ao vivo:</p>
+
+  <form id="f" onsubmit="return enviar(event)">
+    <label>TEU WHATSAPP</label>
+    <div class="phone-row">
+      <select id="ddi">
+        <option value="351">🇵🇹 +351</option>
+        <option value="55">🇧🇷 +55</option>
+      </select>
+      <input type="tel" id="tel" placeholder="912 345 678" required minlength="9">
+    </div>
+    <button type="submit">ENTRAR NO GRUPO AGORA →</button>
+  </form>
+  <p class="fine">🔒 <b>100% gratuito.</b> Sem cartão, sem compromisso.<br>Ao entrar aceitas receber o link da masterclass.</p>
+</div>
+
+<!-- ══════════════ PAINEL DIDÁTICO — o que acontece por trás ══════════════ -->
+<div class="panel">
+  <h2>⚙️ O QUE ACONTECE POR TRÁS (painel didático — não existe na página real)</h2>
+
+  <div class="step on" id="s0">
+    <div class="n">0</div>
+    <div>Página carregou e <b>capturou da URL</b> (invisível pro lead):
+      <code id="c0">aguardando...</code>
+    </div>
+  </div>
+
+  <div class="step" id="s1">
+    <div class="n">1</div>
+    <div>Lead digita o WhatsApp e clica → <b>Pixel dispara Lead</b> no navegador:
+      <code>fbq('track','Lead', {}, {eventID: '&lt;id-único&gt;'})</code>
+    </div>
+  </div>
+
+  <div class="step" id="s2">
+    <div class="n">2</div>
+    <div><b>POST pro nosso VPS</b> (endpoint /capture na ponte) salvando telefone + UTMs + fbclid:
+      <code id="c2">—</code>
+    </div>
+  </div>
+
+  <div class="step" id="s3">
+    <div class="n">3</div>
+    <div><b>Redireciona pro grupo</b> do WhatsApp (o lead nem percebe a parada):
+      <code>chat.whatsapp.com/XXXXX</code>
+    </div>
+  </div>
+
+  <div class="step" id="s4">
+    <div class="n">4</div>
+    <div class="muted">⏰ <b>Depois, quando o lead ENTRA no grupo:</b> a Evolution detecta → a ponte cruza o telefone com este registro → envia <b>Lead via CAPI com fbc + telefone</b> (atribuição ~determinística) → loga na planilha com UTM completa. Dedupe pelo eventID: o pixel do passo 1 e o CAPI não contam dobrado.</div>
+  </div>
+</div>
+
+<script>
+// ═══════ PASSO 0: captura UTMs + fbclid da URL ═══════
+const P = new URLSearchParams(location.search);
+const captura = {
+  utm_source:   P.get('utm_source')   || '(vazio)',
+  utm_medium:   P.get('utm_medium')   || '(vazio)',
+  utm_campaign: P.get('utm_campaign') || '(vazio)',
+  utm_content:  P.get('utm_content')  || '(vazio)',   // ← o CRIATIVO
+  fbclid:       P.get('fbclid')       || '(vazio)',   // ← o CLICK ID do anúncio
+};
+document.getElementById('c0').textContent = JSON.stringify(captura, null, 1);
+
+// Se abriu sem UTMs, simula como seria vindo de um anúncio:
+if (!P.get('utm_source')) {
+  setTimeout(()=>{
+    const demo = {utm_source:'fb', utm_medium:'paid', utm_campaign:'TESTE-MAFRA',
+                  utm_content:'img6623', fbclid:'IwAR2xK...(exemplo)'};
+    document.getElementById('c0').textContent =
+      '// (demo: como ficaria vindo de um anúncio)\n' + JSON.stringify(demo, null, 1);
+  }, 1500);
+}
+
+// ═══════ PASSOS 1-3: no submit ═══════
+function enviar(e){
+  e.preventDefault();
+  const tel = document.getElementById('ddi').value + document.getElementById('tel').value.replace(/\D/g,'');
+  const eventID = 'lead_' + tel + '_' + Date.now();
+
+  // 1. Pixel Lead no navegador (com eventID pra dedupe com o CAPI)
+  document.getElementById('s1').classList.add('on');
+  // fbq('track','Lead', {}, {eventID});  ← em produção
+
+  // 2. POST pro VPS
+  const payload = {phone: tel, event_id: eventID, ...captura, ts: new Date().toISOString()};
+  document.getElementById('c2').textContent = 'POST https://srv1809067.hstgr.cloud/capture\n' + JSON.stringify(payload, null, 1);
+  fetch('https://srv1809067.hstgr.cloud/capture', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+    .then(r=>r.json()).then(r=>{ document.getElementById('c2').textContent += '\n\n// resposta do VPS: ' + JSON.stringify(r) + ' ✅ SALVO DE VERDADE'; })
+    .catch(e=>{ document.getElementById('c2').textContent += '\n// erro: ' + e; });
+  document.getElementById('s2').classList.add('on');
+
+  // 3. Redireciona pro grupo
+  setTimeout(()=>{
+    document.getElementById('s3').classList.add('on');
+    document.getElementById('s4').classList.add('on');
+    // location.href = 'https://chat.whatsapp.com/XXXXX';  ← em produção
+    alert('✅ Captura REAL feita no servidor!\n\nTelefone +' + tel + ' salvo com UTMs.\nSe esse número entrar no grupo Escala de Serviços #3, o Lead dispara com atribuição completa.\n\n(em produção, aqui redireciona pro grupo)');
+  }, 900);
+  return false;
+}
+</script>
+</body>
+</html>
