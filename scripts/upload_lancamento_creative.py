@@ -1,29 +1,39 @@
-import requests, os, json
+import requests, os, time
 TOKEN=os.environ['META_ACCESS_TOKEN']; BASE="https://graph.facebook.com/v19.0"
-MAFRA="120255355949960002"; CBO="120254908221730002"
+MAFRA="120255355949960002"
 
-print("=== BUDGETS ATUAIS (apos ajuste manual) ===")
-tot=0
 r=requests.get(f"{BASE}/{MAFRA}/adsets",params={
-    'fields':'name,effective_status,daily_budget','limit':100,'access_token':TOKEN},timeout=40).json()
-for a in r.get('data',[]):
-    st=a.get('effective_status','')
-    db=int(a.get('daily_budget') or 0)/100
-    if st in ('ACTIVE','IN_PROCESS'):
-        tot+=db
-        print(f"  [ATIVO] EUR{db:>5.2f}/d | {a['name'][:55]}")
-    elif db>0:
-        print(f"  [{st[:6]}] EUR{db:>5.2f}/d | {a['name'][:55]}")
-c=requests.get(f"{BASE}/{CBO}",params={'fields':'daily_budget,effective_status','access_token':TOKEN},timeout=30).json()
-cdb=int(c.get('daily_budget') or 0)/100
-if c.get('effective_status') in ('ACTIVE','IN_PROCESS'): tot+=cdb
-print(f"  [{c.get('effective_status')[:6]}] EUR{cdb:>5.2f}/d | CBO WEBNAIR - ESCALA")
-print(f"TOTAL_DIARIO={tot:.2f}")
+    'fields':'id,name,effective_status,daily_budget','limit':100,'access_token':TOKEN},timeout=40).json()
+adsets=r.get('data',[])
+def find(pat): return next((x for x in adsets if x['name'].startswith(pat)), None)
 
-# Gasto do ciclo ate agora
-tot_sp=0
-for cid in [MAFRA, CBO, "120248546729160002"]:
-    d=requests.get(f"{BASE}/{cid}/insights",params={'fields':'spend',
-        'time_range':json.dumps({'since':'2026-07-15','until':'2026-07-21'}),'access_token':TOKEN},timeout=30).json().get('data',[])
-    if d: tot_sp+=float(d[0].get('spend',0))
-print(f"GASTO_CICLO_ATE_AGORA={tot_sp:.2f}")
+print("=== Ativar img7120 + reacomodar (alvo EUR19/d) ===")
+# 1.22 -> ACTIVE + EUR4
+a=find('[AD SET 1.22')
+pr=requests.post(f"{BASE}/{a['id']}",data={'status':'ACTIVE','daily_budget':'400','access_token':TOKEN},timeout=30).json()
+print(f"  {'✅' if pr.get('success') else '❌'} [1.22] img7120 ATIVADO -> EUR4/d")
+time.sleep(0.4)
+# 1.9 -> EUR5 (de 6)
+a=find('[AD SET 1.9')
+pr=requests.post(f"{BASE}/{a['id']}",data={'daily_budget':'500','access_token':TOKEN},timeout=30).json()
+print(f"  {'✅' if pr.get('success') else '❌'} [1.9] img6623 -> EUR5/d")
+time.sleep(0.4)
+# 1.2 -> EUR3, 1.4 -> EUR3
+for pat,lbl in [('[AD SET 1.2 ','escalar_no_digital'),('[AD SET 1.4','voce_freelancer')]:
+    a=find(pat)
+    pr=requests.post(f"{BASE}/{a['id']}",data={'daily_budget':'300','access_token':TOKEN},timeout=30).json()
+    print(f"  {'✅' if pr.get('success') else '❌'} {lbl} -> EUR3/d")
+    time.sleep(0.4)
+
+print("\n=== FINAL ===")
+tot=0
+r2=requests.get(f"{BASE}/{MAFRA}/adsets",params={
+    'fields':'name,effective_status,daily_budget','limit':100,'access_token':TOKEN},timeout=40).json()
+for a in r2.get('data',[]):
+    if a.get('effective_status') in ('ACTIVE','IN_PROCESS'):
+        db=int(a.get('daily_budget') or 0)/100; tot+=db
+        print(f"  EUR{db:.0f}/d | {a['name'][:50]}")
+c=requests.get(f"{BASE}/120254908221730002",params={'fields':'daily_budget','access_token':TOKEN},timeout=30).json()
+cdb=int(c.get('daily_budget') or 0)/100; tot+=cdb
+print(f"  EUR{cdb:.0f}/d | CBO WEBNAIR - ESCALA")
+print(f"TOTAL=EUR{tot:.2f}/dia")
