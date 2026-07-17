@@ -1,15 +1,33 @@
-import requests, os, time
+import requests, os, json
+from datetime import date
 TOKEN=os.environ['META_ACCESS_TOKEN']; BASE="https://graph.facebook.com/v19.0"
-ACCT="act_615338413578534"
-URL="https://github.com/manualdotrafego/devspace-dashboard/releases/download/webnar-3006-v1/IMG_7120.MP4"
-r=requests.post(f"{BASE}/{ACCT}/advideos",data={
-    'file_url':URL,'name':'IMG_7120','access_token':TOKEN},timeout=300).json()
-vid=r.get('id')
-print(f"video_id={vid}" if vid else f"ERRO: {r}")
-if vid:
-    for i in range(40):
-        time.sleep(6)
-        st=requests.get(f"{BASE}/{vid}",params={'fields':'status','access_token':TOKEN},timeout=30).json()
-        ph=st.get('status',{}).get('video_status','?')
-        if ph=='ready': print("STATUS=ready"); break
-        if ph=='error': print(f"STATUS=error {st}"); break
+since="2026-07-15"; today=date.today()
+until=min(today.isoformat(),"2026-07-21")
+CAMPS=[("120255355949960002","TESTE MAFRA"),("120254908221730002","CBO ESCALA"),("120248546729160002","NOVA CAPTACAO")]
+def get(a):
+    l=lc=0
+    for x in a or []:
+        t=x.get('action_type',''); v=int(x.get('value',0))
+        if t in('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'): l=max(l,v)
+        elif t=='link_click': lc=v
+    return l,lc
+print(f"## HOJE={today} | C17: {since} -> {until}")
+if today.isoformat() < since:
+    print("## AINDA_NAO_COMECOU")
+else:
+    tot={'spend':0,'imp':0,'clk':0,'lc':0,'leads':0}
+    for cid,nm in CAMPS:
+        d=requests.get(f"{BASE}/{cid}/insights",params={'fields':'spend,impressions,clicks,actions',
+            'time_range':json.dumps({'since':since,'until':until}),'access_token':TOKEN},timeout=30).json().get('data',[])
+        if not d: continue
+        d=d[0]; sp=float(d.get('spend',0)); l,lc=get(d.get('actions',[]))
+        print(f"  {nm}: EUR{sp:.2f} | {l} leads")
+        tot['spend']+=sp; tot['imp']+=int(d.get('impressions',0)); tot['clk']+=int(d.get('clicks',0)); tot['lc']+=lc; tot['leads']+=l
+    n=(date.fromisoformat(until)-date.fromisoformat(since)).days+1
+    cpm=tot['spend']/tot['imp']*1000 if tot['imp'] else 0
+    ctr=tot['clk']/tot['imp']*100 if tot['imp'] else 0
+    cpc=tot['spend']/tot['lc'] if tot['lc'] else 0
+    conv=tot['leads']/tot['lc']*100 if tot['lc'] else 0
+    cpl=tot['spend']/tot['leads'] if tot['leads'] else 0
+    print(f"DIAS={n}")
+    print(f"V={tot['spend']:.2f}|I={tot['imp']}|C={tot['clk']}|CPM={cpm:.2f}|CTR={ctr:.2f}|CPC={cpc:.2f}|L={tot['leads']}|CV={conv:.2f}|CPL={cpl:.2f}")
