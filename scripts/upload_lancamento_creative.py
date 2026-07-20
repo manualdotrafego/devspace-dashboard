@@ -1,39 +1,29 @@
-import requests, os, time
+import requests, os, json
+from datetime import date
 TOKEN=os.environ['META_ACCESS_TOKEN']; BASE="https://graph.facebook.com/v19.0"
-MAFRA="120255355949960002"
-
-r=requests.get(f"{BASE}/{MAFRA}/adsets",params={
-    'fields':'id,name,effective_status,daily_budget','limit':100,'access_token':TOKEN},timeout=40).json()
-adsets=r.get('data',[])
-def find(pat): return next((x for x in adsets if x['name'].startswith(pat)), None)
-
-print("=== Ativar img7120 + reacomodar (alvo EUR19/d) ===")
-# 1.22 -> ACTIVE + EUR4
-a=find('[AD SET 1.22')
-pr=requests.post(f"{BASE}/{a['id']}",data={'status':'ACTIVE','daily_budget':'400','access_token':TOKEN},timeout=30).json()
-print(f"  {'✅' if pr.get('success') else '❌'} [1.22] img7120 ATIVADO -> EUR4/d")
-time.sleep(0.4)
-# 1.9 -> EUR5 (de 6)
-a=find('[AD SET 1.9')
-pr=requests.post(f"{BASE}/{a['id']}",data={'daily_budget':'500','access_token':TOKEN},timeout=30).json()
-print(f"  {'✅' if pr.get('success') else '❌'} [1.9] img6623 -> EUR5/d")
-time.sleep(0.4)
-# 1.2 -> EUR3, 1.4 -> EUR3
-for pat,lbl in [('[AD SET 1.2 ','escalar_no_digital'),('[AD SET 1.4','voce_freelancer')]:
-    a=find(pat)
-    pr=requests.post(f"{BASE}/{a['id']}",data={'daily_budget':'300','access_token':TOKEN},timeout=30).json()
-    print(f"  {'✅' if pr.get('success') else '❌'} {lbl} -> EUR3/d")
-    time.sleep(0.4)
-
-print("\n=== FINAL ===")
-tot=0
-r2=requests.get(f"{BASE}/{MAFRA}/adsets",params={
-    'fields':'name,effective_status,daily_budget','limit':100,'access_token':TOKEN},timeout=40).json()
-for a in r2.get('data',[]):
-    if a.get('effective_status') in ('ACTIVE','IN_PROCESS'):
-        db=int(a.get('daily_budget') or 0)/100; tot+=db
-        print(f"  EUR{db:.0f}/d | {a['name'][:50]}")
-c=requests.get(f"{BASE}/120254908221730002",params={'fields':'daily_budget','access_token':TOKEN},timeout=30).json()
-cdb=int(c.get('daily_budget') or 0)/100; tot+=cdb
-print(f"  EUR{cdb:.0f}/d | CBO WEBNAIR - ESCALA")
-print(f"TOTAL=EUR{tot:.2f}/dia")
+since="2026-07-15"; until=min(date.today().isoformat(),"2026-07-21")
+CAMPS=[("120255355949960002","TESTE MAFRA"),("120254908221730002","CBO ESCALA"),("120248546729160002","NOVA CAPTACAO")]
+def get(a):
+    l=lc=0
+    for x in a or []:
+        t=x.get('action_type',''); v=int(x.get('value',0))
+        if t in('onsite_conversion.lead_grouped','lead','offsite_conversion.fb_pixel_lead','onsite_web_lead'): l=max(l,v)
+        elif t=='link_click': lc=v
+    return l,lc
+tot={'spend':0,'imp':0,'clk':0,'lc':0,'leads':0}
+print(f"## C17: {since} -> {until} | HOJE={date.today()}")
+for cid,nm in CAMPS:
+    d=requests.get(f"{BASE}/{cid}/insights",params={'fields':'spend,impressions,clicks,actions',
+        'time_range':json.dumps({'since':since,'until':until}),'access_token':TOKEN},timeout=30).json().get('data',[])
+    if not d: continue
+    d=d[0]; sp=float(d.get('spend',0)); l,lc=get(d.get('actions',[]))
+    print(f"  {nm}: EUR{sp:.2f} | {l} leads")
+    tot['spend']+=sp; tot['imp']+=int(d.get('impressions',0)); tot['clk']+=int(d.get('clicks',0)); tot['lc']+=lc; tot['leads']+=l
+n=(date.fromisoformat(until)-date.fromisoformat(since)).days+1
+cpm=tot['spend']/tot['imp']*1000 if tot['imp'] else 0
+ctr=tot['clk']/tot['imp']*100 if tot['imp'] else 0
+cpc=tot['spend']/tot['lc'] if tot['lc'] else 0
+conv=tot['leads']/tot['lc']*100 if tot['lc'] else 0
+cpl=tot['spend']/tot['leads'] if tot['leads'] else 0
+print(f"DIAS={n}")
+print(f"V={tot['spend']:.2f}|I={tot['imp']}|C={tot['clk']}|CPM={cpm:.2f}|CTR={ctr:.2f}|CPC={cpc:.2f}|L={tot['leads']}|CV={conv:.2f}|CPL={cpl:.2f}")
