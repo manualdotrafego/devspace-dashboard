@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-23T16:23:05Z",
+  "last_updated": "2026-09-23T21:15:45Z",
   "account": {
     "id": "act_592324092832640",
     "name": "Desafio do 0 ao Emprego",
@@ -11,8 +11,8 @@
   },
   "camp_filter": "0 ao emprego",
   "summary": {
-    "spend": 30196.15,
-    "impressions": 2380014,
+    "spend": 30196.16,
+    "impressions": 2380015,
     "clicks": 30022,
     "link_clicks": 18763,
     "lp_views": 13936,
@@ -20,7 +20,7 @@
     "leads": 1,
     "cpm": 12.69,
     "cpc": 1.61,
-    "cpl": 30196.15,
+    "cpl": 30196.16,
     "connect_rate": 74.3,
     "lp_conv": 0.0,
     "hook_rate": 22.3,
@@ -3563,8 +3563,8 @@
       "date": "2026-09-20"
     },
     {
-      "spend": 435.91,
-      "impressions": 26159,
+      "spend": 435.92,
+      "impressions": 26160,
       "clicks": 378,
       "link_clicks": 248,
       "lp_views": 202,
@@ -10893,8 +10893,8 @@
       ]
     },
     {
-      "spend": 4317.25,
-      "impressions": 231646,
+      "spend": 4317.26,
+      "impressions": 231647,
       "clicks": 2812,
       "link_clicks": 1713,
       "lp_views": 1302,
@@ -14447,8 +14447,8 @@
           "date": "2026-09-20"
         },
         {
-          "spend": 435.91,
-          "impressions": 26159,
+          "spend": 435.92,
+          "impressions": 26160,
           "clicks": 378,
           "link_clicks": 248,
           "lp_views": 202,
@@ -22439,8 +22439,8 @@
       "preview_url": "https://www.facebook.com/watch?v=1315525410494405"
     },
     {
-      "spend": 362.13,
-      "impressions": 24161,
+      "spend": 362.14,
+      "impressions": 24162,
       "clicks": 363,
       "link_clicks": 227,
       "lp_views": 191,
