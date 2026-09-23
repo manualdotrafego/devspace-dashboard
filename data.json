@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-23T11:01:57Z",
+  "last_updated": "2026-09-23T16:23:05Z",
   "account": {
     "id": "act_592324092832640",
     "name": "Desafio do 0 ao Emprego",
@@ -12,7 +12,7 @@
   "camp_filter": "0 ao emprego",
   "summary": {
     "spend": 30196.15,
-    "impressions": 2380013,
+    "impressions": 2380014,
     "clicks": 30022,
     "link_clicks": 18763,
     "lp_views": 13936,
@@ -3564,7 +3564,7 @@
     },
     {
       "spend": 435.91,
-      "impressions": 26158,
+      "impressions": 26159,
       "clicks": 378,
       "link_clicks": 248,
       "lp_views": 202,
@@ -3611,15 +3611,14 @@
       "date": "2026-09-22"
     },
     {
-      "date": "2026-09-23",
-      "spend": 0,
+      "spend": 0.0,
       "impressions": 0,
       "clicks": 0,
       "link_clicks": 0,
       "lp_views": 0,
       "reach": 0,
       "leads": 0,
-      "cpm": 0,
+      "cpm": 0.0,
       "cpc": 0,
       "cpl": 0,
       "connect_rate": 0,
@@ -3632,7 +3631,8 @@
       "wa_group": 0,
       "cp_wa": 0,
       "form_thanks": 0,
-      "cp_form": 0
+      "cp_form": 0,
+      "date": "2026-09-23"
     }
   ],
   "campaigns": [
@@ -10894,7 +10894,7 @@
     },
     {
       "spend": 4317.25,
-      "impressions": 231645,
+      "impressions": 231646,
       "clicks": 2812,
       "link_clicks": 1713,
       "lp_views": 1302,
@@ -14448,7 +14448,7 @@
         },
         {
           "spend": 435.91,
-          "impressions": 26158,
+          "impressions": 26159,
           "clicks": 378,
           "link_clicks": 248,
           "lp_views": 202,
@@ -14495,15 +14495,14 @@
           "date": "2026-09-22"
         },
         {
-          "date": "2026-09-23",
-          "spend": 0,
+          "spend": 0.0,
           "impressions": 0,
           "clicks": 0,
           "link_clicks": 0,
           "lp_views": 0,
           "reach": 0,
           "leads": 0,
-          "cpm": 0,
+          "cpm": 0.0,
           "cpc": 0,
           "cpl": 0,
           "connect_rate": 0,
@@ -14516,7 +14515,8 @@
           "wa_group": 0,
           "cp_wa": 0,
           "form_thanks": 0,
-          "cp_form": 0
+          "cp_form": 0,
+          "date": "2026-09-23"
         }
       ]
     },
@@ -22440,7 +22440,7 @@
     },
     {
       "spend": 362.13,
-      "impressions": 24160,
+      "impressions": 24161,
       "clicks": 363,
       "link_clicks": 227,
       "lp_views": 191,
