@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Captação Black 2026 · Escola Nova Era</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@500,700,800&f[]=clash-display@500,600,700&f[]=author@400,500,600&display=swap">
+<style>
+:root{
+ --bg:#1d1d1b;--white:#fff;--ink:#fefefd;--ink-2:rgba(255,255,255,.72);--mute:rgba(255,255,255,.55);--faint:rgba(255,255,255,.4);
+ --butter:#fcf0b1;--butter-soft:rgba(252,240,177,.12);--butter-line:rgba(252,240,177,.26);
+ --card:rgba(255,255,255,.03);--line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+ --grid:rgba(255,255,255,.07);--axis:rgba(255,255,255,.16);
+ --mark:#b58f3c;--mark-hi:#d6b25c;
+ --good:#0ca30c;--crit:#d03b3b;
+ --f-display:"Bespoke Serif",Georgia,"Times New Roman",serif;
+ --f-sans:"Clash Display","Sora",ui-sans-serif,system-ui,sans-serif;
+ --f-body:"Author","Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-body);font-size:15px;line-height:1.5;min-height:100vh;overflow-x:hidden;position:relative;isolation:isolate}
+.glow{position:fixed;border-radius:50%;pointer-events:none;z-index:-1}
+.glow.a{top:-14%;right:-10%;width:min(56vw,560px);height:min(56vw,560px);background:radial-gradient(circle,rgba(252,240,177,.20),transparent 70%)}
+.glow.b{bottom:4%;left:-12%;width:min(50vw,480px);height:min(50vw,480px);background:radial-gradient(circle,rgba(252,240,177,.09),transparent 72%)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px}
+a{color:inherit}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px}
+.mark{display:flex;flex-direction:column;gap:6px;text-decoration:none}
+.mark .row{display:flex;align-items:center;gap:10px}
+.mark .inf{font-family:var(--f-sans);font-weight:700;font-size:38px;line-height:1;color:var(--butter)}
+.mark .tt{display:flex;flex-direction:column;font-family:var(--f-sans);font-weight:700;text-transform:uppercase;font-size:19px;line-height:.95;letter-spacing:.5px}
+.mark .tt b:last-child{color:var(--butter)}
+.mark .vit{font-family:var(--f-sans);font-size:10.5px;letter-spacing:4px;text-transform:uppercase;color:var(--mute);padding-left:2px}
+.hd-r{text-align:right}
+.kicker{font-family:var(--f-sans);font-weight:600;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--butter)}
+.upd{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);margin-top:4px}
+.upd i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(12,163,12,.18)}
+
+.band{background:var(--butter);color:var(--bg);overflow:hidden;white-space:nowrap;padding-block:9px;font-family:var(--f-sans);font-weight:700;font-size:12px;letter-spacing:1.4px;text-transform:uppercase}
+.band .tr{display:inline-flex;gap:38px;padding-left:38px;animation:mq 40s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.band .tr{animation:none}}
+
+.intro{padding-block:40px 18px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:99px;padding:5px 12px;font-family:var(--f-sans);font-size:10.5px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-2)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:#e11d48}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,56px);line-height:1.02;letter-spacing:-.02em;margin:14px 0 10px}
+h1 em,h2 em{font-style:italic;color:var(--butter)}
+.sub{color:var(--mute);margin:0;max-width:760px;font-size:14px}
+
+/* filtros */
+.fb{position:sticky;top:0;z-index:20;background:rgba(29,29,27,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line);margin-top:22px}
+.fb .in{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 18px;padding-block:12px}
+.fi label{display:block;font-family:var(--f-sans);font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.ps{display:flex;flex-wrap:wrap;gap:6px}
+.ps button,.chip{font-family:var(--f-sans);font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;background:transparent;color:var(--ink-2);border:1px solid var(--line-2);border-radius:2px;padding:7px 11px;cursor:pointer}
+.ps button:hover{border-color:var(--butter-line);color:var(--ink)}
+.ps button.on{background:var(--butter);border-color:var(--butter);color:var(--bg)}
+.ps button:focus-visible,select:focus-visible,input:focus-visible,.cc:focus-visible,th:focus-visible{outline:2px solid var(--butter);outline-offset:2px}
+.dt{display:flex;align-items:center;gap:8px;color:var(--mute);font-size:13px}
+input[type=date],select{font-family:var(--f-body);font-size:13.5px;background:rgba(0,0,0,.35);color:var(--ink);border:1px solid var(--line-2);border-radius:2px;padding:7px 9px;color-scheme:dark}
+select{max-width:300px}
+.rs{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--mute);padding-bottom:12px}
+.rs b{color:var(--ink);font-weight:600}
+.selchip{display:inline-flex;align-items:center;gap:8px;background:var(--butter-soft);border:1px solid var(--butter-line);color:var(--butter);border-radius:99px;padding:3px 6px 3px 12px;font-weight:600}
+.selchip button{background:none;border:0;color:var(--butter);font-size:16px;line-height:1;cursor:pointer;padding:0 4px}
+
+section{margin-top:38px}
+h2{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,2.6vw,30px);letter-spacing:-.015em;margin:0 0 4px}
+.h2s{color:var(--mute);font-size:13px;margin:0 0 16px}
+
+/* kpis */
+.kp{display:grid;grid-template-columns:minmax(260px,1.15fr) 3fr;gap:14px}
+.hero{background:linear-gradient(160deg,rgba(252,240,177,.10),rgba(252,240,177,.02));border:1px solid var(--butter-line);border-radius:4px;padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:200px}
+.lab{font-family:var(--f-sans);font-weight:600;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mute)}
+.hero .v{font-family:var(--f-sans);font-weight:600;font-size:clamp(56px,7vw,84px);line-height:1;letter-spacing:-.02em;margin:14px 0 10px}
+.hero .s{font-size:14px;color:var(--ink-2)}
+.hero .s b{color:var(--butter);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.tile{background:var(--bg);padding:16px 16px 14px;min-height:98px}
+.tile .v{font-family:var(--f-sans);font-weight:600;font-size:24px;line-height:1.1;margin-top:8px;letter-spacing:-.01em}
+.tile .s{font-size:12px;color:var(--mute);margin-top:4px}
+.tile .na{font-size:15px;color:var(--faint)}
+
+/* funil */
+.fun{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.st{position:relative;padding:18px 18px 16px;background:var(--card)}
+.st+.st{border-left:1px solid var(--line)}
+.st .n{font-family:var(--f-sans);font-weight:600;font-size:28px;margin-top:6px;letter-spacing:-.01em}
+.st .c{font-size:12.5px;color:var(--mute);margin-top:2px}
+.st .rate{margin-top:12px;display:flex;align-items:baseline;gap:8px;font-size:12.5px;color:var(--mute)}
+.st .rate b{font-family:var(--f-sans);font-weight:600;font-size:15px;color:var(--butter)}
+.st .bar{height:4px;background:var(--line);border-radius:2px;margin-top:10px;overflow:hidden}
+.st .bar i{display:block;height:100%;background:var(--mark);border-radius:2px}
+.st:not(:first-child)::before{content:"→";position:absolute;left:-9px;top:20px;width:18px;height:18px;line-height:17px;text-align:center;font-size:11px;background:var(--bg);border:1px solid var(--line-2);border-radius:50%;color:var(--butter);z-index:1}
+
+/* graficos */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:18px 18px 12px;position:relative}
+.card h3{font-family:var(--f-sans);font-weight:600;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0}
+.card .cs{font-size:12.5px;color:var(--mute);margin:3px 0 10px}
+.ch{position:relative;width:100%}
+.ch svg{display:block;width:100%;overflow:visible}
+.ch text{font-family:var(--f-body);font-size:11px;fill:var(--mute);font-variant-numeric:tabular-nums}
+.ch .vl{fill:var(--ink);font-weight:600;font-size:11.5px}
+.ch .hit{fill:transparent;cursor:crosshair;outline:none}
+.ch .bar{fill:var(--mark);transition:fill .12s}
+.ch .bar.hi{fill:var(--mark-hi)}
+.tip{position:absolute;pointer-events:none;background:#121211;border:1px solid var(--line-2);border-radius:3px;padding:9px 11px;font-size:12px;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,.45);opacity:0;transition:opacity .1s;z-index:5}
+.tip.on{opacity:1}
+.tip .td{font-family:var(--f-sans);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.tip .tr{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:1px 0}
+.tip .tr span{color:var(--mute);display:inline-flex;align-items:center;gap:7px}
+.tip .tr span i{width:10px;height:2px;background:var(--mark);display:inline-block}
+.tip .tr b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+details.tv{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+details.tv summary{cursor:pointer;font-size:12px;color:var(--mute);list-style:none}
+details.tv summary::-webkit-details-marker{display:none}
+details.tv summary::before{content:"+ ";color:var(--butter)}
+details.tv[open] summary::before{content:"− "}
+.vazio{padding:46px 10px;text-align:center;color:var(--faint);font-size:14px}
+
+/* criativos */
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s,opacity .15s;display:flex;flex-direction:column}
+.cc:hover{border-color:var(--butter-line);transform:translateY(-2px)}
+.cc.sel{border-color:var(--butter);box-shadow:0 0 0 1px var(--butter)}
+.cc.dim{opacity:.38}
+.th{position:relative;aspect-ratio:4/5;background:#111 center/cover no-repeat;max-width:100%}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th .ov{position:absolute;inset:auto 0 0 0;padding:44px 12px 10px;background:linear-gradient(transparent,rgba(17,17,16,.94))}
+.th .nm{font-family:var(--f-sans);font-weight:600;font-size:15px;line-height:1.15;word-break:break-word}
+.th .cj{font-size:11.5px;color:var(--mute);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tags{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-sans);font-weight:600;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;border-radius:2px;background:rgba(17,17,16,.82);border:1px solid var(--line-2);color:var(--ink-2)}
+.pill i{width:6px;height:6px;border-radius:50%}
+.pill.best{background:var(--butter);border-color:var(--butter);color:var(--bg)}
+.mm{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.mm>div{padding:10px 8px;text-align:center}
+.mm>div+div{border-left:1px solid var(--line)}
+.mm .v{font-family:var(--f-sans);font-weight:600;font-size:15px;white-space:nowrap}
+.mm .l{font-size:10.5px;color:var(--mute);margin-top:1px}
+.mm.sm .v{font-size:13px}
+.ac{display:flex;border-top:1px solid var(--line);margin-top:auto}
+.ac a,.ac span{flex:1;text-align:center;padding:9px 4px;font-family:var(--f-sans);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;color:var(--ink-2)}
+.ac a+a,.ac a+span,.ac span+a{border-left:1px solid var(--line)}
+.ac a:hover{background:var(--butter);color:var(--bg)}
+.ac span{color:var(--faint)}
+
+/* tabelas */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:10px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-sans);font-weight:600;font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mute);background:rgba(255,255,255,.025);cursor:pointer;user-select:none;position:sticky;top:0}
+th:first-child,td:first-child,th.l,td.l{text-align:left}
+td.l{max-width:300px;white-space:normal}
+tbody tr:hover td{background:rgba(255,255,255,.03)}
+tbody tr.sel td{background:var(--butter-soft)}
+tfoot td{font-weight:700;border-top:1px solid var(--butter-line);border-bottom:0;background:rgba(252,240,177,.05)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:middle}
+.small td,.small th{padding:7px 10px;font-size:12px}
+
+.nt{margin-top:36px;border:1px solid var(--butter-line);background:var(--butter-soft);border-radius:4px;padding:16px 18px;font-size:13px;color:var(--ink-2);line-height:1.65}
+.nt b{color:var(--butter)}
+.ft{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:var(--faint);font-size:12px;padding-block:28px 40px;border-top:1px solid var(--line);margin-top:40px}
+
+@media (max-width:980px){.kp{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}.cg{grid-template-columns:1fr}.fun{grid-template-columns:repeat(2,1fr)}.st:nth-child(3){border-left:0}.st:nth-child(n+3){border-top:1px solid var(--line)}.st:nth-child(3)::before{display:none}}
+@media (max-width:720px){.fb{position:static;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media (max-width:520px){.top{flex-direction:column;align-items:flex-start}.hd-r{text-align:left}.tiles{grid-template-columns:1fr 1fr}.fun{grid-template-columns:1fr}.st+.st{border-left:0;border-top:1px solid var(--line)}.st::before{display:none}.gr{grid-template-columns:1fr 1fr}.mm .v{font-size:14px}}
+</style></head>
+<body>
+<div class="glow a"></div><div class="glow b"></div>
+<div class="wrap">
+ <header class="top">
+  <a class="mark" href="https://www.escolanovaeratech.com.br/black2026" target="_blank" rel="noopener" aria-label="Black Friday Vitalícia">
+   <span class="row"><span class="inf" aria-hidden="true">∞</span><span class="tt"><b>Black</b><b>Friday</b></span></span>
+   <span class="vit">Vitalícia</span>
+  </a>
+  <div class="hd-r"><div class="kicker">Painel de captação</div><div class="upd"><i></i><span id="up"></span></div></div>
+ </header>
+</div>
+<div class="band" aria-hidden="true"><div class="tr" id="band"></div></div>
+<div class="wrap">
+ <div class="intro">
+  <span class="eyebrow"><i></i>Captação · Escola Nova Era</span>
+  <h1>Os leads da <em>Black 2026</em></h1>
+  <p class="sub" id="sub"></p>
+ </div>
+</div>
+
+<div class="fb"><div class="wrap">
+ <div class="in">
+  <div class="fi"><label>Período</label><div class="ps" id="ps"></div></div>
+  <div class="fi"><label for="d1">Datas</label><div class="dt"><input type="date" id="d1"><span>até</span><input type="date" id="d2" aria-label="Data final"></div></div>
+  <div class="fi"><label for="fc">Campanha</label><select id="fc"></select></div>
+  <div class="fi"><label for="fs">Criativos</label><select id="fs"><option value="all">Todos</option><option value="on">Só ativos</option><option value="off">Só pausados</option></select></div>
+ </div>
+ <div class="rs" id="rs"></div>
+</div></div>
+
+<main class="wrap">
+ <section aria-labelledby="t-res">
+  <h2 id="t-res" class="sr" style="position:absolute;left:-9999px">Resultado do período</h2>
+  <div class="kp"><div class="hero" id="hero"></div><div class="tiles" id="tiles"></div></div>
+ </section>
+
+ <section aria-labelledby="t-fun">
+  <h2 id="t-fun">O caminho até o <em>lead</em></h2>
+  <p class="h2s">De quem viu o anúncio até quem chegou na página de obrigado. A porcentagem compara com a etapa anterior.</p>
+  <div class="fun" id="fun"></div>
+ </section>
+
+ <section aria-labelledby="t-dia">
+  <h2 id="t-dia">Dia a <em>dia</em></h2>
+  <p class="h2s">Passe o mouse sobre o gráfico para ver os números de cada dia.</p>
+  <div class="cg">
+   <div class="card"><h3>Leads por dia</h3><p class="cs">Investimento e custo por lead no detalhe de cada dia</p><div class="ch" id="c1"></div></div>
+   <div class="card"><h3>Custo por lead por dia</h3><p class="cs">Dias sem lead ficam de fora da linha</p><div class="ch" id="c2"></div></div>
+  </div>
+  <details class="tv"><summary>Ver os dias em tabela</summary><div class="tw" style="margin-top:10px"><table class="small" id="tdia"></table></div></details>
+ </section>
+
+ <section aria-labelledby="t-camp">
+  <h2 id="t-camp">Por <em>campanha</em></h2>
+  <p class="h2s">Clique numa linha para filtrar o painel inteiro por ela.</p>
+  <div class="tw"><table id="tc"></table></div>
+ </section>
+
+ <section aria-labelledby="t-cri">
+  <h2 id="t-cri">Os <em>criativos</em></h2>
+  <p class="h2s">Cada vídeo do anúncio aparece separado, e o mesmo vídeo em campanhas diferentes é somado. Ordenados por leads. Clique num criativo para ver só os números dele, clique de novo para voltar.</p>
+  <div class="gr" id="gr"></div>
+ </section>
+
+ <section aria-labelledby="t-tab">
+  <h2 id="t-tab">Tabela <em>completa</em></h2>
+  <p class="h2s">Cada vídeo em cada campanha. Clique no título da coluna para ordenar.</p>
+  <div class="tw"><table id="tb"></table></div>
+ </section>
+
+ <div class="nt" id="nt"></div>
+ <footer class="ft"><span id="ft1"></span><span>manualdotrafego · atualização automática de hora em hora pela VPS</span></footer>
+</main>
+
+<script>
+const UN=[{"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-01", "sp": 0.46, "im": 26, "lc": 0, "pv": 0, "ld": 0, "v3": 15}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-07", "sp": 0.02, "im": 4, "lc": 0, "pv": 0, "ld": 0, "v3": 1}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-08", "sp": 0.02, "im": 1, "lc": 0, "pv": 0, "ld": 0, "v3": 1}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-02", "sp": 0.21, "im": 21, "lc": 0, "pv": 0, "ld": 0, "v3": 8}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-01", "sp": 25.63, "im": 1850, "lc": 37, "pv": 33, "ld": 9, "v3": 839}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-07", "sp": 3.32, "im": 276, "lc": 3, "pv": 3, "ld": 3, "v3": 59}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-08", "sp": 1.11, "im": 117, "lc": 2, "pv": 1, "ld": 0, "v3": 31}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-02", "sp": 5.91, "im": 357, "lc": 9, "pv": 7, "ld": 2, "v3": 119}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-03", "sp": 0.38, "im": 32, "lc": 4, "pv": 3, "ld": 1, "v3": 11}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-05", "sp": 0.48, "im": 44, "lc": 0, "pv": 0, "ld": 0, "v3": 14}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-04", "sp": 1.15, "im": 83, "lc": 2, "pv": 0, "ld": 1, "v3": 21}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-06", "sp": 5.3, "im": 337, "lc": 9, "pv": 7, "ld": 1, "v3": 99}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-01", "sp": 54.91, "im": 3922, "lc": 84, "pv": 68, "ld": 25, "v3": 1671}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-07", "sp": 5.32, "im": 429, "lc": 8, "pv": 3, "ld": 3, "v3": 97}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-08", "sp": 1.33, "im": 133, "lc": 1, "pv": 1, "ld": 2, "v3": 20}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-02", "sp": 1.6, "im": 100, "lc": 1, "pv": 1, "ld": 1, "v3": 36}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-03", "sp": 7.67, "im": 488, "lc": 10, "pv": 11, "ld": 6, "v3": 113}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-05", "sp": 11.05, "im": 856, "lc": 12, "pv": 11, "ld": 4, "v3": 235}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-04", "sp": 2.44, "im": 60, "lc": 0, "pv": 0, "ld": 0, "v3": 12}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-06", "sp": 47.47, "im": 4086, "lc": 67, "pv": 49, "ld": 16, "v3": 1016}], UM={"Renan-01": {"vid": "1135086375841015", "img": "t/v_1135086375841015.jpg"}, "Renan-07": {"vid": "1589046066292129", "img": "t/v_1589046066292129.jpg"}, "Renan-08": {"vid": "1781847336064967", "img": "t/v_1781847336064967.jpg"}, "Renan-02": {"vid": "2341126236690353", "img": "t/v_2341126236690353.jpg"}, "Renan-03": {"vid": "1603628717970954", "img": "t/v_1603628717970954.jpg"}, "Renan-05": {"vid": "2176813463233467", "img": "t/v_2176813463233467.jpg"}, "Renan-04": {"vid": "1882984309749909", "img": "t/v_1882984309749909.jpg"}, "Renan-06": {"vid": "1381154883818379", "img": "t/v_1381154883818379.jpg"}}, DIAS=[{"d": "2026-10-12", "a": "120255117077490581", "sp": 0.71, "im": 52, "cl": 0, "lc": 0, "pv": 0, "ld": 0, "v3": 25, "p25": 5, "p50": 1, "p75": 1, "p100": 0, "tp": 5}, {"d": "2026-10-13", "a": "120255117077490581", "sp": 43.28, "im": 3096, "cl": 107, "lc": 66, "pv": 54, "ld": 17, "v3": 1193, "p25": 236, "p50": 128, "p75": 74, "p100": 28, "tp": 255}, {"d": "2026-10-13", "a": "120255133485730581", "sp": 130.24, "im": 9957, "cl": 288, "lc": 183, "pv": 144, "ld": 57, "v3": 3200, "p25": 610, "p50": 306, "p75": 182, "p100": 73, "tp": 627}], ADS={"120255117077490581": {"nome": "[ALL 8 ADS]", "conj": "[RESTRITO] - [100% QUENTE]", "camp": "[CBO] - [LEAD - BLACK FRIDAY 2026]", "cid": "120255117077480581", "st": "CAMPAIGN_PAUSED", "cst": "CAMPAIGN_PAUSED", "tipo": "video", "img": "t/120255117077490581.jpg", "post": "https://www.facebook.com/111487338031523_1125304593357919", "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQI64dAKsujjKzjMpSiNfXArvnJpgUMCIfzlzwfDIF_gxWgWCVvkG4ZMDuMKDqvOnWi2YAgMsH7KAgvQ5Hr750-bAo1yUQUYpDRLoL7x3AUERbCTxcw7C0fXK9O95DMQdUj3vzs-m06-zsdvHxTndqwKK7IOfiKXQe93zkfIw7cctLwWkSNUpJE9WLVz9KhG2hEUoGTd_ygI3sFmTrfUIW_iuIMihWMF5xbIqWsUcqZoutw4Dr-9ffj_ieVHJJS-ej3sP6DSeqr7u_2n4uG7uDNktoovIQXnb5lkxavdej8OT-5_A4u99iY-HCReApPzF3T6Y3Kw6LxT02-Tcvf7O0XZMaKfMLl25hCP5bWpB91WsCltDLodTvEcgke29IRP38qlV7gkHxd3b8HH8O3sYvPPeajCyWLvNl7642whrwaNfqOvxUAjVDZHmoTPZwPUg30&t=AQIv3dZfcj3O4uReoWA"}, "120255133485730581": {"nome": "[ALL 8 ADS]", "conj": "[RESTRITO] - [100% QUENTE]", "camp": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "cid": "120255133485720581", "st": "ACTIVE", "cst": "ACTIVE", "tipo": "video", "img": "t/120255133485730581.jpg", "post": "https://www.facebook.com/111487338031523_1125304593357919", "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJQbBj-G0iHLoksF4oJbyFwEfKLl_WUfBiDkGW19Mp5iD4C3VP-_6au9xN561fJmIvETp7kym0mGSsBFlyBtjJ4nW3oWQg9LyFgjrOd4U1D2M5HTbjAcxOGLjewB2Oq-0fwgvvNvFrw8UnV8_l46CCyMmMeZBuZ0Cs5o-ciLjg1b9z908Zi7e-RJRUcPiqPDxC3ywHRz684JcANmK_3sfupXAaxrjq2tDiGv6ni6EIaf7dp04fVrz_aY9SXA1Azc2FmVeeudx2VsYaO7eqhkveLVgbjKoORDBc850HJxdkYyBRYmgUKxN5f_M4e-X7XFYkyvvtY5IHQein5dZRMKOFZ3Tn_9MSIJiTeLdNwua6DNTGWgi1wCRskgHTj-deW9svrY1gkTs_TprcKqp7msMEmgnNLTMeGvEXYJ80AaGbH8aN8b4H9mxv778xPse_vueI&t=AQJeXxwiiJ2_o8XrysA"}}, CAMPS={"120255133485720581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "st": "ACTIVE", "orc": 300.0}, "120255117077480581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026]", "st": "PAUSED", "orc": 100.0}}, ALC={"hoje": {"": {"rc": 8922, "im": 13010}, "120255117077480581": {"rc": 2366, "im": 3096}, "120255133485720581": {"rc": 7409, "im": 9957}}, "ontem": {"": {"rc": 52, "im": 52}, "120255117077480581": {"rc": 52, "im": 52}}, "7": {"": {"rc": 8972, "im": 13105}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 7409, "im": 9957}}, "14": {"": {"rc": 8972, "im": 13105}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 7409, "im": 9957}}, "tudo": {"": {"rc": 8972, "im": 13105}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 7409, "im": 9957}}}, M={"upd": "13/10/2026 às 16:58", "hoje": "2026-10-13", "ini": "2026-10-12", "convs": ["1042870265419128"]};
+const el=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^(https:\/\/|t\/)/.test(u||'')?esc(u):'';
+const n=v=>Math.round(v||0).toLocaleString('pt-BR');
+const mo=v=>'R$ '+(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const mo0=v=>'R$ '+Math.round(v||0).toLocaleString('pt-BR');
+const pc=(a,b)=>b?a/b*100:0;
+const pf=(v,d=1)=>(v||0).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+'%';
+const br=s=>s.split('-').reverse().join('/');
+const dm=s=>{const p=s.split('-');return p[2]+'/'+p[1]};
+const addD=(s,k)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+k);return d.toISOString().slice(0,10)};
+const HOJE=M.hoje, INI=M.ini;
+
+el('up').textContent='atualizado '+M.upd;
+el('band').innerHTML=Array(16).fill('<span>Captação Black 2026 ∞</span>').join('');
+el('sub').textContent='Conta 01 - Devspace (Funil 1). Entram aqui todas as campanhas com "BLACK FRIDAY 2026" no nome, desde '+br(INI)+'. Lead = chegada na página de obrigado da Black.';
+el('ft1').textContent='act_592324092832640 · fuso America/Sao_Paulo · dados desde '+br(INI);
+
+const PRESETS=[['hoje','Hoje'],['ontem','Ontem'],['7','7 dias'],['14','14 dias'],['tudo','Tudo']];
+let sel='tudo',D1=INI,D2=HOJE,selU=null,ordem='ld',asc=false;
+function aplica(k){
+ sel=k;
+ if(k==='hoje'){D1=D2=HOJE}else if(k==='ontem'){D1=D2=addD(HOJE,-1)}
+ else if(k==='tudo'){D1=INI;D2=HOJE}else{D2=HOJE;D1=addD(HOJE,-(+k-1))}
+ if(D1<INI)D1=INI; el('d1').value=D1; el('d2').value=D2;
+}
+el('ps').innerHTML=PRESETS.map(([k,l])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
+el('ps').onclick=e=>{const k=e.target.dataset.k;if(!k)return;aplica(k);render()};
+['d1','d2'].forEach(i=>{el(i).min=INI;el(i).max=HOJE});
+el('d1').onchange=el('d2').onchange=()=>{D1=el('d1').value||INI;D2=el('d2').value||HOJE;if(D1>D2){[D1,D2]=[D2,D1];el('d1').value=D1;el('d2').value=D2}sel=null;render()};
+el('fc').innerHTML='<option value="">Todas as campanhas</option>'+Object.entries(CAMPS).map(([id,c])=>`<option value="${esc(id)}">${esc(c.nome)}</option>`).join('');
+el('fc').onchange=()=>{selU=null;render()};
+el('fs').onchange=()=>{selU=null;render()};
+
+const K=['sp','im','cl','lc','pv','ld','v3','p25','p50','p75','p100','tp'];
+const zero=()=>Object.fromEntries(K.map(k=>[k,0]));
+function filtra(arr){
+ const cf=el('fc').value,sf=el('fs').value;
+ return arr.filter(r=>{
+  if(r.d<D1||r.d>D2)return false; const a=ADS[r.a]; if(!a)return false;
+  if(cf&&a.cid!==cf)return false; const on=a.st==='ACTIVE';
+  if(sf==='on'&&!on)return false; if(sf==='off'&&on)return false; return true;
+ });
+}
+const linhas=()=>filtra(DIAS), linhasU=()=>filtra(UN);
+const soma=L=>L.reduce((s,r)=>{K.forEach(k=>s[k]+=r[k]||0);return s},zero());
+function porUni(U){const o={};U.forEach(r=>{const x=o[r.k]||(o[r.k]=Object.assign(zero(),{k:r.k,ads:{},camps:{}}));
+ K.forEach(k=>x[k]+=r[k]||0);x.ads[r.a]=1;x.camps[ADS[r.a].cid]=1});
+ return Object.values(o).map(x=>{const ids=Object.keys(x.ads);return Object.assign(x,{on:ids.some(i=>ADS[i].st==='ACTIVE'),nc:Object.keys(x.camps).length,ad1:ids[0]})})}
+function render(){
+ document.querySelectorAll('#ps button').forEach(b=>{b.classList.toggle('on',b.dataset.k===sel);b.setAttribute('aria-pressed',b.dataset.k===sel)});
+ const L0=linhas(),U0=linhasU(),UNI=porUni(U0);
+ if(selU&&!UNI.some(x=>x.k===selU))selU=null;
+ const L=selU?U0.filter(r=>r.k===selU):L0; const S=soma(L);
+ const nd=Math.round((new Date(D2)-new Date(D1))/864e5)+1, cf=el('fc').value;
+ el('rs').innerHTML=`<span>Período <b>${br(D1)} a ${br(D2)}</b></span><span><b>${nd}</b> dia${nd>1?'s':''}</span>`+
+  `<span>Investido <b>${mo(S.sp)}</b></span><span>Média <b>${mo(S.sp/nd)}</b>/dia</span>`+
+  (selU?`<span class="selchip">Só o criativo ${esc(selU)}<button id="limpa" type="button" aria-label="Ver todos os criativos">×</button></span>`:'');
+ const bl=el('limpa'); if(bl) bl.onclick=()=>{selU=null;render()};
+ kpis(S,nd,cf); funil(S); graficos(L); tabCamp(L); grade(UNI); tabela(U0,S);
+}
+
+function kpis(S,nd,cf){
+ const cpl=S.ld?S.sp/S.ld:0;
+ el('hero').innerHTML=`<div class="lab">Leads captados</div><div class="v">${n(S.ld)}</div>`+
+  `<div class="s">${S.ld?`<b>${mo(cpl)}</b> por lead · ${n(S.ld/nd)} por dia em média`:'Nenhum lead nesse recorte'}</div>`;
+ const a=(sel&&!selU&&el('fs').value==='all'&&ALC[sel])?ALC[sel][cf||'']:null;
+ const T=[
+  ['Investido',mo(S.sp),`${mo(S.sp/nd)} por dia`],
+  ['Custo por lead',S.ld?mo(cpl):null,S.ld?'conversão BLACK 2026':'sem lead no recorte'],
+  ['Conversão da página',S.pv?pf(pc(S.ld,S.pv)):null,`${n(S.ld)} leads de ${n(S.pv)} visitas`],
+  ['CTR no link',S.im?pf(pc(S.lc,S.im),2):null,`${n(S.lc)} cliques no link`],
+  ['CPM',S.im?mo(S.sp/S.im*1000):null,`${n(S.im)} impressões`],
+  ['Custo por clique',S.lc?mo(S.sp/S.lc):null,'clique no link'],
+  ['Hook 3s',S.v3?pf(pc(S.v3,S.im)):null,S.v3?`${n(S.v3)} views de 3s`:'sem vídeo no recorte'],
+  ['Frequência',a&&a.rc?(a.im/a.rc).toLocaleString('pt-BR',{maximumFractionDigits:2}):null,a&&a.rc?`${n(a.rc)} pessoas alcançadas`:'escolha um período pronto, sem filtro de criativo']
+ ];
+ el('tiles').innerHTML=T.map(([l,v,s])=>`<div class="tile"><div class="lab">${l}</div>`+
+  (v===null?`<div class="v na">n/d</div>`:`<div class="v">${v}</div>`)+`<div class="s">${esc(s)}</div></div>`).join('');
+}
+
+function funil(S){
+ const st=[['Impressões','viram o anúncio',S.im,null,null],
+  ['Cliques no link','foram para a página',S.lc,S.im,'CTR'],
+  ['Page views','a página carregou',S.pv,S.lc,'carregou'],
+  ['Leads','chegaram no obrigado',S.ld,S.pv,'converteu']];
+ el('fun').innerHTML=st.map(([l,s,v,b,t])=>{const r=b!==null?pc(v,b):100;
+  return `<div class="st"><div class="lab">${l}</div><div class="n">${n(v)}</div><div class="c">${s}${v&&S.sp?` · ${mo(S.sp/v)} cada`:''}</div>`+
+  (b!==null?`<div class="rate"><b>${pf(r,r<10?2:1)}</b>${t}</div><div class="bar"><i style="width:${Math.min(100,r)}%"></i></div>`:`<div class="rate"><b>${mo(S.sp)}</b>investidos</div><div class="bar"><i style="width:100%"></i></div>`)+
+  `</div>`}).join('');
+}
+
+/* ---------- graficos (svg) ---------- */
+function serie(L){const by={};L.forEach(r=>{const x=by[r.d]||(by[r.d]={sp:0,ld:0,im:0,lc:0,pv:0});x.sp+=r.sp;x.ld+=r.ld;x.im+=r.im;x.lc+=r.lc;x.pv+=r.pv});
+ const out=[];for(let d=D1;d<=D2;d=addD(d,1))out.push(Object.assign({d},by[d]||{sp:0,ld:0,im:0,lc:0,pv:0}));return out}
+function nice(m){if(m<=0)return{max:1,step:1};const raw=m/4,p=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/p;
+ const st=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p;return{max:Math.ceil(m/st)*st,step:st}}
+function eixo(svg,W,H,P,ny,fmt){let s='';for(let v=0;v<=ny.max+1e-9;v+=ny.step){const y=P.t+(H-P.t-P.b)*(1-v/ny.max);
+ s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" stroke="${v===0?'var(--axis)':'var(--grid)'}" stroke-width="1"/>`+
+ `<text x="${P.l-8}" y="${y+3.5}" text-anchor="end">${fmt(v)}</text>`}return s}
+function xlab(pts,x,H,P){const n0=pts.length,step=Math.ceil(n0/8),last=n0-1;
+ return pts.map((p,i)=>{const show=(i%step===0&&(last-i>=step*.6||i===last))||i===last;return show?`<text x="${x(i)}" y="${H-P.b+18}" text-anchor="middle">${dm(p.d)}</text>`:''}).join('')}
+function tipHTML(p){return `<div class="td">${br(p.d)}</div>`+
+ `<div class="tr"><span><i></i>Leads</span><b>${n(p.ld)}</b></div>`+
+ `<div class="tr"><span>Custo por lead</span><b>${p.ld?mo(p.sp/p.ld):'n/d'}</b></div>`+
+ `<div class="tr"><span>Investido</span><b>${mo(p.sp)}</b></div>`+
+ `<div class="tr"><span>Page views</span><b>${n(p.pv)}</b></div>`}
+function poeTip(box,tip,html,px,py){tip.innerHTML=html;tip.classList.add('on');const bw=box.clientWidth,tw=tip.offsetWidth,th=tip.offsetHeight;
+ let x=px+14;if(x+tw>bw)x=px-tw-14;if(x<0)x=0;let y=py-th/2;if(y<0)y=0;tip.style.left=x+'px';tip.style.top=y+'px'}
+
+function colunas(box,pts){
+ if(!pts.some(p=>p.ld)){box.innerHTML='<div class="vazio">Nenhum lead nesse período.</div>';return}
+ const W=box.clientWidth||600,H=230,P={l:40,r:8,t:24,b:26},iw=W-P.l-P.r,ih=H-P.t-P.b;
+ const ny=nice(Math.max(...pts.map(p=>p.ld))),band=iw/pts.length,bw=Math.max(3,Math.min(24,band*.62));
+ const x=i=>P.l+band*i+band/2,y=v=>P.t+ih*(1-v/ny.max);
+ const mx=pts.reduce((m,p,i)=>p.ld>pts[m].ld?i:m,0),last=pts.length-1;
+ let s=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Leads por dia">`+eixo(null,W,H,P,ny,v=>n(v));
+ pts.forEach((p,i)=>{if(!p.ld)return;const x0=x(i)-bw/2,y0=y(p.ld),h=P.t+ih-y0,r=Math.min(4,bw/2,h);
+  s+=`<path class="bar" data-i="${i}" d="M${x0},${y0+h}V${y0+r}Q${x0},${y0} ${x0+r},${y0}H${x0+bw-r}Q${x0+bw},${y0} ${x0+bw},${y0+r}V${y0+h}Z"/>`;
+  if(i===mx||i===last)s+=`<text class="vl" x="${x(i)}" y="${y0-7}" text-anchor="middle">${n(p.ld)}</text>`});
+ s+=xlab(pts,x,H,P);
+ pts.forEach((p,i)=>{s+=`<rect class="hit" data-i="${i}" x="${P.l+band*i}" y="${P.t}" width="${band}" height="${ih}" tabindex="0" aria-label="${br(p.d)}: ${p.ld} leads"/>`});
+ box.innerHTML=s+'</svg><div class="tip"></div>';
+ const tip=box.querySelector('.tip'),svg=box.querySelector('svg');
+ const on=(i,ev)=>{box.querySelectorAll('.bar').forEach(b=>b.classList.toggle('hi',b.dataset.i==i));
+  const r=svg.getBoundingClientRect(),sc=r.width/W;poeTip(box,tip,tipHTML(pts[i]),x(i)*sc,(ev&&ev.clientY?ev.clientY-r.top:y(pts[i].ld)*sc))};
+ const off=()=>{tip.classList.remove('on');box.querySelectorAll('.bar').forEach(b=>b.classList.remove('hi'))};
+ box.querySelectorAll('.hit').forEach(h=>{h.addEventListener('pointermove',e=>on(+h.dataset.i,e));h.addEventListener('focus',()=>on(+h.dataset.i));h.addEventListener('pointerleave',off);h.addEventListener('blur',off)});
+}
+
+function linha(box,pts){
+ const V=pts.map(p=>p.ld?p.sp/p.ld:null);
+ if(!V.some(v=>v!==null)){box.innerHTML='<div class="vazio">Sem lead no período, então não há custo por lead.</div>';return}
+ const W=box.clientWidth||600,H=230,P={l:58,r:16,t:24,b:26},iw=W-P.l-P.r,ih=H-P.t-P.b;
+ const ny=nice(Math.max(...V.filter(v=>v!==null))),band=iw/pts.length;
+ const x=i=>P.l+band*i+band/2,y=v=>P.t+ih*(1-v/ny.max);
+ let s=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Custo por lead por dia">`+eixo(null,W,H,P,ny,v=>mo0(v));
+ let d='',pen=false;V.forEach((v,i)=>{if(v===null){pen=false;return}d+=(pen?'L':'M')+x(i)+','+y(v);pen=true});
+ s+=`<path d="${d}" fill="none" stroke="var(--mark)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+ V.forEach((v,i)=>{if(v!==null&&(V.filter(q=>q!==null).length<=12))s+=`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="var(--mark)"/>`});
+ const li=V.reduce((m,v,i)=>v!==null?i:m,-1);
+ s+=`<circle cx="${x(li)}" cy="${y(V[li])}" r="5" fill="var(--mark)" stroke="var(--bg)" stroke-width="2"/>`+
+    `<text class="vl" x="${x(li)}" y="${y(V[li])-11}" text-anchor="${li>pts.length*.8?'end':'middle'}">${mo(V[li])}</text>`;
+ s+=xlab(pts,x,H,P)+`<line id="cx2" y1="${P.t}" y2="${P.t+ih}" stroke="var(--line-2)" stroke-width="1" style="display:none"/>`+
+    `<circle id="cd2" r="5" fill="var(--mark-hi)" stroke="var(--bg)" stroke-width="2" style="display:none"/>`;
+ pts.forEach((p,i)=>{s+=`<rect class="hit" data-i="${i}" x="${P.l+band*i}" y="${P.t}" width="${band}" height="${ih}" tabindex="0" aria-label="${br(p.d)}: ${V[i]===null?'sem lead':mo(V[i])+' por lead'}"/>`});
+ box.innerHTML=s+'</svg><div class="tip"></div>';
+ const tip=box.querySelector('.tip'),svg=box.querySelector('svg'),cx=box.querySelector('#cx2'),cd=box.querySelector('#cd2');
+ const on=(i,ev)=>{cx.setAttribute('x1',x(i));cx.setAttribute('x2',x(i));cx.style.display='';
+  if(V[i]!==null){cd.setAttribute('cx',x(i));cd.setAttribute('cy',y(V[i]));cd.style.display=''}else cd.style.display='none';
+  const r=svg.getBoundingClientRect(),sc=r.width/W;poeTip(box,tip,tipHTML(pts[i]),x(i)*sc,(ev&&ev.clientY?ev.clientY-r.top:(V[i]!==null?y(V[i]):P.t+ih/2)*sc))};
+ const off=()=>{tip.classList.remove('on');cx.style.display='none';cd.style.display='none'};
+ box.querySelectorAll('.hit').forEach(h=>{h.addEventListener('pointermove',e=>on(+h.dataset.i,e));h.addEventListener('focus',()=>on(+h.dataset.i));h.addEventListener('pointerleave',off);h.addEventListener('blur',off)});
+}
+let ultimaSerie=[];
+function graficos(L){const pts=serie(L);ultimaSerie=pts;colunas(el('c1'),pts);linha(el('c2'),pts);
+ el('tdia').innerHTML='<thead><tr><th class="l">Dia</th><th>Investido</th><th>Impressões</th><th>Cliques no link</th><th>Page views</th><th>Leads</th><th>Custo por lead</th></tr></thead><tbody>'+
+ pts.slice().reverse().map(p=>`<tr><td class="l">${br(p.d)}</td><td>${mo(p.sp)}</td><td>${n(p.im)}</td><td>${n(p.lc)}</td><td>${n(p.pv)}</td><td>${n(p.ld)}</td><td>${p.ld?mo(p.sp/p.ld):'n/d'}</td></tr>`).join('')+'</tbody>'}
+let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{colunas(el('c1'),ultimaSerie);linha(el('c2'),ultimaSerie)},120)});
+
+/* ---------- campanhas ---------- */
+function tabCamp(L0){
+ const by={};L0.forEach(r=>{const c=ADS[r.a].cid;const x=by[c]||(by[c]=zero());K.forEach(k=>x[k]+=r[k]||0)});
+ const cf=el('fc').value;
+ const R=Object.keys(CAMPS).map(id=>Object.assign({id},CAMPS[id],by[id]||zero())).filter(r=>r.sp>0||r.id===cf).sort((a,b)=>b.ld-a.ld||b.sp-a.sp);
+ if(!R.length){el('tc').innerHTML='<tbody><tr><td class="vazio">Nenhuma campanha com gasto nesse período.</td></tr></tbody>';return}
+ el('tc').innerHTML='<thead><tr><th class="l">Campanha</th><th class="l">Situação</th><th>Orçamento/dia</th><th>Investido</th><th>Impressões</th><th>CTR link</th><th>Page views</th><th>Leads</th><th>Custo por lead</th><th>Conv. página</th></tr></thead><tbody>'+
+ R.map(r=>{const on=r.st==='ACTIVE';return `<tr data-c="${esc(r.id)}" class="${cf===r.id?'sel':''}" style="cursor:pointer" tabindex="0"><td class="l">${esc(r.nome)}</td>`+
+  `<td class="l"><span class="dot" style="background:${on?'var(--good)':'var(--faint)'}"></span>${on?'Ativa':'Pausada'}</td><td>${r.orc?mo0(r.orc):'n/d'}</td>`+
+  `<td>${mo(r.sp)}</td><td>${n(r.im)}</td><td>${pf(pc(r.lc,r.im),2)}</td><td>${n(r.pv)}</td><td>${n(r.ld)}</td><td>${r.ld?mo(r.sp/r.ld):'n/d'}</td><td>${r.pv?pf(pc(r.ld,r.pv)):'n/d'}</td></tr>`}).join('')+'</tbody>';
+ el('tc').querySelectorAll('tr[data-c]').forEach(t=>{const go=()=>{el('fc').value=(el('fc').value===t.dataset.c?'':t.dataset.c);selU=null;render()};
+  t.onclick=go;t.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+}
+
+/* ---------- criativos ---------- */
+function grade(UNI){
+ if(!UNI.length){el('gr').innerHTML='<div class="vazio">Nenhum criativo com entrega nesse recorte.</div>';return}
+ const A2=UNI.slice().sort((a,b)=>b.ld-a.ld||b.sp-a.sp);
+ const eleg=A2.filter(x=>x.ld>=3); const best=eleg.length>1?eleg.reduce((m,x)=>x.sp/x.ld<m.sp/m.ld?x:m):null;
+ el('gr').innerHTML=A2.map(x=>{const cls=selU===x.k?'sel':(selU?'dim':''),um=UM[x.k]||{},ad=ADS[x.ad1]||{};
+  const img=safeUrl(um.img||ad.img), vurl=safeUrl(um.url), prev=safeUrl(ad.preview);
+  const sub=x.nc>1?`${x.nc} campanhas somadas`:(ad.camp||'');
+  return `<article class="cc ${cls}" data-id="${esc(x.k)}" tabindex="0" aria-label="${esc(x.k)}">`+
+  `<div class="th">${img?`<img loading="lazy" decoding="async" src="${img}" alt="">`:''}`+
+  `<div class="tags"><span class="pill"><i style="background:${x.on?'var(--good)':'var(--faint)'}"></i>${x.on?'Ativo':'Pausado'}</span>${best&&best.k===x.k?'<span class="pill best">Melhor custo</span>':''}</div>`+
+  `<div class="ov"><div class="nm">${esc(x.k)}</div><div class="cj">${esc(sub)}</div></div></div>`+
+  `<div class="mm"><div><div class="v">${n(x.ld)}</div><div class="l">Leads</div></div><div><div class="v">${x.ld?mo(x.sp/x.ld):'n/d'}</div><div class="l">Por lead</div></div><div><div class="v">${mo0(x.sp)}</div><div class="l">Investido</div></div></div>`+
+  `<div class="mm sm"><div><div class="v">${pf(pc(x.lc,x.im),2)}</div><div class="l">CTR link</div></div><div><div class="v">${x.pv?pf(pc(x.ld,x.pv)):'n/d'}</div><div class="l">Conv. página</div></div><div><div class="v">${x.v3?pf(pc(x.v3,x.im)):'n/d'}</div><div class="l">Hook 3s</div></div></div>`+
+  `<div class="ac">${vurl?`<a href="${vurl}" target="_blank" rel="noopener">Ver vídeo</a>`:'<span>Sem vídeo</span>'}${prev?`<a href="${prev}" target="_blank" rel="noopener">Prévia do anúncio</a>`:'<span>Sem prévia</span>'}</div></article>`}).join('');
+ el('gr').querySelectorAll('.cc').forEach(c=>{const go=e=>{if(e.target.closest('a'))return;selU=(selU===c.dataset.id?null:c.dataset.id);render();window.scrollTo({top:el('hero').getBoundingClientRect().top+scrollY-120,behavior:'smooth'})};
+  c.onclick=go;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(e)}}});
+}
+
+/* ---------- tabela completa ---------- */
+function tabela(U0,S){
+ const g={};U0.forEach(r=>{const id=r.k+'|'+r.a;const x=g[id]||(g[id]=Object.assign(zero(),{k:r.k,a:r.a,camp:ADS[r.a].camp,st:ADS[r.a].st}));K.forEach(k=>x[k]+=r[k]||0)});
+ const C=[['Criativo','k','t'],['Campanha','camp','t'],['Situação','st','s'],['Investido','sp','m'],['Impressões','im','n'],['CPM','cpm','m'],
+  ['CTR link','ctr','p2'],['Cliques link','lc','n'],['Page views','pv','n'],['Leads','ld','n'],['Custo por lead','cpl','m'],['Conv. página','cvp','p'],['Hook 3s','hk','p']];
+ const R=Object.values(g).map(x=>Object.assign(x,{cpm:x.im?x.sp/x.im*1000:0,ctr:pc(x.lc,x.im),cpl:x.ld?x.sp/x.ld:Infinity,cvp:pc(x.ld,x.pv),hk:pc(x.v3,x.im)}));
+ R.sort((a,b)=>{const u=a[ordem],v=b[ordem];return(typeof u==='string'?u.localeCompare(v):u-v)*(asc?1:-1)});
+ const f=(t,v)=>t==='m'?(v===Infinity?'n/d':mo(v)):t==='n'?n(v):t==='p2'?pf(v,2):t==='p'?pf(v):esc(v);
+ const T=soma(U0);
+ el('tb').innerHTML='<thead><tr>'+C.map(([l,k,t])=>`<th class="${t==='t'||t==='s'?'l':''}" data-k="${k}" tabindex="0">${l}${ordem===k?(asc?' ▲':' ▼'):''}</th>`).join('')+'</tr></thead><tbody>'+
+  R.map(x=>`<tr class="${selU===x.k?'sel':''}">`+C.map(([,k,t])=>t==='s'?`<td class="l"><span class="dot" style="background:${x.st==='ACTIVE'?'var(--good)':'var(--faint)'}"></span>${x.st==='ACTIVE'?'Ativo':'Pausado'}</td>`:`<td class="${t==='t'?'l':''}">${f(t,x[k])}</td>`).join('')+'</tr>').join('')+
+  `</tbody><tfoot><tr><td class="l">Total</td><td class="l"></td><td class="l"></td><td>${mo(T.sp)}</td><td>${n(T.im)}</td><td>${T.im?mo(T.sp/T.im*1000):'n/d'}</td><td>${pf(pc(T.lc,T.im),2)}</td><td>${n(T.lc)}</td><td>${n(T.pv)}</td><td>${n(T.ld)}</td><td>${T.ld?mo(T.sp/T.ld):'n/d'}</td><td>${T.pv?pf(pc(T.ld,T.pv)):'n/d'}</td><td>${T.v3?pf(pc(T.v3,T.im)):'n/d'}</td></tr></tfoot>`;
+ el('tb').querySelectorAll('th').forEach(t=>{const go=()=>{const k=t.dataset.k;if(ordem===k)asc=!asc;else{ordem=k;asc=(k==='cpl')}render()};t.onclick=go;t.onkeydown=e=>{if(e.key==='Enter'){go()}}});
+}
+
+el('nt').innerHTML='<b>Como ler.</b> Lead é a conversão personalizada <b>[LEAD] - BLACK 2026</b>: conta quem chega na página <em>/black2026/obrigado</em>. Se o site passar a disparar o evento Lead padrão, o painel usa o maior dos dois, para não contar a mesma pessoa duas vezes. '+
+ 'O InitiateCheckout que aparece no Gerenciador fica de fora: ele não existe no código da página, é a Meta deduzindo a partir de cliques em botão. '+
+ 'Hook 3s = visualizações de 3 segundos sobre impressões. Conversão da página = leads sobre page views. Frequência e alcance só aparecem nos períodos prontos, porque não dá para somar alcance de dias diferentes. '+
+ 'A situação (ativo ou pausado) é a de agora, não a do período escolhido.';
+aplica('tudo');render();
+</script>
+</body></html>
