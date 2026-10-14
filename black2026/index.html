@@ -59,6 +59,7 @@ h1 em,h2 em{font-style:italic;color:var(--butter)}
 .ps{display:flex;flex-wrap:wrap;gap:6px}
 .ps button,.chip{font-family:var(--f-sans);font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;background:transparent;color:var(--ink-2);border:1px solid var(--line-2);border-radius:2px;padding:7px 11px;cursor:pointer}
 .ps button:hover{border-color:var(--butter-line);color:var(--ink)}
+.ps button:disabled{opacity:.35;cursor:not-allowed}
 .ps button.on{background:var(--butter);border-color:var(--butter);color:var(--bg)}
 .ps button:focus-visible,select:focus-visible,input:focus-visible,.cc:focus-visible,th:focus-visible{outline:2px solid var(--butter);outline-offset:2px}
 .dt{display:flex;align-items:center;gap:8px;color:var(--mute);font-size:13px}
@@ -247,7 +248,7 @@ tfoot td{font-weight:700;border-top:1px solid var(--butter-line);border-bottom:0
 </main>
 
 <script>
-const UN=[{"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-01", "sp": 0.46, "im": 26, "lc": 0, "pv": 0, "ld": 0, "v3": 15}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-07", "sp": 0.02, "im": 4, "lc": 0, "pv": 0, "ld": 0, "v3": 1}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-08", "sp": 0.02, "im": 1, "lc": 0, "pv": 0, "ld": 0, "v3": 1}, {"d": "2026-10-12", "a": "120255117077490581", "k": "Renan-02", "sp": 0.21, "im": 21, "lc": 0, "pv": 0, "ld": 0, "v3": 8}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-01", "sp": 25.63, "im": 1850, "lc": 37, "pv": 33, "ld": 10, "v3": 839}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-07", "sp": 3.32, "im": 276, "lc": 3, "pv": 3, "ld": 3, "v3": 59}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-08", "sp": 1.11, "im": 117, "lc": 2, "pv": 1, "ld": 1, "v3": 31}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-02", "sp": 5.91, "im": 357, "lc": 9, "pv": 7, "ld": 2, "v3": 119}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-03", "sp": 0.38, "im": 32, "lc": 4, "pv": 3, "ld": 1, "v3": 11}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-05", "sp": 0.48, "im": 44, "lc": 0, "pv": 0, "ld": 0, "v3": 14}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-04", "sp": 1.15, "im": 83, "lc": 2, "pv": 0, "ld": 1, "v3": 21}, {"d": "2026-10-13", "a": "120255117077490581", "k": "Renan-06", "sp": 5.3, "im": 337, "lc": 9, "pv": 7, "ld": 1, "v3": 99}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-01", "sp": 98.16, "im": 7923, "lc": 151, "pv": 130, "ld": 39, "v3": 3314}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-07", "sp": 10.27, "im": 854, "lc": 13, "pv": 7, "ld": 7, "v3": 179}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-08", "sp": 1.41, "im": 150, "lc": 1, "pv": 1, "ld": 2, "v3": 22}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-02", "sp": 1.71, "im": 114, "lc": 1, "pv": 1, "ld": 1, "v3": 40}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-03", "sp": 10.37, "im": 688, "lc": 11, "pv": 12, "ld": 8, "v3": 154}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-05", "sp": 11.49, "im": 912, "lc": 13, "pv": 12, "ld": 6, "v3": 250}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-04", "sp": 3.87, "im": 184, "lc": 1, "pv": 1, "ld": 1, "v3": 39}, {"d": "2026-10-13", "a": "120255133485730581", "k": "Renan-06", "sp": 68.84, "im": 5985, "lc": 86, "pv": 65, "ld": 26, "v3": 1499}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-01", "sp": 24.4, "im": 2358, "lc": 32, "pv": 21, "ld": 7, "v3": 941}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-07", "sp": 2.02, "im": 161, "lc": 2, "pv": 2, "ld": 3, "v3": 34}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-08", "sp": 0.05, "im": 9, "lc": 0, "pv": 0, "ld": 0, "v3": 0}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-02", "sp": 0.14, "im": 10, "lc": 0, "pv": 0, "ld": 0, "v3": 5}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-03", "sp": 1.46, "im": 114, "lc": 0, "pv": 0, "ld": 0, "v3": 22}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-05", "sp": 0.28, "im": 27, "lc": 0, "pv": 0, "ld": 0, "v3": 9}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-04", "sp": 0.33, "im": 41, "lc": 1, "pv": 0, "ld": 0, "v3": 6}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-06", "sp": 11.16, "im": 995, "lc": 17, "pv": 15, "ld": 8, "v3": 216}], UM={"Renan-01": {"vid": "1135086375841015", "img": "t/v_1135086375841015.jpg"}, "Renan-07": {"vid": "1589046066292129", "img": "t/v_1589046066292129.jpg"}, "Renan-08": {"vid": "1781847336064967", "img": "t/v_1781847336064967.jpg"}, "Renan-02": {"vid": "2341126236690353", "img": "t/v_2341126236690353.jpg"}, "Renan-03": {"vid": "1603628717970954", "img": "t/v_1603628717970954.jpg"}, "Renan-05": {"vid": "2176813463233467", "img": "t/v_2176813463233467.jpg"}, "Renan-04": {"vid": "1882984309749909", "img": "t/v_1882984309749909.jpg"}, "Renan-06": {"vid": "1381154883818379", "img": "t/v_1381154883818379.jpg"}}, DIAS=[{"d": "2026-10-12", "a": "120255117077490581", "sp": 0.71, "im": 52, "cl": 0, "lc": 0, "pv": 0, "ld": 0, "v3": 25, "p25": 5, "p50": 1, "p75": 1, "p100": 0, "tp": 5}, {"d": "2026-10-13", "a": "120255117077490581", "sp": 43.28, "im": 3096, "cl": 107, "lc": 66, "pv": 54, "ld": 19, "v3": 1193, "p25": 236, "p50": 128, "p75": 74, "p100": 28, "tp": 255}, {"d": "2026-10-13", "a": "120255133485730581", "sp": 206.18, "im": 16815, "cl": 464, "lc": 277, "pv": 229, "ld": 90, "v3": 5497, "p25": 1061, "p50": 516, "p75": 306, "p100": 120, "tp": 1100}, {"d": "2026-10-14", "a": "120255133485730581", "sp": 39.84, "im": 3715, "cl": 93, "lc": 52, "pv": 38, "ld": 19, "v3": 1233, "p25": 208, "p50": 105, "p75": 57, "p100": 29, "tp": 220}], ADS={"120255117077490581": {"nome": "[ALL 8 ADS]", "conj": "[RESTRITO] - [100% QUENTE]", "camp": "[CBO] - [LEAD - BLACK FRIDAY 2026]", "cid": "120255117077480581", "st": "CAMPAIGN_PAUSED", "cst": "CAMPAIGN_PAUSED", "tipo": "video", "img": "t/120255117077490581.jpg", "post": "https://www.facebook.com/111487338031523_1125304593357919", "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQI64dAKsujjKzjMpSiNfXArvnJpgUMCIfzlzwfDIF_gxWgWCVvkG4ZMDuMKDqvOnWi2YAgMsH7KAgvQ5Hr750-bAo1yUQUYpDRLoL7x3AUERbCTxcw7C0fXK9O95DMQdUj3vzs-m06-zsdvHxTndqwKK7IOfiKXQe93zkfIw7cctLwWkSNUpJE9WLVz9KhG2hEUoGTd_ygI3sFmTrfUIW_iuIMihWMF5xbIqWsUcqZoutw4Dr-9ffj_ieVHJJS-ej3sP6DSeqr7u_2n4uG7uDNktoovIQXnb5lkxavdej8OT-5_A4u99iY-HCReApPzF3T6Y3Kw6LxT02-Tcvf7O0XZMaKfMLl25hCP5bWpB91WsCltDLodTvEcgke29IRP38qlV7gkHxd3b8HH8O3sYvPPeajCyWLvNl7642whrwaNfqOvxUAjVDZHmoTPZwPUg30&t=AQIv3dZfcj3O4uReoWA"}, "120255133485730581": {"nome": "[ALL 8 ADS]", "conj": "[RESTRITO] - [100% QUENTE]", "camp": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "cid": "120255133485720581", "st": "ACTIVE", "cst": "ACTIVE", "tipo": "video", "img": "t/120255133485730581.jpg", "post": "https://www.facebook.com/111487338031523_1125304593357919", "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJQbBj-G0iHLoksF4oJbyFwEfKLl_WUfBiDkGW19Mp5iD4C3VP-_6au9xN561fJmIvETp7kym0mGSsBFlyBtjJ4nW3oWQg9LyFgjrOd4U1D2M5HTbjAcxOGLjewB2Oq-0fwgvvNvFrw8UnV8_l46CCyMmMeZBuZ0Cs5o-ciLjg1b9z908Zi7e-RJRUcPiqPDxC3ywHRz684JcANmK_3sfupXAaxrjq2tDiGv6ni6EIaf7dp04fVrz_aY9SXA1Azc2FmVeeudx2VsYaO7eqhkveLVgbjKoORDBc850HJxdkYyBRYmgUKxN5f_M4e-X7XFYkyvvtY5IHQein5dZRMKOFZ3Tn_9MSIJiTeLdNwua6DNTGWgi1wCRskgHTj-deW9svrY1gkTs_TprcKqp7msMEmgnNLTMeGvEXYJ80AaGbH8aN8b4H9mxv778xPse_vueI&t=AQJeXxwiiJ2_o8XrysA"}}, CAMPS={"120255133485720581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "st": "ACTIVE", "orc": 300.0}, "120255117077480581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026]", "st": "PAUSED", "orc": 100.0}}, ALC={"hoje": {"": {"rc": 2937, "im": 3715}, "120255133485720581": {"rc": 2937, "im": 3715}}, "ontem": {"": {"rc": 12651, "im": 19911}, "120255117077480581": {"rc": 2366, "im": 3096}, "120255133485720581": {"rc": 11551, "im": 16815}}, "7": {"": {"rc": 14348, "im": 23678}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 13247, "im": 20530}}, "14": {"": {"rc": 14348, "im": 23678}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 13247, "im": 20530}}, "tudo": {"": {"rc": 14348, "im": 23678}, "120255117077480581": {"rc": 2424, "im": 3148}, "120255133485720581": {"rc": 13247, "im": 20530}}}, M={"upd": "14/10/2026 às 09:40", "hoje": "2026-10-14", "ini": "2026-10-12", "convs": ["1042870265419128"]};
+const UN=[{"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-01", "sp": 27.94, "im": 2740, "lc": 37, "pv": 27, "ld": 6, "ldc": 4, "v3": 1011}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-07", "sp": 2.33, "im": 189, "lc": 2, "pv": 2, "ld": 1, "ldc": 1, "v3": 35}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-08", "sp": 0.16, "im": 21, "lc": 0, "pv": 0, "ld": 0, "ldc": 0, "v3": 1}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-02", "sp": 0.17, "im": 15, "lc": 0, "pv": 0, "ld": 0, "ldc": 0, "v3": 5}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-03", "sp": 1.78, "im": 137, "lc": 0, "pv": 0, "ld": 0, "ldc": 0, "v3": 23}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-05", "sp": 0.3, "im": 38, "lc": 0, "pv": 0, "ld": 0, "ldc": 0, "v3": 11}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-04", "sp": 0.43, "im": 59, "lc": 1, "pv": 1, "ld": 0, "ldc": 0, "v3": 8}, {"d": "2026-10-14", "a": "120255133485730581", "k": "Renan-06", "sp": 12.27, "im": 1102, "lc": 19, "pv": 16, "ld": 8, "ldc": 6, "v3": 230}], UM={"Renan-01": {"vid": "1135086375841015", "img": "t/v_1135086375841015.jpg"}, "Renan-07": {"vid": "1589046066292129", "img": "t/v_1589046066292129.jpg"}, "Renan-08": {"vid": "1781847336064967", "img": "t/v_1781847336064967.jpg"}, "Renan-02": {"vid": "2341126236690353", "img": "t/v_2341126236690353.jpg"}, "Renan-03": {"vid": "1603628717970954", "img": "t/v_1603628717970954.jpg"}, "Renan-05": {"vid": "2176813463233467", "img": "t/v_2176813463233467.jpg"}, "Renan-04": {"vid": "1882984309749909", "img": "t/v_1882984309749909.jpg"}, "Renan-06": {"vid": "1381154883818379", "img": "t/v_1381154883818379.jpg"}}, DIAS=[{"d": "2026-10-14", "a": "120255133485730581", "sp": 43.84, "im": 4139, "cl": 107, "lc": 59, "pv": 46, "ld": 15, "ldc": 11, "v3": 1324, "p25": 232, "p50": 112, "p75": 59, "p100": 29, "tp": 246}], ADS={"120255133485730581": {"nome": "[ALL 8 ADS]", "conj": "[RESTRITO] - [100% QUENTE]", "camp": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "cid": "120255133485720581", "st": "ACTIVE", "cst": "ACTIVE", "tipo": "video", "img": "t/120255133485730581.jpg", "post": "https://www.facebook.com/111487338031523_1125304593357919", "preview": "https://business.facebook.com/ads/api/preview_iframe.php?d=AQJQbBj-G0iHLoksF4oJbyFwEfKLl_WUfBiDkGW19Mp5iD4C3VP-_6au9xN561fJmIvETp7kym0mGSsBFlyBtjJ4nW3oWQg9LyFgjrOd4U1D2M5HTbjAcxOGLjewB2Oq-0fwgvvNvFrw8UnV8_l46CCyMmMeZBuZ0Cs5o-ciLjg1b9z908Zi7e-RJRUcPiqPDxC3ywHRz684JcANmK_3sfupXAaxrjq2tDiGv6ni6EIaf7dp04fVrz_aY9SXA1Azc2FmVeeudx2VsYaO7eqhkveLVgbjKoORDBc850HJxdkYyBRYmgUKxN5f_M4e-X7XFYkyvvtY5IHQein5dZRMKOFZ3Tn_9MSIJiTeLdNwua6DNTGWgi1wCRskgHTj-deW9svrY1gkTs_TprcKqp7msMEmgnNLTMeGvEXYJ80AaGbH8aN8b4H9mxv778xPse_vueI&t=AQJeXxwiiJ2_o8XrysA"}}, CAMPS={"120255133485720581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026] — Cópia", "st": "ACTIVE", "orc": 300.0}, "120255117077480581": {"nome": "[CBO] - [LEAD - BLACK FRIDAY 2026]", "st": "PAUSED", "orc": 100.0}}, ALC={"hoje": {"": {"rc": 3161, "im": 4097}, "120255133485720581": {"rc": 3275, "im": 4139}}, "7": {"": {"rc": 3161, "im": 4097}, "120255133485720581": {"rc": 3275, "im": 4139}}, "14": {"": {"rc": 3161, "im": 4097}, "120255133485720581": {"rc": 3275, "im": 4139}}, "tudo": {"": {"rc": 3161, "im": 4097}, "120255133485720581": {"rc": 3275, "im": 4139}}}, M={"upd": "14/10/2026 às 10:07", "hoje": "2026-10-14", "ini": "2026-10-14", "pre": {"sp": 250.17, "de": "2026-10-12", "ate": "2026-10-13"}};
 const el=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^(https:\/\/|t\/)/.test(u||'')?esc(u):'';
@@ -263,7 +264,7 @@ const HOJE=M.hoje, INI=M.ini;
 
 el('up').textContent='atualizado '+M.upd;
 el('band').innerHTML=Array(16).fill('<span>Captação Black 2026 ∞</span>').join('');
-el('sub').textContent='Conta 01 - Devspace (Funil 1). Entram aqui todas as campanhas com "BLACK FRIDAY 2026" no nome, desde '+br(INI)+'. Lead = chegada na página de obrigado da Black.';
+el('sub').textContent='Conta 01 - Devspace (Funil 1). Entram aqui todas as campanhas com "BLACK FRIDAY 2026" no nome, desde '+br(INI)+'. Lead = evento Lead do site, enviado quando o formulário é preenchido.';
 el('ft1').textContent='act_592324092832640 · fuso America/Sao_Paulo · dados desde '+br(INI);
 
 const PRESETS=[['hoje','Hoje'],['ontem','Ontem'],['7','7 dias'],['14','14 dias'],['tudo','Tudo']];
@@ -272,9 +273,9 @@ function aplica(k){
  sel=k;
  if(k==='hoje'){D1=D2=HOJE}else if(k==='ontem'){D1=D2=addD(HOJE,-1)}
  else if(k==='tudo'){D1=INI;D2=HOJE}else{D2=HOJE;D1=addD(HOJE,-(+k-1))}
- if(D1<INI)D1=INI; el('d1').value=D1; el('d2').value=D2;
+ if(D1<INI)D1=INI; if(D2<D1)D2=D1; el('d1').value=D1; el('d2').value=D2;
 }
-el('ps').innerHTML=PRESETS.map(([k,l])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
+el('ps').innerHTML=PRESETS.map(([k,l])=>{const off=k==='ontem'&&addD(HOJE,-1)<INI;return `<button type="button" data-k="${k}"${off?' disabled title="Antes do início da medição de lead"':''}>${l}</button>`}).join('');
 el('ps').onclick=e=>{const k=e.target.dataset.k;if(!k)return;aplica(k);render()};
 ['d1','d2'].forEach(i=>{el(i).min=INI;el(i).max=HOJE});
 el('d1').onchange=el('d2').onchange=()=>{D1=el('d1').value||INI;D2=el('d2').value||HOJE;if(D1>D2){[D1,D2]=[D2,D1];el('d1').value=D1;el('d2').value=D2}sel=null;render()};
@@ -282,7 +283,7 @@ el('fc').innerHTML='<option value="">Todas as campanhas</option>'+Object.entries
 el('fc').onchange=()=>{selU=null;render()};
 el('fs').onchange=()=>{selU=null;render()};
 
-const K=['sp','im','cl','lc','pv','ld','v3','p25','p50','p75','p100','tp'];
+const K=['sp','im','cl','lc','pv','ld','ldc','v3','p25','p50','p75','p100','tp'];
 const zero=()=>Object.fromEntries(K.map(k=>[k,0]));
 function filtra(arr){
  const cf=el('fc').value,sf=el('fs').value;
@@ -313,11 +314,11 @@ function render(){
 function kpis(S,nd,cf){
  const cpl=S.ld?S.sp/S.ld:0;
  el('hero').innerHTML=`<div class="lab">Leads captados</div><div class="v">${n(S.ld)}</div>`+
-  `<div class="s">${S.ld?`<b>${mo(cpl)}</b> por lead · ${n(S.ld/nd)} por dia em média`:'Nenhum lead nesse recorte'}</div>`;
+  `<div class="s">${S.ld?`<b>${mo(cpl)}</b> por lead · ${n(S.ld/nd)} por dia em média<br>${n(S.ldc)} vieram de clique no anúncio, ${n(S.ld-S.ldc)} de quem só viu o anúncio`:'Nenhum lead nesse recorte'}</div>`;
  const a=(sel&&!selU&&el('fs').value==='all'&&ALC[sel])?ALC[sel][cf||'']:null;
  const T=[
   ['Investido',mo(S.sp),`${mo(S.sp/nd)} por dia`],
-  ['Custo por lead',S.ld?mo(cpl):null,S.ld?'conversão BLACK 2026':'sem lead no recorte'],
+  ['Custo por lead',S.ld?mo(cpl):null,S.ldc?`${mo(S.sp/S.ldc)} contando só clique`:(S.ld?'evento Lead do site':'sem lead no recorte')],
   ['Conversão da página',S.pv?pf(pc(S.ld,S.pv)):null,`${n(S.ld)} leads de ${n(S.pv)} visitas`],
   ['CTR no link',S.im?pf(pc(S.lc,S.im),2):null,`${n(S.lc)} cliques no link`],
   ['CPM',S.im?mo(S.sp/S.im*1000):null,`${n(S.im)} impressões`],
@@ -333,7 +334,7 @@ function funil(S){
  const st=[['Impressões','viram o anúncio',S.im,null,null],
   ['Cliques no link','foram para a página',S.lc,S.im,'CTR'],
   ['Page views','a página carregou',S.pv,S.lc,'carregou'],
-  ['Leads','chegaram no obrigado',S.ld,S.pv,'converteu']];
+  ['Leads','enviaram o formulário',S.ld,S.pv,'converteu']];
  el('fun').innerHTML=st.map(([l,s,v,b,t])=>{const r=b!==null?pc(v,b):100;
   return `<div class="st"><div class="lab">${l}</div><div class="n">${n(v)}</div><div class="c">${s}${v&&S.sp?` · ${mo(S.sp/v)} cada`:''}</div>`+
   (b!==null?`<div class="rate"><b>${pf(r,r<10?2:1)}</b>${t}</div><div class="bar"><i style="width:${Math.min(100,r)}%"></i></div>`:`<div class="rate"><b>${mo(S.sp)}</b>investidos</div><div class="bar"><i style="width:100%"></i></div>`)+
@@ -341,8 +342,8 @@ function funil(S){
 }
 
 /* ---------- graficos (svg) ---------- */
-function serie(L){const by={};L.forEach(r=>{const x=by[r.d]||(by[r.d]={sp:0,ld:0,im:0,lc:0,pv:0});x.sp+=r.sp;x.ld+=r.ld;x.im+=r.im;x.lc+=r.lc;x.pv+=r.pv});
- const out=[];for(let d=D1;d<=D2;d=addD(d,1))out.push(Object.assign({d},by[d]||{sp:0,ld:0,im:0,lc:0,pv:0}));return out}
+function serie(L){const by={};L.forEach(r=>{const x=by[r.d]||(by[r.d]={sp:0,ld:0,ldc:0,im:0,lc:0,pv:0});x.sp+=r.sp;x.ld+=r.ld;x.ldc+=r.ldc||0;x.im+=r.im;x.lc+=r.lc;x.pv+=r.pv});
+ const out=[];for(let d=D1;d<=D2;d=addD(d,1))out.push(Object.assign({d},by[d]||{sp:0,ld:0,ldc:0,im:0,lc:0,pv:0}));return out}
 function nice(m){if(m<=0)return{max:1,step:1};const raw=m/4,p=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/p;
  const st=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p;return{max:Math.ceil(m/st)*st,step:st}}
 function eixo(svg,W,H,P,ny,fmt){let s='';for(let v=0;v<=ny.max+1e-9;v+=ny.step){const y=P.t+(H-P.t-P.b)*(1-v/ny.max);
@@ -352,6 +353,7 @@ function xlab(pts,x,H,P){const n0=pts.length,step=Math.ceil(n0/8),last=n0-1;
  return pts.map((p,i)=>{const show=(i%step===0&&(last-i>=step*.6||i===last))||i===last;return show?`<text x="${x(i)}" y="${H-P.b+18}" text-anchor="middle">${dm(p.d)}</text>`:''}).join('')}
 function tipHTML(p){return `<div class="td">${br(p.d)}</div>`+
  `<div class="tr"><span><i></i>Leads</span><b>${n(p.ld)}</b></div>`+
+ `<div class="tr"><span>Por clique</span><b>${n(p.ldc)}</b></div>`+
  `<div class="tr"><span>Custo por lead</span><b>${p.ld?mo(p.sp/p.ld):'n/d'}</b></div>`+
  `<div class="tr"><span>Investido</span><b>${mo(p.sp)}</b></div>`+
  `<div class="tr"><span>Page views</span><b>${n(p.pv)}</b></div>`}
@@ -404,8 +406,8 @@ function linha(box,pts){
 }
 let ultimaSerie=[];
 function graficos(L){const pts=serie(L);ultimaSerie=pts;colunas(el('c1'),pts);linha(el('c2'),pts);
- el('tdia').innerHTML='<thead><tr><th class="l">Dia</th><th>Investido</th><th>Impressões</th><th>Cliques no link</th><th>Page views</th><th>Leads</th><th>Custo por lead</th></tr></thead><tbody>'+
- pts.slice().reverse().map(p=>`<tr><td class="l">${br(p.d)}</td><td>${mo(p.sp)}</td><td>${n(p.im)}</td><td>${n(p.lc)}</td><td>${n(p.pv)}</td><td>${n(p.ld)}</td><td>${p.ld?mo(p.sp/p.ld):'n/d'}</td></tr>`).join('')+'</tbody>'}
+ el('tdia').innerHTML='<thead><tr><th class="l">Dia</th><th>Investido</th><th>Impressões</th><th>Cliques no link</th><th>Page views</th><th>Leads</th><th>Leads por clique</th><th>Custo por lead</th></tr></thead><tbody>'+
+ pts.slice().reverse().map(p=>`<tr><td class="l">${br(p.d)}</td><td>${mo(p.sp)}</td><td>${n(p.im)}</td><td>${n(p.lc)}</td><td>${n(p.pv)}</td><td>${n(p.ld)}</td><td>${n(p.ldc)}</td><td>${p.ld?mo(p.sp/p.ld):'n/d'}</td></tr>`).join('')+'</tbody>'}
 let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{colunas(el('c1'),ultimaSerie);linha(el('c2'),ultimaSerie)},120)});
 
 /* ---------- campanhas ---------- */
@@ -456,10 +458,11 @@ function tabela(U0,S){
  el('tb').querySelectorAll('th').forEach(t=>{const go=()=>{const k=t.dataset.k;if(ordem===k)asc=!asc;else{ordem=k;asc=(k==='cpl')}render()};t.onclick=go;t.onkeydown=e=>{if(e.key==='Enter'){go()}}});
 }
 
-el('nt').innerHTML='<b>Como ler.</b> Lead é a conversão personalizada <b>[LEAD] - BLACK 2026</b>: conta quem chega na página <em>/black2026/obrigado</em>. Se o site passar a disparar o evento Lead padrão, o painel usa o maior dos dois, para não contar a mesma pessoa duas vezes. '+
- 'O InitiateCheckout que aparece no Gerenciador fica de fora: ele não existe no código da página, é a Meta deduzindo a partir de cliques em botão. '+
- 'Hook 3s = visualizações de 3 segundos sobre impressões. Conversão da página = leads sobre page views. Frequência e alcance só aparecem nos períodos prontos, porque não dá para somar alcance de dias diferentes. '+
- 'A situação (ativo ou pausado) é a de agora, não a do período escolhido.';
+el('nt').innerHTML='<b>Como ler.</b> Lead é o <b>evento Lead do site</b>, enviado quando a pessoa preenche o formulário. Ele vai pelo navegador e pelo servidor com o mesmo ID, e a Meta junta os dois, então cada inscrição conta uma vez. '+
+ 'O painel começa em <b>'+br(INI)+'</b>, primeiro dia em que o site passou a enviar esse evento. '+(M.pre&&M.pre.sp?'Antes disso, de '+br(M.pre.de)+' a '+br(M.pre.ate)+', as campanhas gastaram <b>'+mo(M.pre.sp)+'</b> sem uma medição confiável de lead: ':'Antes disso, ')+
+ 'a conversão personalizada [LEAD] - BLACK 2026 contava a página de obrigado em dobro (navegador sem ID e servidor), por isso ela não é mais usada aqui. '+
+ 'Os leads seguem a atribuição da campanha (7 dias de clique e 1 dia de visualização), igual ao Gerenciador. O destaque mostra quantos vieram de clique e quantos de quem só viu o anúncio. '+
+ 'Hook 3s = visualizações de 3 segundos sobre impressões. Conversão da página = leads sobre page views. Frequência e alcance só aparecem nos períodos prontos. A situação (ativo ou pausado) é a de agora.';
 aplica('tudo');render();
 </script>
 </body></html>
